@@ -1,12 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 import datetime
+import os
+from dotenv import load_dotenv
+
+# 加载环境变量
+load_dotenv()
 
 app = Flask(__name__)
 
-# Update connection string with correct password
-DB_URI = "mysql+mysqlconnector://admin:123456@54.66.141.26/mysql_test"
+# 从环境变量中获取数据库配置
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_HOST = os.getenv('DB_HOST')
+DB_NAME = os.getenv('DB_NAME')
 
+# 构建数据库连接串
+DB_URI = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+
+# 配置应用
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -27,7 +39,7 @@ def home():
         
         return f"""
         <h1>MySQL Database Test</h1>
-        <p>Connection: {DB_URI}</p>
+        <p>Connection: Database configured via environment variables</p>
         
         <h2>Add New User</h2>
         <form action="/add_user" method="post">
@@ -58,7 +70,7 @@ def home():
         return f"""
         <h1>Database Error</h1>
         <p>Error: {str(e)}</p>
-        <p>Connection string: {DB_URI}</p>
+        <p>Connection string: Hidden for security</p>
         """
 
 @app.route('/add_user', methods=['POST'])
@@ -67,11 +79,9 @@ def add_user():
         username = request.form.get('username')
         email = request.form.get('email')
         
-        # Basic validation
         if not username or not email:
             return "Username and email are required", 400
             
-        # Create new user
         new_user = User(username=username, email=email)
         db.session.add(new_user)
         db.session.commit()
