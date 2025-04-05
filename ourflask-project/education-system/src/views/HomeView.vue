@@ -1,21 +1,11 @@
 <template>
   <div class="homepage">
-    <!-- Navigation Bar -->
-    <nav class="main-nav">
-      <div class="nav-brand">EduFuture</div>
-      <div class="nav-links">
-        <a href="#courses">Course System</a>
-        <a href="#features">Platform Features</a>
-        <a href="#teachers">Our Teachers</a>
-      </div>
-    </nav>
-
     <!-- Hero Banner -->
     <section class="hero-banner">
       <div class="hero-content">
         <h1>Start Your Future Learning Journey</h1>
         <p class="subtitle">Connect to world-class educational resources and create a personalized learning experience</p>
-        <button class="cta-button">test your future career</button>
+        <RouterLink to="/career-quiz" class="cta-button">Test Your Future Career</RouterLink>
       </div>
     </section>
 
@@ -92,6 +82,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
+
 const featuredCourses = ref([
   {
     id: 1,
@@ -125,20 +117,6 @@ const featuredCourses = ref([
   font-family: 'Segoe UI', sans-serif;
 }
 
-.main-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 1.5rem 5%;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.nav-brand {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
 .hero-banner {
   display: flex;
   align-items: center;
@@ -164,12 +142,14 @@ const featuredCourses = ref([
 }
 
 .cta-button {
+  display: inline-block;
   background: #4a90e2;
   color: white;
   padding: 1rem 2rem;
   border-radius: 30px;
   font-size: 1.1rem;
   transition: transform 0.3s ease;
+  text-decoration: none;
 }
 
 .cta-button:hover {
@@ -195,6 +175,13 @@ const featuredCourses = ref([
 .featured-courses {
   padding: 4rem 5%;
   background: #f8f9fa;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  font-size: 2.2rem;
 }
 
 .course-grid {
@@ -243,5 +230,19 @@ const featuredCourses = ref([
   display: flex;
   gap: 1rem;
   justify-content: center;
+}
+
+.secondary-cta {
+  padding: 1rem 2rem;
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.secondary-cta:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 </style>
