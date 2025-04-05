@@ -1,1 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261.76 226.69"><path d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.749.001z" fill="#41b883"/><path d="M161.096.001l-30.225 52.351L100.647.001H52.346l78.526 136.01L209.398.001z" fill="#34495e"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Graduation Cap Base -->
+  <polygon points="50,20 10,40 50,60 90,40" fill="#4a90e2" stroke="#2c3e50" stroke-width="2"/>
+  
+  <!-- Graduation Cap Top -->
+  <rect x="47" y="20" width="6" height="20" fill="#2c3e50"/>
+  <circle cx="50" cy="17" r="5" fill="#2c3e50"/>
+  
+  <!-- Book -->
+  <rect x="30" y="65" width="40" height="30" rx="2" fill="#f8f9fa" stroke="#2c3e50" stroke-width="2"/>
+  <rect x="30" y="65" width="5" height="30" fill="#4a90e2"/>
+  <line x1="50" y1="65" x2="50" y2="95" stroke="#2c3e50" stroke-width="1"/>
+  
+  <!-- Digital Elements -->
+  <circle cx="75" cy="75" r="15" fill="rgba(74, 144, 226, 0.2)" stroke="#4a90e2" stroke-width="1.5"/>
+  <rect x="70" y="70" width="10" height="10" fill="rgba(74, 144, 226, 0.5)" stroke="#4a90e2" stroke-width="1"/>
+  
+  <!-- Connection Lines -->
+  <line x1="55" y1="45" x2="65" y2="60" stroke="#2c3e50" stroke-width="1.5" stroke-dasharray="3,2"/>
+  
+  <!-- Stars/Learning Elements -->
+  <polygon points="20,75 22,80 28,80 23,84 25,90 20,86 15,90 17,84 12,80 18,80" fill="#FFD700"/>
+</svg>
