@@ -5,14 +5,14 @@ import { RouterLink } from 'vue-router'
 <template>
   <nav class="main-nav">
     <div class="nav-brand">
-      <RouterLink to="/">EduFuture</RouterLink>
+      <RouterLink to="/">CoursePath Finder</RouterLink>
     </div>
     <div class="nav-links">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/#courses">Course System</RouterLink>
-      <RouterLink to="/#features">Platform Features</RouterLink>
-      <RouterLink to="/#teachers">Our Teachers</RouterLink>
-      <RouterLink to="/career-quiz">Career Quiz</RouterLink>
+      <RouterLink to="/#courses">Career Quiz</RouterLink>
+      <RouterLink to="/#features">Career Clusters</RouterLink>
+      <RouterLink to="/#teachers">Course Details</RouterLink>
+      <RouterLink to="/career-quiz">Course Entry Requirement</RouterLink>
     </div>
   </nav>
 </template>

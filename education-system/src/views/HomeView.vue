@@ -1,248 +1,276 @@
 <template>
-  <div class="homepage">
-    <!-- Hero Banner -->
-    <section class="hero-banner">
-      <div class="hero-content">
-        <h1>Start Your Future Learning Journey</h1>
-        <p class="subtitle">Connect to world-class educational resources and create a personalized learning experience</p>
-        <RouterLink to="/career-quiz" class="cta-button">Test Your Future Career</RouterLink>
+  <div class="home">
+    <!-- Hero Section -->
+    <section class="hero">
+      <video autoplay muted loop class="video-bg">
+        <source src="@/assets/hero-bg.mp4" type="video/mp4" />
+      </video>
+      <div class="overlay">
+        <h1 class="main-title">Not Sure About Your Future? <br />Let’s Explore It Together!</h1>
+        <p class="subtitle">Interactive quizzes, real stories, and smart career advice — made just for you.</p>
+        <button class="btn">Start Quiz</button>
       </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats-section">
-      <div class="stat-item">
-        <h2>2000+</h2>
-        <p>Quality Courses</p>
-      </div>
-      <div class="stat-item">
-        <h2>98%</h2>
-        <p>Learner Satisfaction</p>
-      </div>
-      <div class="stat-item">
-        <h2>500+</h2>
-        <p>Certified Instructors</p>
-      </div>
-    </section>
-
-    <!-- Featured Courses -->
-    <section id="courses" class="featured-courses">
-      <h2 class="section-title">Popular Featured Courses</h2>
-      <div class="course-grid">
-        <div 
-          v-for="course in featuredCourses" 
-          :key="course.id"
-          class="course-card"
+    <!-- Career Cluster -->
+    <section class="career-cluster">
+      <h2>🎯 Interactive Career Cluster</h2>
+      <p class="subtitle">Choose a path to explore. Hover for a surprise!</p>
+      <div class="cluster-grid">
+        <div
+          v-for="(item, index) in clusters"
+          :key="index"
+          class="cluster-box"
+          @click="handleClick(item.label)"
         >
-          <div class="course-badge" :class="course.category">
-            {{ course.category }}
-          </div>
-          <h3>{{ course.title }}</h3>
-          <p class="course-desc">{{ course.description }}</p>
-          <div class="course-footer">
-            <div class="rating">
-              <span v-for="n in 5" :key="n">★</span>
-              <span>({{ course.rating }})</span>
-            </div>
-            <button class="course-cta">View Details</button>
-          </div>
+          <div :class="['icon', item.animationClass]">{{ item.icon }}</div>
+          <span>{{ item.label }}</span>
         </div>
       </div>
     </section>
 
-    <!-- Platform Features -->
-    <section id="features" class="features-section">
-      <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <h3>Personalized Recommendations</h3>
-        <p>AI-based algorithms suggest the best learning path for you</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⏱️</div>
-        <h3>Flexible Learning</h3>
-        <p>Study anytime, anywhere with multi-device sync support</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎓</div>
-        <h3>Certification System</h3>
-        <p>Earn industry-recognized certificates upon completion</p>
+    <!-- Trending Careers -->
+    <section class="trending-careers">
+      <h2>🔥 Today’s Trending Careers</h2>
+      <p class="subtitle">Discover what's trending – don't miss out!</p>
+      <div class="career-carousel">
+        <div
+          class="career-card"
+          v-for="(career, index) in careers"
+          :key="index"
+        >
+          <div class="icon">{{ career.icon }}</div>
+          <h3>{{ career.title }}</h3>
+          <p class="desc">{{ career.desc }}</p>
+        </div>
       </div>
     </section>
 
-    <!-- Call to Action -->
-    <section class="cta-section">
-      <h2>Ready to level up?</h2>
-      <p>Join millions of learners today</p>
-      <div class="cta-buttons">
-        <button class="secondary-cta">Browse Courses</button>
-      </div>
-    </section>
+    <!-- Featured Major (moved visually above footer) -->
+    <div class="featured-container">
+      <section class="featured-major">
+        <div class="image">
+          <img src="@/assets/student4.png" alt="Student" />
+        </div>
+        <div class="info">
+          <h3>Found A Career You’re Interested In?</h3>
+          <p>There’s More Than One Path to Get There.</p>
+          <button class="btn">Learn More</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 CareerPath Finder. All rights reserved.</p>
+    </footer>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+const clusters = [
+  { label: 'Agriculture, Environment & Natural Sciences', icon: '🌱', animationClass: 'hover-draw' },
+  { label: 'Business & Management', icon: '💼', animationClass: 'hover-code' },
+  { label: 'Creative Arts, Media, Communication & Journalism', icon: '🎨', animationClass: 'hover-draw' },
+  { label: 'Education & Social Sciences', icon: '📚', animationClass: 'hover-flipbook' },
+  { label: 'Engineering & Science', icon: '🔬', animationClass: 'hover-code' },
+  { label: 'Health & Human Services', icon: '❤️', animationClass: 'hover-heartbeat' },
+  { label: 'IT & Data', icon: '💻', animationClass: 'hover-code' },
+  { label: 'Law & Public Services', icon: '⚖️', animationClass: 'hover-flipbook' },
+  { label: 'Math & Theoretical Sciences', icon: '📐', animationClass: 'hover-draw' }
+];
 
-const featuredCourses = ref([
-  {
-    id: 1,
-    title: 'Practical AI Course',
-    description: 'Master core AI technologies from theory to hands-on practice',
-    category: 'AI',
-    rating: 4.9
-  },
-  {
-    id: 2,
-    title: 'Full-Stack Development Bootcamp',
-    description: 'Become a full-stack engineer from scratch',
-    category: 'Programming',
-    rating: 4.8
-  },
-  {
-    id: 3,
-    title: 'Digital Marketing Expert Course',
-    description: 'Learn the latest digital marketing methodologies',
-    category: 'Business',
-    rating: 4.7
-  }
-])
+const careers = [
+  { title: 'Cybersecurity Analyst', icon: '🛡️', desc: 'Protect digital spaces from threats.' },
+  { title: 'Game Designer', icon: '🎮', desc: 'Design immersive gaming experiences.' },
+  { title: 'Biomedical Engineer', icon: '🧪', desc: 'Innovate at the intersection of tech and health.' },
+  { title: 'Content Creator', icon: '📸', desc: 'Create and share impactful content online.' },
+  { title: 'Education Support Worker', icon: '🧑‍🏫', desc: 'Support student learning and development.' }
+];
+
+function handleClick(label) {
+  alert(`You clicked: ${label}`);
+}
 </script>
 
-
 <style scoped>
-.homepage {
-  max-width: 1440px;
-  margin: 0 auto;
-  font-family: 'Segoe UI', sans-serif;
+.home {
+  font-family: Arial, sans-serif;
+  color: #111;
+  line-height: 1.6;
 }
-
-.hero-banner {
+.hero {
+  position: relative;
+  height: 90vh;
+  overflow: hidden;
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding: 4rem 5%;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.hero-content {
-  flex: 1;
-  padding-right: 3rem;
-}
-
-.hero-content h1 {
-  font-size: 3.5rem;
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  color: #6c757d;
-  margin-bottom: 2rem;
-}
-
-.cta-button {
-  display: inline-block;
-  background: #4a90e2;
   color: white;
-  padding: 1rem 2rem;
-  border-radius: 30px;
-  font-size: 1.1rem;
-  transition: transform 0.3s ease;
-  text-decoration: none;
+  background-color: #000;
 }
-
-.cta-button:hover {
-  transform: translateY(-2px);
+.video-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
-
-.stats-section {
-  display: flex;
-  justify-content: space-around;
-  padding: 4rem 5%;
-  background: white;
-}
-
-.stat-item {
+.overlay {
+  position: relative;
+  z-index: 2;
   text-align: center;
+  max-width: 800px;
+  padding: 0 20px;
 }
-
-.stat-item h2 {
+.main-title {
   font-size: 2.5rem;
-  color: #4a90e2;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
-
-.featured-courses {
-  padding: 4rem 5%;
-  background: #f8f9fa;
-}
-
-.section-title {
+.subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
   text-align: center;
-  margin-bottom: 2rem;
-  color: #2c3e50;
-  font-size: 2.2rem;
 }
-
-.course-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.course-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.course-card:hover {
-  transform: translateY(-5px);
-}
-
-.features-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  padding: 4rem 5%;
-}
-
-.feature-card {
-  text-align: center;
-  padding: 2rem;
-  border-radius: 15px;
-  background: white;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.cta-section {
-  text-align: center;
-  padding: 6rem 5%;
-  background: #2c3e50;
+.btn {
+  background-color: #6366f1;
   color: white;
+  padding: 12px 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.btn:hover {
+  background-color: #4f46e5;
 }
 
-.cta-buttons {
-  margin-top: 2rem;
+.career-cluster {
+  text-align: center;
+  padding: 60px 20px;
+}
+.cluster-grid {
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+.cluster-box {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  width: 160px;
+  height: 160px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
-
-.secondary-cta {
-  padding: 1rem 2rem;
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 30px;
-  cursor: pointer;
+.cluster-box:hover {
+  transform: translateY(-6px);
+}
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
   transition: all 0.3s ease;
 }
+.hover-code:hover { transform: rotate(-5deg) scale(1.2); }
+.hover-draw:hover { animation: wiggle 0.6s ease-in-out; }
+.hover-heartbeat:hover { animation: heartbeat 1s infinite; }
+.hover-flipbook:hover { animation: flip 0.6s ease-in-out; }
 
-.secondary-cta:hover {
-  background: rgba(255, 255, 255, 0.1);
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(-5deg); }
+  75% { transform: rotate(3deg); }
+}
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+@keyframes flip {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+.trending-careers {
+  padding: 60px 20px;
+  text-align: center;
+  background: #f9fafb;
+}
+.career-carousel {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+}
+.career-card {
+  width: 220px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 20px;
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+.career-card:hover {
+  transform: translateY(-6px);
+}
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.desc {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.featured-container {
+  background-color: #0f172a;
+  color: white;
+  padding: 60px 20px 0;
+}
+.featured-major {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+.featured-major .image img {
+  height: 300px;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.featured-major .info {
+  max-width: 400px;
+}
+.featured-major .info h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.featured-major .info p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.footer {
+  background-color: #0f172a;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
 }
 </style>
