@@ -14,7 +14,7 @@
 
     <!-- Career Cluster -->
     <section class="career-cluster">
-      <h2>🎯 Interactive Career Cluster</h2>
+      <h2 class="section-title">🎯 Interactive Career Cluster</h2>
       <p class="subtitle">Choose a path to explore. Hover for a surprise!</p>
       <div class="cluster-grid">
         <div
@@ -24,14 +24,14 @@
           @click="handleClick(item.label)"
         >
           <div :class="['icon', item.animationClass]">{{ item.icon }}</div>
-          <span>{{ item.label }}</span>
+          <span class="cluster-label">{{ item.label }}</span>
         </div>
       </div>
     </section>
 
     <!-- Trending Careers -->
     <section class="trending-careers">
-      <h2>🔥 Today’s Trending Careers</h2>
+      <h2 class="section-title">🔥 Today’s Trending Careers</h2>
       <p class="subtitle">Discover what's trending – don't miss out!</p>
       <div class="career-carousel">
         <div
@@ -40,13 +40,13 @@
           :key="index"
         >
           <div class="icon">{{ career.icon }}</div>
-          <h3>{{ career.title }}</h3>
+          <h3 class="career-title">{{ career.title }}</h3>
           <p class="desc">{{ career.desc }}</p>
         </div>
       </div>
     </section>
 
-    <!-- Featured Major (moved visually above footer) -->
+    <!-- Featured Major  -->
     <div class="featured-container">
       <section class="featured-major">
         <div class="image">
@@ -129,22 +129,34 @@ function handleClick(label) {
   margin-bottom: 20px;
 }
 .subtitle {
-  font-size: 1.25rem;
+  font-size: 1.8rem;
   margin-bottom: 30px;
+  text-align: center;
+}
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.cluster-label {
+  font-size: 1.3rem;
+  font-weight: 500;
   text-align: center;
 }
 .btn {
   background-color: #6366f1;
   color: white;
-  padding: 12px 24px;
+  padding: 14px 32px;
+  font-size: 1.2rem;
   font-weight: bold;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 .btn:hover {
   background-color: #4f46e5;
+  transform: scale(1.05);
 }
 
 .career-cluster {
@@ -160,8 +172,8 @@ function handleClick(label) {
 .cluster-box {
   background-color: #f9fafb;
   border-radius: 12px;
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   cursor: pointer;
   transition: transform 0.3s;
@@ -169,12 +181,13 @@ function handleClick(label) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-size: 1.3rem;
 }
 .cluster-box:hover {
   transform: translateY(-6px);
 }
 .icon {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 10px;
   transition: all 0.3s ease;
 }
@@ -207,70 +220,99 @@ function handleClick(label) {
 .career-carousel {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2rem;
   flex-wrap: wrap;
   padding-bottom: 10px;
 }
 .career-card {
-  width: 220px;
+  width: 240px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  padding: 20px;
+  padding: 28px;
   transition: transform 0.3s ease;
   text-align: center;
 }
 .career-card:hover {
   transform: translateY(-6px);
 }
-h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 6px;
+.career-card h3.career-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 .desc {
-  font-size: 0.9rem;
+  font-size: 1.3rem;
   color: #555;
 }
 
 .featured-container {
-  background-color: #0f172a;
-  color: white;
-  padding: 60px 20px 0;
+  background: linear-gradient(135deg, #f8fcfe, #f7f7f905);
+  color: #1e293b; 
+  padding: 80px 20px;
 }
+
 .featured-major {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding-bottom: 60px;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
+
 .featured-major .image img {
-  height: 300px;
-  border-radius: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  height: 280px;
+  border-radius: 16px;
+  object-fit: cover;
 }
+
 .featured-major .info {
   max-width: 400px;
+  text-align: left;
 }
+
 .featured-major .info h3 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
+
 .featured-major .info p {
-  font-size: 1rem;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  color: #334155;
+}
+
+.featured-major .btn {
+  background-color: #6366f1;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.featured-major .btn:hover {
+  background-color: #4f46e5;
+  transform: scale(1.05);
 }
 
 .footer {
   background-color: #0f172a;
   color: white;
-  text-align: center;
-  padding: 20px;
-  font-size: 0.9rem;
+  padding: 60px 20px; 
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.footer p {
+  margin: 0;
+  font-weight: 400;
 }
 </style>

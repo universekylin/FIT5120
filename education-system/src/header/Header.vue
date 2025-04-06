@@ -21,16 +21,16 @@ import { RouterLink } from 'vue-router'
 .main-nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1.5rem 5%;
   background: white;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  max-width: 1440px;
-  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-brand {
-  font-size: 1.8rem;
+  font-size: 3rem; 
   font-weight: bold;
+  margin-left: 0; 
 }
 
 .nav-brand a {
@@ -40,20 +40,22 @@ import { RouterLink } from 'vue-router'
 
 .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 2.2rem; 
   align-items: center;
 }
 
 .nav-links a {
-  text-decoration: none;
-  color: #2c3e50;
+  font-size: 1.6rem; 
   font-weight: 500;
-  transition: color 0.3s ease;
+  color: #2c3e50;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.2s;
 }
 
 .nav-links a:hover,
 .nav-links a.router-link-active {
   color: #4a90e2;
+  transform: scale(1.05); 
 }
 
 .nav-links a.router-link-exact-active {
