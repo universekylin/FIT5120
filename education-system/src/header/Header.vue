@@ -9,10 +9,10 @@ import { RouterLink } from 'vue-router'
     </div>
     <div class="nav-links">
       <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/#courses">Career Quiz</RouterLink>
+      <router-link to="/career-quiz">Career Quiz</router-link>
       <RouterLink to="/#features">Career Clusters</RouterLink>
       <RouterLink to="/#teachers">Course Details</RouterLink>
-      <RouterLink to="/career-quiz">Course Entry Requirement</RouterLink>
+      <RouterLink to="/#requirement">Course Entry Requirement</RouterLink>
     </div>
   </nav>
 </template>

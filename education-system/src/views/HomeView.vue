@@ -8,7 +8,7 @@
       <div class="overlay">
         <h1 class="main-title">Not Sure About Your Future? <br />Let’s Explore It Together!</h1>
         <p class="subtitle">Interactive quizzes, real stories, and smart career advice — made just for you.</p>
-        <button class="btn">Start Quiz</button>
+        <router-link to="/career-quiz" class="btn">Start Quiz</router-link>
       </div>
     </section>
 
