@@ -41,14 +41,7 @@ jobs:
       run: |
         cd ourflask-project
         if [ ! -f requirements.txt ]; then
-          cat > requirements.txt << 'EOL'
-Flask==2.0.1
-Werkzeug==2.0.1
-Jinja2==3.0.1
-MarkupSafe==2.0.1
-itsdangerous==2.0.1
-click==8.0.1
-EOL
+          echo -e "Flask==2.0.1\nWerkzeug==2.0.1\nJinja2==3.0.1\nMarkupSafe==2.0.1\nitsdangerous==2.0.1\nclick==8.0.1" > requirements.txt
         fi
 
     # 7. 安装 backend 依赖
@@ -98,14 +91,7 @@ EOL
 
           echo "Installing Python dependencies..."
           if [ ! -f requirements.txt ]; then
-            cat > requirements.txt << 'EOL'
-Flask==2.0.1
-Werkzeug==2.0.1
-Jinja2==3.0.1
-MarkupSafe==2.0.1
-itsdangerous==2.0.1
-click==8.0.1
-EOL
+            echo -e "Flask==2.0.1\nWerkzeug==2.0.1\nJinja2==3.0.1\nMarkupSafe==2.0.1\nitsdangerous==2.0.1\nclick==8.0.1" > requirements.txt
           fi
           pip install -r requirements.txt
 
@@ -180,3 +166,6 @@ EOL'
           # 重启 Nginx
           echo "Reloading Nginx configuration..."
           sudo systemctl enable nginx
+          sudo systemctl restart nginx
+
+          echo "Deployment completed successfully!"
