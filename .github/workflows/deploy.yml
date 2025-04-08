@@ -97,10 +97,6 @@ jobs:
 
           echo "Setting up Flask service..."
           sudo bash -c 'cat > /etc/systemd/system/flask.service << EOL
-[Unit]
-Description=Flask Web Application
-After=network.target
-
 [Service]
 User=ec2-user
 WorkingDirectory=/home/ec2-user/FIT5120/ourflask-project
@@ -162,10 +158,3 @@ EOL'
             echo "Installing Nginx..."
             sudo amazon-linux-extras install nginx1 -y
           fi
-
-          # 重启 Nginx
-          echo "Reloading Nginx configuration..."
-          sudo systemctl enable nginx
-          sudo systemctl restart nginx
-
-          echo "Deployment completed successfully!"
