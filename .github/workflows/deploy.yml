@@ -95,21 +95,13 @@ jobs:
           fi
           pip install -r requirements.txt
 
-          echo "Setting up Flask service..."
-          sudo bash -c 'cat > /etc/systemd/system/flask.service << EOL
-[Service]
-User=ec2-user
-WorkingDirectory=/home/ec2-user/FIT5120/ourflask-project
-ExecStart=/home/ec2-user/FIT5120/ourflask-project/venv/bin/python app.py
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOL'
-
-          sudo systemctl daemon-reload
-          sudo systemctl enable flask.service
-          sudo systemctl restart flask.service
+          echo "Starting Flask application..."
+          # 停止任何正在运行的 Flask 进程（基于端口 5000）
+          if lsof -i :5000; then
+            kill -9 $(lsof -t -i :5000)
+          fi
+          # 使用 nohup 在后台运行 Flask 应用
+          nohup /home/ec2-user/FIT5120/ourflask-project/venv/bin/python app.py > flask.log 2>&1 &
 
     # 9. 将构建好的 dist 目录上传到 EC2
     - name: Deploy dist folder to EC2
@@ -158,3 +150,10 @@ EOL'
             echo "Installing Nginx..."
             sudo amazon-linux-extras install nginx1 -y
           fi
+
+          # 重启 Nginx
+          echo "Reloading Nginx configuration..."
+          sudo systemctl enable nginx
+          sudo systemctl restart nginx
+
+          echo "Deployment completed successfully!"
