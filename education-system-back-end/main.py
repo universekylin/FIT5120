@@ -14,7 +14,6 @@ app = Flask(__name__)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:123456@localhost:3306/db_education'
-# 示例：mysql+pymysql://root:123456@localhost:3306/db_education
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -42,7 +41,6 @@ class UniMajor(db.Model):
     atar = Column(String(255))
     subjects = Column(String(255), nullable=False)
 
-    # 定义双向关系（如果关联表存在）
     uni = relationship("Uni", backref="uni_majors")
     major = relationship("Major", backref="uni_majors")
 
