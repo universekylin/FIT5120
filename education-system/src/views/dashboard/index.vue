@@ -76,9 +76,9 @@
 import { useRouter } from "vue-router";
 const router = useRouter();
 const clusters = [
-  { label: 'Agriculture, Environment & Natural Sciences', value: "Agriculture, Environment And Natural Sciences", icon: '🌱', animationClass: 'hover-draw' },
+  { label: 'Agriculture, Environment & Natural Sciences', value: "Agriculture Environment And Natural Sciences", icon: '🌱', animationClass: 'hover-draw' },
   { label: 'Business & Management', value:"Business And Management", icon: '💼', animationClass: 'hover-code' },
-  { label: 'Creative Arts, Media, Communication & Journalism', value: "Creative Arts, Media, Communication And Journalism",  icon: '🎨', animationClass: 'hover-draw' },
+  { label: 'Creative Arts, Media, Communication & Journalism', value: "Creative Arts Media Communication and Journalism",  icon: '🎨', animationClass: 'hover-draw' },
   { label: 'Education & Social Sciences', value:"Education And Social Sciences", icon: '📚', animationClass: 'hover-flipbook' },
   { label: 'Engineering & Science', value:"Engineering And Science", icon: '🔬', animationClass: 'hover-code' },
   { label: 'Health & Human Services', value:"Health And Human Services", icon: '❤️', animationClass: 'hover-heartbeat' },
@@ -98,7 +98,7 @@ const careers = [
 function handleClick(item) {
   router.push({
     name: 'career',
-    query: { careers: item.value }
+    query: { careers: item.value, type:"job" }
   });
 }
 </script>

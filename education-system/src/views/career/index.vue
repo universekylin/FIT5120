@@ -1,6 +1,6 @@
 <template>
   <div class="education-homepage">
-    <!-- header -->
+    <!--header-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
       <div class="container">
         <router-link class="navbar-brand d-flex align-items-center" to="/">
@@ -32,7 +32,7 @@
       </div>
     </nav>
 
-    <!-- content -->
+    <!--content-->
     <div class="container mt-4">
       <h1 class="mb-4 text-center">Career and University Major Matching</h1>
 
@@ -128,24 +128,28 @@ const careerData = ref([]);
 const loading = ref(false);
 const error = ref(null);
 
-// Computed property: check whether the 'careers' query parameter exists
+// 计算属性：检查是否有careers查询参数
 const hasCareersParam = computed(() => {
   return route.query.careers && route.query.careers.trim() !== "";
 });
 
-// Simulated API call function
+// 模拟API调用函数
 const fetchCareerData = async (careerNames) => {
   try {
     loading.value = true;
     error.value = null;
 
-    // This should be the actual API call; using simulated data here
-    const response = await axios.get(`/api/getUniInfo?career_names=${careerNames.join(',')}`)
+    // 这里应该是实际的API调用，我们使用模拟数据
+    let query = ""
+    if( route.query.type){
+      query = `&type=${route.query.type}`
+    }
+    const response = await axios.get(`/api/getUniInfo?career_names=${careerNames.join(',')}${query}`)
 
-    // Simulate API delay
+    // 模拟API延迟
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // This is simulated data - in an actual project, use the API's response
+    // 这里是模拟数据 - 实际项目中应该使用API返回的数据
     // const mockData = [
     //   {
     //     career: {
@@ -190,16 +194,16 @@ const fetchCareerData = async (careerNames) => {
     //     uni_major_id: 1,
     //   },
     // ];
-
-    // Filter data based on input career names
+    // 根据传入的careerIds过滤数据
     console.log(response);
     const data = response.data;
-    careerData.value = data.filter((item) =>
-      careerNames.includes(item.career.career_name)
-    );
+    // careerData.value = data.filter((item) =>
+    //   careerNames.includes(item.career.career_name)
+    // );
+    careerData.value = data;
     console.log(careerData.value);
   } catch (err) {
-    error.value = "Failed to fetch data: " + (err.message || "Unknown error");
+    error.value = "获取数据失败: " + (err.message || "未知错误");
   } finally {
     loading.value = false;
   }
@@ -207,7 +211,7 @@ const fetchCareerData = async (careerNames) => {
 
 onMounted(() => {
   if (hasCareersParam.value) {
-    // Get the 'careers' parameter from the query and split it into an array
+    // 从查询参数中获取careers，并拆分为数组
     const careerNames = route.query.careers.split(",");
     fetchCareerData(careerNames);
   }
@@ -243,7 +247,7 @@ onMounted(() => {
   font-weight: 500;
 }
 
-/* Info card style for career test prompt */
+/* 职业测试提示卡片样式 */
 .card .bi-info-circle-fill {
   font-size: 3rem;
 }
