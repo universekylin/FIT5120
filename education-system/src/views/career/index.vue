@@ -128,82 +128,34 @@ const careerData = ref([]);
 const loading = ref(false);
 const error = ref(null);
 
-// 计算属性：检查是否有careers查询参数
+// Computed property: check whether the 'careers' query parameter exists
 const hasCareersParam = computed(() => {
   return route.query.careers && route.query.careers.trim() !== "";
 });
 
-// 模拟API调用函数
+// Simulated API call function
 const fetchCareerData = async (careerNames) => {
   try {
     loading.value = true;
     error.value = null;
 
-    // 这里应该是实际的API调用，我们使用模拟数据
+    // Call the actual API
     let query = ""
     if( route.query.type){
       query = `&type=${route.query.type}`
     }
     const response = await axios.get(`/api/getUniInfo?career_names=${careerNames.join(',')}${query}`)
 
-    // 模拟API延迟
+    // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    // 这里是模拟数据 - 实际项目中应该使用API返回的数据
-    // const mockData = [
-    //   {
-    //     career: {
-    //       career_name: "Mental Health Counselor",
-    //       id: 276,
-    //     },
-    //     career_id: 276,
-    //     uni_major: {
-    //       atar: "93.00",
-    //       duration: "36 months full-time or 72 months part-time",
-    //       id: 1,
-    //       major: {
-    //         course_code: "002143B",
-    //         major_name: "Bachelor of Commerce",
-    //       },
-    //       major_id: 1,
-    //       subjects: "English (25) or EAL (30), Chemistry or Biology (25)",
-    //       uni_id: 1,
-    //       uni_name: "The University of Melbourne",
-    //     },
-    //     uni_major_id: 1,
-    //   },
-    //   {
-    //     career: {
-    //       career_name: "Nurse",
-    //       id: 277,
-    //     },
-    //     career_id: 277,
-    //     uni_major: {
-    //       atar: "93.00",
-    //       duration: "36 months full-time or 72 months part-time",
-    //       id: 1,
-    //       major: {
-    //         course_code: "002143B",
-    //         major_name: "Bachelor of Commerce",
-    //       },
-    //       major_id: 1,
-    //       subjects: "English (25) or EAL (30), Chemistry or Biology (25)",
-    //       uni_id: 1,
-    //       uni_name: "The University of Melbourne",
-    //     },
-    //     uni_major_id: 1,
-    //   },
-    // ];
-    // 根据传入的careerIds过滤数据
+    // Parse data
     console.log(response);
     const data = response.data;
-    // careerData.value = data.filter((item) =>
-    //   careerNames.includes(item.career.career_name)
-    // );
     careerData.value = data;
     console.log(careerData.value);
   } catch (err) {
-    error.value = "获取数据失败: " + (err.message || "未知错误");
+    error.value = "Failed to fetch data: " + (err.message || "Unknown error");
   } finally {
     loading.value = false;
   }
@@ -211,7 +163,7 @@ const fetchCareerData = async (careerNames) => {
 
 onMounted(() => {
   if (hasCareersParam.value) {
-    // 从查询参数中获取careers，并拆分为数组
+    // Get career names from query parameters and split into array
     const careerNames = route.query.careers.split(",");
     fetchCareerData(careerNames);
   }
@@ -247,7 +199,7 @@ onMounted(() => {
   font-weight: 500;
 }
 
-/* 职业测试提示卡片样式 */
+/* Prompt card style for career test reminder */
 .card .bi-info-circle-fill {
   font-size: 3rem;
 }

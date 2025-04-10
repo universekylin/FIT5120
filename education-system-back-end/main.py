@@ -42,7 +42,6 @@ class UniMajor(db.Model):
     atar = Column(String(255))
     subjects = Column(String(255), nullable=False)
 
-    # 定义双向关系（如果关联表存在）
     uni = relationship("Uni", backref="uni_majors")
     major = relationship("Major", backref="uni_majors")
 
@@ -69,10 +68,9 @@ class JobCareerRelation(db.Model):
     job_id = Column(Integer, ForeignKey('db_job_type.id'), nullable=False)
     career_id = Column(Integer, ForeignKey('db_career.id'), nullable=False)
 
-    # 使用 backref 建立与 Career 的双向关系
     career = relationship(
         "Career",
-        backref="job_relations"  # 这会自动在 Career 中添加 job_relations 属性
+        backref="job_relations"  
     )
 
 class JobType(db.Model):
@@ -81,10 +79,9 @@ class JobType(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     job_name = Column(String(255), nullable=False, unique=True)
 
-    # 使用 backref 建立与 job_career_relation 的双向关系
     career_relations = relationship(
         "JobCareerRelation",
-        backref="job_type"  # 这会自动在 JobCareerRelation 中添加 job_type 属性
+        backref="job_type"  
     )
 
 @app.route('/api/getUniInfo', methods=['GET'])
