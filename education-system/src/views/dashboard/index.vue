@@ -34,23 +34,6 @@
       </div>
     </section>
 
-    <!-- Trending Careers -->
-    <section class="trending-careers">
-      <h2 class="section-title">🔥 Today’s Trending Careers</h2>
-      <p class="subtitle">Discover what's trending – don't miss out!</p>
-      <div class="career-carousel">
-        <div
-          class="career-card"
-          v-for="(career, index) in careers"
-          :key="index"
-        >
-          <div class="icon">{{ career.icon }}</div>
-          <h3 class="career-title">{{ career.title }}</h3>
-          <p class="desc">{{ career.desc }}</p>
-        </div>
-      </div>
-    </section>
-
     <!-- Featured Major  -->
     <div class="featured-container">
       <section class="featured-major">
@@ -85,14 +68,6 @@ const clusters = [
   { label: 'IT & Data', value:"IT And Data", icon: '💻', animationClass: 'hover-code' },
   { label: 'Law & Public Services', value:"Law And Public Services", icon: '⚖️', animationClass: 'hover-flipbook' },
   { label: 'Math & Theoretical Sciences', value:"Math And Theoretical Sciences", icon: '📐', animationClass: 'hover-draw' }
-];
-
-const careers = [
-  { title: 'Cybersecurity Analyst', icon: '🛡️', desc: 'Protect digital spaces from threats.' },
-  { title: 'Game Designer', icon: '🎮', desc: 'Design immersive gaming experiences.' },
-  { title: 'Biomedical Engineer', icon: '🧪', desc: 'Innovate at the intersection of tech and health.' },
-  { title: 'Content Creator', icon: '📸', desc: 'Create and share impactful content online.' },
-  { title: 'Education Support Worker', icon: '🧑‍🏫', desc: 'Support student learning and development.' }
 ];
 
 function handleClick(item) {
@@ -250,40 +225,6 @@ function handleClick(item) {
   100% {
     transform: rotateY(0deg);
   }
-}
-
-.trending-careers {
-  padding: 60px 20px;
-  text-align: center;
-  background: #f9fafb;
-}
-.career-carousel {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding-bottom: 10px;
-}
-.career-card {
-  width: 240px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  padding: 28px;
-  transition: transform 0.3s ease;
-  text-align: center;
-}
-.career-card:hover {
-  transform: translateY(-6px);
-}
-.career-card h3.career-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-.desc {
-  font-size: 1.3rem;
-  color: #555;
 }
 
 .featured-container {
