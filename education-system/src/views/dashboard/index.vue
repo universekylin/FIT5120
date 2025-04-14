@@ -2,298 +2,282 @@
   <div class="home">
     <!-- Hero Section -->
     <section class="hero">
-      <video autoplay muted loop class="video-bg">
-        <source src="@/assets/hero-bg.mp4" type="video/mp4" />
-      </video>
-      <div class="overlay">
-        <h1 class="main-title">
-          Not Sure About Your Future? <br />Let’s Explore It Together!
-        </h1>
-        <p class="subtitle">
-          Interactive quizzes, real stories, and smart career advice — made just
-          for you.
-        </p>
-        <router-link to="/test" class="btn">Start Quiz</router-link>
-      </div>
-    </section>
-
-    <!-- Career Cluster -->
-    <section class="career-cluster">
-      <h2 class="section-title">🎯 Interactive Career Cluster</h2>
-      <p class="subtitle">Choose a path to explore. Hover for a surprise!</p>
-      <div class="cluster-grid">
-        <div
-          v-for="(item, index) in clusters"
-          :key="index"
-          class="cluster-box"
-          @click="handleClick(item)"
-        >
-          <div :class="['icon', item.animationClass]">{{ item.icon }}</div>
-          <span class="cluster-label">{{ item.label }}</span>
+      <img src="@/assets/hero-illustration.png" alt="Students in library" class="hero-banner" />
+      <div class="hero-overlay">
+        <div class="hero-text-box">
+          <h1>Not sure what to study after high school?</h1>
+          <p>
+            Explore careers, find matching uni courses, and check if your school offers the subjects you need.
+          </p>
+          <button @click="scrollToStart">Start Your Path</button>
         </div>
       </div>
     </section>
 
-    <!-- Featured Major  -->
-    <div class="featured-container">
-      <section class="featured-major">
-        <div class="image">
-          <img src="@/assets/student4.png" alt="Student" />
+    <!-- How It Works -->
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <img src="@/assets/career-search.png" alt="Career search" />
+          <p>Discover your career interests</p>
         </div>
-        <div class="info">
-          <h3>Found A Career You’re Interested In?</h3>
-          <p>There’s More Than One Path to Get There.</p>
-          <button class="btn">Learn More</button>
+        <div class="step">
+          <img src="@/assets/university-match.png" alt="University courses" />
+          <p>Match university courses</p>
         </div>
-      </section>
-    </div>
+        <div class="step">
+          <img src="@/assets/subject-check.png" alt="Subject checker" />
+          <p>Check your school subject options</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="start">
+      <h2>Feature Highlights</h2>
+      <div class="feature-cards">
+        <div class="feature-card">
+          <img src="@/assets/subject-availability.png" alt="Subject checker" />
+          <h3>Subject Availability Checker</h3>
+          <p>See if your school offers the VCE subjects you need, and get suggestions.</p>
+          <router-link to="/subject-checker">Check Now</router-link>
+        </div>
+
+        <div class="feature-card">
+          <img src="@/assets/career-stories.png" alt="Career stories" />
+          <h3>Career Stories</h3>
+          <p>Read real-life stories to learn about different jobs.</p>
+          <router-link to="/stories">Explore Stories</router-link>
+        </div>
+
+        <div class="feature-card">
+          <img src="@/assets/chatbot.png" alt="Chatbot" />
+          <h3>AI Chatbot</h3>
+          <p>Have questions? Get answers about ATAR, subjects, and more.</p>
+          <router-link to="/chatbot">Chat Now</router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-call">
+      <img src="@/assets/quiz.png" alt="Quiz" class="quiz-img" />
+      <h2>Explore Your Future</h2>
+      <p>Not sure where to start? Take our quick quiz to find your interests!</p>
+      <router-link to="/quiz" class="quiz-btn">Take the Quiz</router-link>
+    </section>
 
     <!-- Footer -->
-    <footer class="footer">
-      <p>&copy; 2025 CareerPath Finder. All rights reserved.</p>
+    <footer class="site-footer">
+      <div class="footer-content">
+        <p>&copy; 2025 CareerPath Finder. All rights reserved.</p>
+      </div>
     </footer>
   </div>
 </template>
 
-<script setup>
-import { useRouter } from "vue-router";
-const router = useRouter();
-const clusters = [
-  { label: 'Agriculture, Environment & Natural Sciences', value: "Agriculture Environment And Natural Sciences", icon: '🌱', animationClass: 'hover-draw' },
-  { label: 'Business & Management', value:"Business And Management", icon: '💼', animationClass: 'hover-code' },
-  { label: 'Creative Arts, Media, Communication & Journalism', value: "Creative Arts Media Communication and Journalism",  icon: '🎨', animationClass: 'hover-draw' },
-  { label: 'Education & Social Sciences', value:"Education And Social Sciences", icon: '📚', animationClass: 'hover-flipbook' },
-  { label: 'Engineering & Science', value:"Engineering And Science", icon: '🔬', animationClass: 'hover-code' },
-  { label: 'Health & Human Services', value:"Health And Human Services", icon: '❤️', animationClass: 'hover-heartbeat' },
-  { label: 'IT & Data', value:"IT And Data", icon: '💻', animationClass: 'hover-code' },
-  { label: 'Law & Public Services', value:"Law And Public Services", icon: '⚖️', animationClass: 'hover-flipbook' },
-  { label: 'Math & Theoretical Sciences', value:"Math And Theoretical Sciences", icon: '📐', animationClass: 'hover-draw' }
-];
-
-function handleClick(item) {
-  router.push({
-    name: 'career',
-    query: { careers: item.value, type:"job" }
-  });
-}
+<script>
+export default {
+  name: "HomeView",
+  methods: {
+    scrollToStart() {
+      const el = document.getElementById("start");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+};
 </script>
 
 <style scoped>
 .home {
   font-family: Arial, sans-serif;
-  color: #111;
-  line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
+
 .hero {
   position: relative;
-  height: 90vh;
+  width: 100%;
+  height: 520px;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  background-color: #000;
 }
-.video-bg {
+
+.hero-banner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
+}
+
+.hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: 1;
-}
-.overlay {
-  position: relative;
-  z-index: 2;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  align-items: center;
   text-align: center;
-  max-width: 800px;
-  padding: 0 20px;
-}
-.main-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-.subtitle {
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-  text-align: center;
-}
-.section-title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-}
-.cluster-label {
-  font-size: 1.3rem;
-  font-weight: 500;
-  text-align: center;
-}
-.btn {
-  background-color: #6366f1;
+  background: rgba(0, 0, 0, 0.3);
   color: white;
-  padding: 14px 32px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.btn:hover {
-  background-color: #4f46e5;
-  transform: scale(1.05);
+  padding-bottom: 2rem;
 }
 
-.career-cluster {
-  text-align: center;
-  padding: 60px 20px;
+.hero-text-box {
+  background: rgba(0, 0, 0, 0.55);
+  padding: 2rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  max-width: 680px;
+  width: 90%;
+  transition: transform 0.3s ease;
 }
-.cluster-grid {
+
+.hero-text-box:hover {
+  transform: translateY(-4px);
+}
+
+.hero-overlay h1 {
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero-overlay p {
+  font-size: 1.1rem;
+  margin: 0 1rem 1.5rem;
+  max-width: 660px;
+  line-height: 1.5;
+  color: #eee;
+}
+
+.hero-overlay button {
+  padding: 0.75rem 1.5rem;
+  background-color: #00b894;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hero-overlay button:hover {
+  background-color: #009e7d;
+}
+
+.how-it-works,
+.features {
+  text-align: center;
+  padding: 4rem 1rem;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  margin-bottom: 3rem;
+}
+
+.how-it-works h2,
+.features h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.steps,
+.feature-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
 }
-.cluster-box {
-  background-color: #f9fafb;
+
+.step,
+.feature-card {
+  background: white;
   border-radius: 12px;
-  width: 180px;
-  height: 180px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: transform 0.3s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
+  padding: 2rem;
+  width: 480px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease;
 }
-.cluster-box:hover {
+
+.step:hover,
+.feature-card:hover {
   transform: translateY(-6px);
 }
-.icon {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-}
-.hover-code:hover {
-  transform: rotate(-5deg) scale(1.2);
-}
-.hover-draw:hover {
-  animation: wiggle 0.6s ease-in-out;
-}
-.hover-heartbeat:hover {
-  animation: heartbeat 1s infinite;
-}
-.hover-flipbook:hover {
-  animation: flip 0.6s ease-in-out;
-}
 
-@keyframes wiggle {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(5deg);
-  }
-  50% {
-    transform: rotate(-5deg);
-  }
-  75% {
-    transform: rotate(3deg);
-  }
-}
-@keyframes heartbeat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-}
-@keyframes flip {
-  0% {
-    transform: rotateY(0deg);
-  }
-  50% {
-    transform: rotateY(180deg);
-  }
-  100% {
-    transform: rotateY(0deg);
-  }
-}
-
-.featured-container {
-  background: linear-gradient(135deg, #f8fcfe, #f7f7f905);
-  color: #1e293b;
-  padding: 80px 20px;
-}
-
-.featured-major {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.featured-major .image img {
-  height: 280px;
-  border-radius: 16px;
-  object-fit: cover;
-}
-
-.featured-major .info {
+.step img,
+.feature-card img {
   max-width: 400px;
-  text-align: left;
+  margin-bottom: 1rem;
 }
 
-.featured-major .info h3 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 12px;
+.step p,
+.feature-card p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #333;
 }
 
-.featured-major .info p {
-  font-size: 1.5rem;
-  margin-bottom: 24px;
-  color: #334155;
+.quiz-call {
+  text-align: center;
+  padding: 3rem 1rem;
 }
 
-.featured-major .btn {
-  background-color: #6366f1;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+.quiz-img {
+  width: 100%;
+  max-width: 620px;
+  height: auto;
+  margin-bottom: 1rem;
+  border-radius: 10px;
 }
 
-.featured-major .btn:hover {
-  background-color: #4f46e5;
-  transform: scale(1.05);
+.quiz-call h2 {
+  font-size: 1.6rem;
 }
 
-.footer {
-  background-color: #0f172a;
-  color: white;
-  padding: 60px 20px;
-  font-size: 1rem;
-  line-height: 1.8;
+.quiz-call p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #444;
 }
 
-.footer p {
-  margin: 0;
-  font-weight: 400;
+.quiz-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  background-color: #ffc107;
+  border-radius: 16px;
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.quiz-btn:hover {
+  background-color: #e0a900;
+}
+
+.site-footer {
+  background-color: #2f2f2f;
+  color: #ddd;
+  padding: 4rem 1rem;
+  text-align: center;
+  margin-top: 6rem;
+  border-top: 4px solid #00b894;
+}
+
+.footer-content {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.footer-content p {
+  margin-bottom: 0;
+  font-size: 1.2rem;
 }
 </style>
