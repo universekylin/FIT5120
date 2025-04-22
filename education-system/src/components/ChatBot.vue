@@ -1,4 +1,4 @@
-<!-- components/ChatBot.vue -->
+<!-- ChatBot.vue with Workflow API Integration -->
 <template>
     <div class="chatbot-container" :class="{ 'chatbot-open': isOpen }">
       <!-- Chatbot Button -->
@@ -52,8 +52,9 @@
             v-model="userInput" 
             placeholder="Type your question here..." 
             @keyup.enter="sendMessage(userInput)"
+            :disabled="isLoading"
           />
-          <button class="send-button" @click="sendMessage(userInput)">
+          <button class="send-button" @click="sendMessage(userInput)" :disabled="isLoading">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -65,7 +66,7 @@
   </template>
   
   <script>
-  import ChatBotService from '../utils/ChatBotService';
+  import WorkflowApiService from '../utils/WorkflowApiService';
   
   export default {
     name: 'ChatBot',
@@ -88,7 +89,8 @@
           interests: [],
           location: null
         },
-        isLoading: false
+        isLoading: false,
+       
       };
     },
     methods: {
@@ -101,7 +103,7 @@
         }
       },
       async sendMessage(text) {
-        if (!text.trim()) return;
+        if (!text.trim() || this.isLoading) return;
         
         // Add user message
         this.messages.push({
@@ -120,8 +122,8 @@
         this.$nextTick(() => {
           this.scrollToBottom();
           
-          // Get response from service
-          this.getBotResponse(text);
+          // Call the workflow API
+          this.callWorkflowApi(text);
         });
       },
       updateContext(message) {
@@ -150,26 +152,53 @@
           }
         });
       },
-      async getBotResponse(userQuestion) {
+      async callWorkflowApi(userMessage) {
         try {
-          // Get response from service
-          const response = await ChatBotService.sendMessage(userQuestion, this.userContext);
+         
+          
+          // Call the workflow API
+          const response = await WorkflowApiService.runWorkflow(
+            userMessage
+          );
+          
+          // Process the response
+          console.log('Workflow API response:', response);
+          
+          // Extract the bot message and suggestions from the response
+          // This will depend on your specific workflow API response structure
+          // The following is an example assuming a certain response format
+          let botMessage = "I received your message.";
+          let suggestions = [];
+          
+          if (response && response.data) {
+            // Assuming the response has an outputs object with a bot_response field
+            botMessage = response.data.outputs.text || botMessage;
+            
+            // Assuming the response includes suggested responses
+            suggestions = response.data.outputs.suggestions || [];
+          }
           
           // Add bot response
           this.messages.push({
             sender: 'bot',
-            text: response.message
+            text: botMessage
           });
           
           // Update suggested responses
-          this.suggestedResponses = response.suggestions.map(text => ({ text }));
+          this.suggestedResponses = suggestions.map(text => ({ text }));
         } catch (error) {
-          console.error('Error getting bot response:', error);
+          console.error('Error calling workflow API:', error);
+          
+          // Add an error message
           this.messages.push({
             sender: 'bot',
             text: "Sorry, I'm having trouble processing your request right now. Please try again later."
           });
-          this.suggestedResponses = [];
+          
+          this.suggestedResponses = [
+            { text: "Try again" },
+            { text: "Help" }
+          ];
         } finally {
           this.isLoading = false;
           
@@ -302,6 +331,11 @@
     background-color: #e0e0e0;
   }
   
+  .suggested-response-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
   .chatbot-input {
     padding: 10px;
     display: flex;
@@ -317,6 +351,11 @@
     margin-right: 8px;
   }
   
+  .chatbot-input input:disabled {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+  }
+  
   .send-button {
     width: 36px;
     height: 36px;
@@ -328,6 +367,11 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+  
+  .send-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   
   .send-button svg {
