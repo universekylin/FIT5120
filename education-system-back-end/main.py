@@ -13,7 +13,7 @@ from sqlalchemy.orm import joinedload
 app = Flask(__name__)
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@3.105.86.175:3306/mysql_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8uTrTaSJ%26y4gu96cj9LY7%5E@ip-172-31-11-114.ap-southeast-2.compute.internal:3306/mysql_test'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
 # mysql+pymysql://root:wdy531520@localhost:3306/db_education
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
