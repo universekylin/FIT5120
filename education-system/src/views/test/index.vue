@@ -27,7 +27,10 @@
               <router-link class="nav-link active" to="/test">Test</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/career">career</router-link>
+              <router-link class="nav-link" to="/career">Career</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
             </li>
           </ul>
         </div>
@@ -169,6 +172,13 @@
                 @click="restartQuiz"
               >
                 Re-Test
+              </button>
+              <button
+                type="button"
+                class="btn btn-info"
+                @click="goHome"
+              >
+                Return to Home
               </button>
               <button
                 type="button"
@@ -338,6 +348,11 @@ const restartQuiz = () => {
   showResults.value = false;
   careerClusters.value = [];
 };
+//Return to Home
+const goHome = () => {
+  router.push("/");
+};
+
 </script>
 
 <style scoped>

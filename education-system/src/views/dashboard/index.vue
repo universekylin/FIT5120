@@ -1,5 +1,41 @@
 <template>
   <div class="home">
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top"
+    >
+      <div class="container">
+        <router-link class="navbar-brand d-flex align-items-center" to="/">
+          <span class="fw-bold">Education System</span>
+        </router-link>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/">Main</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/test">Test</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/career">Career</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero">
       <video autoplay muted loop class="video-bg">
@@ -49,7 +85,7 @@
           <img src="@/assets/career-stories.png" alt="Career stories" />
           <h3>Career Stories</h3>
           <p>Read real-life stories to learn about different jobs.</p>
-          <router-link to="/stories" class="link-btn">Explore Stories</router-link>
+          <router-link to="/career-stories" class="link-btn">Explore Stories</router-link>
         </div>
       </div>
     </section>

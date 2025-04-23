@@ -27,6 +27,9 @@
             <li class="nav-item">
               <router-link class="nav-link active" to="/career">Career</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -44,9 +47,11 @@
           <p class="card-text">
             No career parameter provided. Please complete the career test to view matching results.
           </p>
-          <router-link to="/test" class="btn btn-primary btn-lg">
-            <i class="bi bi-clipboard2-pulse me-2"></i>Start Career Test
-          </router-link>
+          <div class="d-flex justify-content-center gap-3 mt-4">
+            <router-link to="/test" class="btn btn-primary btn-lg">
+              <i class="bi bi-clipboard2-pulse me-2"></i>Start Career Test
+            </router-link>
+          </div>
         </div>
       </div>
 
@@ -113,6 +118,12 @@
       <!-- No data found -->
       <div v-else class="alert alert-info" role="alert">
         you can choose whatever you want
+      </div>
+      <!-- Return button -->
+      <div class="text-center mt-4">
+        <router-link to="/" class="btn btn-info btn-lg">
+          <i class="bi bi-house-door-fill me-2"></i>Return to Home
+        </router-link>
       </div>
     </div>
   </div>
