@@ -1,20 +1,13 @@
 <template>
   <div class="education-homepage">
     <!--header-->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top"
-    >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
       <div class="container">
         <router-link class="navbar-brand d-flex align-items-center" to="/">
           <span class="fw-bold">Education System</span>
         </router-link>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -30,7 +23,10 @@
               <router-link class="nav-link" to="/career">Career</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
+              <router-link class="nav-link" to="/subject">Subject</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/secondary-college">College</router-link>
             </li>
           </ul>
         </div>
@@ -47,18 +43,9 @@
             <small>(Pick up to 3)</small>
           </h3>
           <div class="options-grid">
-            <div
-              v-for="(option, index) in questions[0].options"
-              :key="index"
-              class="option-item"
-            >
-              <input
-                type="checkbox"
-                :id="'q1-option' + index"
-                v-model="answers[0].selected"
-                :value="option.value"
-                @change="limitSelections(0, 3)"
-              />
+            <div v-for="(option, index) in questions[0].options" :key="index" class="option-item">
+              <input type="checkbox" :id="'q1-option' + index" v-model="answers[0].selected" :value="option.value"
+                @change="limitSelections(0, 3)" />
               <label :for="'q1-option' + index">
                 {{ option.text
                 }}<!--  <span class="career-tag">{{ option.tags.join(', ') }}</span> -->
@@ -68,24 +55,12 @@
         </div>
 
         <!-- question 2-9 -->
-        <div
-          v-for="(question, qIndex) in questions.slice(1)"
-          :key="qIndex + 1"
-          class="question-card"
-        >
+        <div v-for="(question, qIndex) in questions.slice(1)" :key="qIndex + 1" class="question-card">
           <h3>Q{{ qIndex + 2 }}. {{ question.text }}</h3>
           <div class="options-grid">
-            <div
-              v-for="(option, oIndex) in question.options"
-              :key="oIndex"
-              class="option-item"
-            >
-              <input
-                type="checkbox"
-                :id="'q' + (qIndex + 2) + '-option' + oIndex"
-                v-model="answers[qIndex + 1].selected"
-                :value="option.value"
-              />
+            <div v-for="(option, oIndex) in question.options" :key="oIndex" class="option-item">
+              <input type="checkbox" :id="'q' + (qIndex + 2) + '-option' + oIndex"
+                v-model="answers[qIndex + 1].selected" :value="option.value" />
               <label :for="'q' + (qIndex + 2) + '-option' + oIndex">
                 {{ option.text
                 }}<!--  <span class="career-tag">{{ option.tags.join(', ') }}</span> -->
@@ -98,21 +73,13 @@
       </form>
 
       <!-- modal -->
-      <div
-        v-if="showResults"
-        class="modal fade show"
-        tabindex="-1"
-        style="display: block; background: rgba(0, 0, 0, 0.5)"
-      >
+      <div v-if="showResults" class="modal fade show" tabindex="-1"
+        style="display: block; background: rgba(0, 0, 0, 0.5)">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header bg-primary text-white">
               <h5 class="modal-title">Your Career Clusters</h5>
-              <button
-                type="button"
-                class="btn-close btn-close-white"
-                @click="showResults = false"
-              ></button>
+              <button type="button" class="btn-close btn-close-white" @click="showResults = false"></button>
             </div>
             <div class="modal-body">
               <div v-if="topClusters.length > 0" class="top-recommendations">
@@ -122,33 +89,21 @@
                 </h4>
 
                 <div class="row g-4">
-                  <div
-                    v-for="(cluster, index) in topClusters"
-                    :key="index"
-                    class="col-md-12"
-                  >
+                  <div v-for="(cluster, index) in topClusters" :key="index" class="col-md-12">
                     <div class="card h-100 border-primary shadow-sm">
                       <div class="card-header bg-primary text-white">
                         <h5 class="mb-0">{{ cluster.name }}</h5>
                       </div>
                       <div class="card-body">
                         <div class="progress mb-3" style="height: 20px">
-                          <div
-                            class="progress-bar"
-                            :class="getProgressBarClass(index)"
-                            role="progressbar"
-                            :style="{ width: cluster.score + '%' }"
-                          >
+                          <div class="progress-bar" :class="getProgressBarClass(index)" role="progressbar"
+                            :style="{ width: cluster.score + '%' }">
                             {{ cluster.score + "%" }}
                           </div>
                         </div>
                         <h6 class="text-primary">Recommended Careers:</h6>
                         <div class="d-flex flex-wrap gap-2 mb-3">
-                          <span
-                            v-for="(job, jIndex) in cluster.jobs"
-                            :key="jIndex"
-                            class="badge bg-light text-dark"
-                          >
+                          <span v-for="(job, jIndex) in cluster.jobs" :key="jIndex" class="badge bg-light text-dark">
                             {{ job }}
                           </span>
                         </div>
@@ -159,32 +114,13 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                @click="showResults = false"
-              >
+              <button type="button" class="btn btn-secondary" @click="showResults = false">
                 Close
               </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                @click="restartQuiz"
-              >
+              <button type="button" class="btn btn-primary" @click="restartQuiz">
                 Re-Test
               </button>
-              <button
-                type="button"
-                class="btn btn-info"
-                @click="goHome"
-              >
-                Return to Home
-              </button>
-              <button
-                type="button"
-                class="btn btn-success"
-                @click="toCareerPage"
-              >
+              <button type="button" class="btn btn-success" @click="toCareerPage">
                 Career
               </button>
             </div>
@@ -192,12 +128,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="alert alert-warning"
-      v-show="error_tips_show"
-      id="error_tips"
-      role="alert"
-    >
+    <div class="alert alert-warning" v-show="error_tips_show" id="error_tips" role="alert">
       Please complete the questionnaire before submitting!
     </div>
   </div>
@@ -348,11 +279,6 @@ const restartQuiz = () => {
   showResults.value = false;
   careerClusters.value = [];
 };
-//Return to Home
-const goHome = () => {
-  router.push("/");
-};
-
 </script>
 
 <style scoped>
@@ -388,6 +314,7 @@ const goHome = () => {
   color: #6c757d;
   font-weight: normal;
 }
+
 .options-grid {
   display: grid;
   gap: 12px;
@@ -478,6 +405,7 @@ const goHome = () => {
   font-weight: 500;
   padding: 0.35em 0.65em;
 }
+
 #error_tips {
   position: fixed;
   left: 50%;
