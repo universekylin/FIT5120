@@ -7,12 +7,7 @@
           <span class="fw-bold">Education System</span>
         </router-link>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -28,7 +23,10 @@
               <router-link class="nav-link active" to="/career">Career</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
+              <router-link class="nav-link" to="/subject">Subject</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/secondary-college">College</router-link>
             </li>
           </ul>
         </div>
@@ -47,11 +45,9 @@
           <p class="card-text">
             No career parameter provided. Please complete the career test to view matching results.
           </p>
-          <div class="d-flex justify-content-center gap-3 mt-4">
-            <router-link to="/test" class="btn btn-primary btn-lg">
-              <i class="bi bi-clipboard2-pulse me-2"></i>Start Career Test
-            </router-link>
-          </div>
+          <router-link to="/test" class="btn btn-primary btn-lg">
+            <i class="bi bi-clipboard2-pulse me-2"></i>Start Career Test
+          </router-link>
         </div>
       </div>
 
@@ -119,12 +115,6 @@
       <div v-else class="alert alert-info" role="alert">
         you can choose whatever you want
       </div>
-      <!-- Return button -->
-      <div class="text-center mt-4">
-        <router-link to="/" class="btn btn-info btn-lg">
-          <i class="bi bi-house-door-fill me-2"></i>Return to Home
-        </router-link>
-      </div>
     </div>
   </div>
 </template>
@@ -152,7 +142,7 @@ const fetchCareerData = async (careerNames) => {
 
     // Call the actual API
     let query = ""
-    if( route.query.type){
+    if (route.query.type) {
       query = `&type=${route.query.type}`
     }
     const response = await axios.get(`/api/getUniInfo?career_names=${careerNames.join(',')}${query}`)
