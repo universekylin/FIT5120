@@ -40,7 +40,7 @@
       <div class="text-center mb-5">
         <h1 class="fw-bold mb-3">Career Stories</h1>
         <p class="text-muted fs-5">
-          Explore experiences and real stories shared by professionals!
+          Explore experiences and real stories shared by professionals
         </p>
       </div>
 
