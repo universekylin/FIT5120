@@ -13,6 +13,8 @@
             <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/career">Career</router-link></li>
             <li class="nav-item"><router-link class="nav-link active" to="/career-stories">Career Stories</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
           </ul>
         </div>
       </div>

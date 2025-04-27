@@ -84,7 +84,7 @@
           <img src="@/assets/subject-availability.png" alt="Subject checker" />
           <h3>Subject Availability Checker</h3>
           <p>See if your school offers the VCE subjects you need, and get suggestions.</p>
-          <router-link to="/subject-checker" class="link-btn">Check Now</router-link>
+          <router-link to="/subject" class="link-btn">Check Now</router-link>
         </div>
 
         <div class="feature-card">
