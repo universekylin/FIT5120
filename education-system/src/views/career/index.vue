@@ -23,6 +23,9 @@
               <router-link class="nav-link active" to="/career">Career</router-link>
             </li>
             <li class="nav-item">
+              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
+            </li>
+            <li class="nav-item">
               <router-link class="nav-link" to="/subject">Subject</router-link>
             </li>
             <li class="nav-item">

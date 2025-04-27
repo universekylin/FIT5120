@@ -160,3 +160,6 @@ export const careerClustersData = [
         tags: ["Vocational & Lifestyle Services", "Vocational"]
     }
 ]
+// Default password for verification
+export const DEFAULT_PASSWORD = "123456";
+export const STORAGE_KEY = "system_access_token";

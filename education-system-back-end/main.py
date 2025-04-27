@@ -14,27 +14,32 @@ from sqlalchemy import or_, func
 app = Flask(__name__)
 CORS(app)
 
+# Configure the SQLAlchemy database URI for connecting to the MySQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
+# Alternative database configurations (commented out)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:123456@localhost:3306/db_education2'
 # mysql+pymysql://root:wdy531520@localhost:3306/db_education
+
+# Disable the modification tracking feature of SQLAlchemy to save resources
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Initialize the SQLAlchemy object with the Flask app
 db = SQLAlchemy(app)
 
-
+# Define the 'Uni' model representing universities
 class Uni(db.Model):
     __tablename__ = 'db_uni'
     id = Column(Integer, primary_key=True)
     uni_name = Column(String(255), unique=True, nullable=False)
 
-
+# Define the 'Major' model representing academic majors
 class Major(db.Model):
     __tablename__ = 'db_major'
     id = Column(Integer, primary_key=True)
     major_name = Column(String(200), nullable=False)
     course_code = Column(String(200), unique=True, nullable=False)
 
-
+# Define the 'UniMajor' model representing the relationship between universities and majors
 class UniMajor(db.Model):
     __tablename__ = 'db_uni_major'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -44,25 +49,27 @@ class UniMajor(db.Model):
     atar = Column(String(255))
     subjects = Column(String(255), nullable=False)
 
+    # Establish relationships to 'Uni' and 'Major' models
     uni = relationship("Uni", backref="uni_majors")
     major = relationship("Major", backref="uni_majors")
 
-
+# Define the 'Career' model representing career paths
 class Career(db.Model):
     __tablename__ = 'db_career'
     id = Column(Integer, primary_key=True)
     career_name = Column(String(255), unique=True, nullable=False)
 
-
+# Define the 'MajorCareersRelation' model representing the relationship between university majors and careers
 class MajorCareersRelation(db.Model):
     __tablename__ = 'major_careers_relation'
     id = Column(Integer, primary_key=True, autoincrement=True)
     uni_major_id = Column(Integer, ForeignKey('db_uni_major.id'), nullable=False)
     career_id = Column(Integer, ForeignKey('db_career.id'), nullable=False)
+    # Establish relationships to 'Career' and 'UniMajor' models
     career = relationship("Career", backref="major_relations")
     uni_major = relationship("UniMajor", backref="career_relations")
 
-
+# Define the 'JobCareerRelation' model representing the relationship between jobs and careers
 class JobCareerRelation(db.Model):
     __tablename__ = 'job_career_relation'
 
@@ -70,24 +77,26 @@ class JobCareerRelation(db.Model):
     job_id = Column(Integer, ForeignKey('db_job_type.id'), nullable=False)
     career_id = Column(Integer, ForeignKey('db_career.id'), nullable=False)
 
+    # Establish relationship to 'Career' model
     career = relationship(
         "Career",
         backref="job_relations"
     )
 
-
+# Define the 'JobType' model representing different job types
 class JobType(db.Model):
     __tablename__ = 'db_job_type'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     job_name = Column(String(255), nullable=False, unique=True)
 
+    # Establish relationship to 'JobCareerRelation' model
     career_relations = relationship(
         "JobCareerRelation",
         backref="job_type"
     )
 
-
+# Define the 'SubjectSecondaryCollegeRelation' model representing the relationship between subjects and secondary colleges
 class SubjectSecondaryCollegeRelation(db.Model):
     __tablename__ = 'db_subject_secondary_college_relation'
 
@@ -95,11 +104,11 @@ class SubjectSecondaryCollegeRelation(db.Model):
     subject_id = Column(Integer, ForeignKey('db_subject.id'), nullable=False)
     secondary_college_id = Column(Integer, ForeignKey('db_secondary_college.id'), nullable=False)
 
-    # Relationships using backref like your example
+    # Establish relationships to 'Subject' and 'SecondaryCollege' models
     subject = relationship("Subject", backref="secondary_college_relations")
     secondary_college = relationship("SecondaryCollege", backref="subject_relations")
 
-
+# Define the 'Subject' model representing academic subjects
 class Subject(db.Model):
     """
     Represents a subject in the education system
@@ -109,7 +118,7 @@ class Subject(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     subject_name = Column(String(255), nullable=False, unique=True)
 
-
+# Define the 'SecondaryCollege' model representing secondary colleges
 class SecondaryCollege(db.Model):
     """
     Represents a subject in the education system
@@ -119,24 +128,32 @@ class SecondaryCollege(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     secondary_college_name = Column(String(255), nullable=False, unique=True)
 
-
+# Define the API endpoint '/api/getUniInfo' to retrieve university and major information based on career names
 @app.route('/api/getUniInfo', methods=['GET'])
 def get_uni_info():
+    # Retrieve 'career_names' and 'type' parameters from the GET request
     career_names = request.args.get('career_names', '')
     type = request.args.get('type', '')
 
+    # Check if the request is based on job types
     if type == "job":
+        # If no career names are provided, return an error
         if not career_names:
             return jsonify({'error': 'No career names provided'}), 400
+        # Split the career names by comma and strip whitespace
         names_list = [name.strip() for name in career_names.split(',') if name.strip()]
+        # If the list is empty after processing, return an error
         if not names_list:
             return jsonify({'error': 'No valid career names provided'}), 400
         try:
+            # Retrieve careers associated with the provided job names
             careers = get_careers_by_job(names_list)
+            # If no careers are found, return an empty list
             if len(careers) == 0:
                 return jsonify([]), 200
-            # get ids
+            # Extract career IDs from the retrieved careers
             career_ids = [career["career_id"] for career in careers]
+            # Query the database to find relationships between careers and university majors
             results = db.session.query(
                 MajorCareersRelation,
                 Career,
@@ -150,6 +167,7 @@ def get_uni_info():
             ).filter(
                 MajorCareersRelation.career_id.in_(career_ids)
             ).all()
+            # Prepare the response data
             response = []
             for relation, career, uniMajor in results:
                 response.append({
@@ -173,23 +191,30 @@ def get_uni_info():
                         "subjects": uniMajor.subjects,
                     }
                 })
+            # Return the response as JSON
             return jsonify(response)
 
         except Exception as e:
+            # If an error occurs, return the error message
             return jsonify({'error': str(e)}), 500
     else:
+        # If no career names are provided, return an error
         if not career_names:
             return jsonify({'error': 'No career names provided'}), 400
+        # Split the career names by comma and strip whitespace
         names_list = [name.strip() for name in career_names.split(',') if name.strip()]
+        # If the list is empty after processing, return an error
         if not names_list:
             return jsonify({'error': 'No valid career names provided'}), 400
         try:
-            # Query for exact matches
+            # Retrieve careers matching the provided names
             careers = get_careers(names_list)
+            # If no careers are found, return an empty list
             if len(careers) == 0:
                 return jsonify([]), 200
-            # get ids
+            # Extract career IDs from the retrieved careers
             career_ids = [career["id"] for career in careers]
+            # Query the database to find relationships between careers and university majors
             results = db.session.query(
                 MajorCareersRelation,
                 Career,
@@ -203,6 +228,7 @@ def get_uni_info():
             ).filter(
                 MajorCareersRelation.career_id.in_(career_ids)
             ).all()
+            # Prepare the response data
             response = []
             for relation, career, uniMajor in results:
                 response.append({
@@ -226,9 +252,12 @@ def get_uni_info():
                         "subjects": uniMajor.subjects,
                     }
                 })
+            # Return the response as JSON
             return jsonify(response)
         except Exception as e:
+            # If an error occurs, return the error message
             return jsonify({'error': str(e)}), 500
+
 
 
 # Mental Health Counselor, Nurse, Nutritionist,
