@@ -121,6 +121,13 @@
       <div v-else class="alert alert-info" role="alert">
         you can choose whatever you want
       </div>
+
+      <!-- Return button -->
+      <div class="text-center mt-4">
+         <router-link to="/" class="btn btn-info btn-lg">
+           <i class="bi bi-house-door-fill me-2"></i>Return to Home
+         </router-link>
+       </div>
     </div>
   </div>
 </template>
