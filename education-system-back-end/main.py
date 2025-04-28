@@ -13,7 +13,10 @@ from sqlalchemy import or_, func
 
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/db_education'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/db_education'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8uTrTaSJ%26y4gu96cj9LY7%5E@52.63.208.7:3306/mysql_test'
+
 
 # Configure the SQLAlchemy database URI for connecting to the MySQL database
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
@@ -415,4 +418,4 @@ def get_colleges_by_subject():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5002)
