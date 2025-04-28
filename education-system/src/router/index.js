@@ -5,6 +5,7 @@ import career from '@/views/career/index.vue'
 import subject from '@/views/subject/index.vue'
 import secondaryCollege from '@/views/secondaryCollege/index.vue'
 import CareerStories from '@/views/career-stories/index.vue';
+import ChatBot from '@/views/chat-bot/ChatBot.vue'
 
 
 const router = createRouter({
@@ -40,6 +41,11 @@ const router = createRouter({
       name: 'secondaryCollege',
       component: secondaryCollege,
     },
+    {
+      path:'/chat-bot',
+      name:'ChatBot',
+      component:ChatBot,
+    }
   ],
 })
 

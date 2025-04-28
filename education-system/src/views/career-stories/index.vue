@@ -15,6 +15,9 @@
             <li class="nav-item"><router-link class="nav-link active" to="/career-stories">Career Stories</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/chatbot">Chat Bot</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -58,7 +61,7 @@
       </div>
     </div>
 
-    <!-- Story List (Reddit Style) -->
+    <!-- Story List (Reddit Style) with Thumbnails -->
     <div v-if="stories.length > 0" class="container pb-5">
       <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -69,14 +72,42 @@
               :key="index"
               class="story-card"
             >
-              <a :href="story.url" target="_blank" class="story-title">
-                {{ story.title }}
-              </a>
-              <p class="story-preview">{{ story.preview }}</p>
+              <!-- With thumbnail layout -->
+              <div class="d-flex" v-if="story.image">
+                <!-- Thumbnail image -->
+                <div class="story-thumbnail me-3">
+                  <img :src="story.image" alt="Post thumbnail" class="rounded" style="width: 80px; height: 80px; object-fit: cover;" />
+                </div>
+                
+                <!-- Story content -->
+                <div class="story-content">
+                  <a :href="story.url" target="_blank" class="story-title">
+                    {{ story.title }}
+                  </a>
+                  <p class="story-preview">{{ story.preview }}</p>
+                  <div class="story-meta">
+                    <small class="text-muted"><i class="bi bi-arrow-up-short"></i> {{ story.score || 0 }} upvotes</small>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Without thumbnail layout -->
+              <div v-else>
+                <a :href="story.url" target="_blank" class="story-title">
+                  {{ story.title }}
+                </a>
+                <p class="story-preview">{{ story.preview }}</p>
+                <div class="story-meta">
+                  <small class="text-muted"><i class="bi bi-arrow-up-short"></i> {{ story.score || 0 }} upvotes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div v-else class="container pb-5 text-center">
+      <p class="text-muted">No stories found. Please select a different category or city.</p>
     </div>
   </div>
 </template>
@@ -141,7 +172,7 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* 分类按钮样式 */
+/* Category button styles */
 .category-btn {
   border-width: 2px;
   border-radius: 999px;
@@ -154,7 +185,7 @@ body {
   color: white;
 }
 
-/* 故事卡片容器 */
+/* Story card container */
 .story-feed {
   background: #fff;
   border-radius: 16px;
@@ -162,7 +193,7 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
-/* 每条故事 Reddit 风格卡片 */
+/* Each story Reddit style card */
 .story-card {
   padding: 20px 0;
   border-bottom: 1px solid #eee;
@@ -176,6 +207,7 @@ body {
   font-weight: 600;
   color: #0d6efd;
   text-decoration: none;
+  display: block;
 }
 .story-title:hover {
   text-decoration: underline;
@@ -185,9 +217,19 @@ body {
   font-size: 0.9rem;
   color: #666;
   margin-top: 6px;
+  margin-bottom: 6px;
 }
 
-/* 整体背景 */
+.story-meta {
+  font-size: 0.8rem;
+}
+
+/* Thumbnail styles */
+.story-thumbnail img {
+  border: 1px solid #eee;
+}
+
+/* Overall background */
 .bg-light {
   background-color: #f8f9fa;
 }

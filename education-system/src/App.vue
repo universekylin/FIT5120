@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import ChatBot from './components/ChatBot.vue';
+import ChatBot from './views/chat-bot/ChatBot.vue';
 import FullProtect from './components/FullProtect.vue'
 </script>
 
