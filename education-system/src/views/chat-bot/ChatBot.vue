@@ -38,6 +38,82 @@
       </div>
     </div>
   </nav>
+
+  <!-- New content for the chatbot page -->
+  <div class="container my-5 chatbot-page-content" v-if="$route.path === '/chatbot' && !isOpen">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-4">
+            <div class="text-center mb-4">
+              <div class="robot-icon-large mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#396aae" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="10" rx="2" />
+                  <rect x="8" y="24" width="8" height="3" rx="1" ry="1" />
+                  <rect x="8" y="2" width="8" height="5" rx="1" ry="1" />
+                  <path d="M12 7v4" />
+                  <circle cx="8" cy="16" r="1" />
+                  <circle cx="16" cy="16" r="1" />
+                  <path d="M9 11v-1.5a3 3 0 0 1 6 0V11" />
+                </svg>
+              </div>
+              <h2 class="fw-bold text-primary">Career Guidance Assistant</h2>
+              <p class="lead text-muted">Your personalized AI helper for education and career planning</p>
+            </div>
+
+            <div class="row g-4 mb-4">
+              <div class="col-md-6">
+                <div class="feature-card h-100 p-4 rounded shadow-sm border">
+                  <h4 class="fw-bold mb-3">How Can I Help You?</h4>
+                  <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Get subject selection advice</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Explore career pathways</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Find university course information</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Understand job market trends</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Receive personalized guidance</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="feature-card h-100 p-4 rounded shadow-sm border">
+                  <h4 class="fw-bold mb-3">Getting Started</h4>
+                  <p>Click the chat button in the bottom right corner to start a conversation. I'll ask you questions to understand your situation and provide tailored advice.</p>
+                  <p class="mb-0">For the best experience, share your:</p>
+                  <ul class="mb-0">
+                    <li>Current year level</li>
+                    <li>Interests and strengths</li>
+                    <li>Career aspirations</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="card bg-light mb-4">
+              <div class="card-body p-4">
+                <h4 class="fw-bold mb-3">Sample Questions</h4>
+                <div class="sample-questions">
+                  <span class="sample-question">What subjects should I choose for Year 11?</span>
+                  <span class="sample-question">How do I become a software engineer?</span>
+                  <span class="sample-question">What careers match my interest in science?</span>
+                  <span class="sample-question">Which universities offer nursing programs?</span>
+                  <span class="sample-question">What are the growth areas in the job market?</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <p class="text-muted">Our AI assistant uses your information only to provide personalized guidance and doesn't store personal data.</p>
+              <button class="btn btn-primary btn-lg" @click="toggleChatbot">
+                <i class="bi bi-chat-dots-fill me-2"></i>Start Chatting Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Existing chatbot functionality (unchanged) -->
   <div class="chatbot-container" :class="{ 'chatbot-open': isOpen }">
     <!-- Chatbot Button - Larger with Robot Icon -->
     <div class="chatbot-button" @click="toggleChatbot">
@@ -272,6 +348,7 @@ export default {
 </script>
 
 <style scoped>
+/* Existing chatbot styles */
 .chatbot-container {
   position: fixed;
   bottom: 20px;
@@ -516,5 +593,64 @@ export default {
 .chatbot-open .chatbot-button {
   transform: scale(0.85);
   opacity: 0.8;
+}
+
+/* New styles for the chatbot page content */
+.chatbot-page-content {
+  margin-bottom: 100px; /* Space for the chatbot button */
+}
+
+.robot-icon-large {
+  display: inline-block;
+}
+
+.feature-card {
+  transition: all 0.3s ease;
+  border-left: 5px solid #396aae !important;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.sample-questions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.sample-question {
+  background-color: #e3f2fd;
+  color: #396aae;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sample-question:hover {
+  background-color: #bbdefb;
+  transform: translateY(-2px);
+}
+
+/* Bootstrap Icons placeholder */
+.bi {
+  display: inline-block;
+  vertical-align: -0.125em;
+  width: 1em;
+  height: 1em;
+}
+
+.bi-check-circle-fill::before {
+  content: "✓";
+  color: #28a745;
+}
+
+.bi-chat-dots-fill::before {
+  content: "💬";
 }
 </style>
