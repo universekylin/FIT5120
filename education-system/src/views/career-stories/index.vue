@@ -15,9 +15,7 @@
             <li class="nav-item"><router-link class="nav-link active" to="/career-stories">Career Stories</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/chatbot">Chat Bot</router-link>
-            </li>
+            <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
           </ul>
         </div>
       </div>
@@ -61,51 +59,34 @@
       </div>
     </div>
 
-    <!-- Story List (Reddit Style) with Thumbnails -->
+    <!-- Story List (Reddit Feed Style) -->
     <div v-if="stories.length > 0" class="container pb-5">
       <div class="row justify-content-center">
         <div class="col-lg-10">
-          <div class="story-feed">
-            <h4 class="mb-4">Stories from Reddit</h4>
+          <div class="story-feed-no-card">
+            <h4 class="mb-0">Stories from Reddit</h4>
+            <div class="story-feed-divider"></div>
+
             <div
               v-for="(story, index) in stories"
               :key="index"
-              class="story-card"
+              class="story-feed-item"
             >
-              <!-- With thumbnail layout -->
-              <div class="d-flex" v-if="story.image">
-                <!-- Thumbnail image -->
-                <div class="story-thumbnail me-3">
-                  <img :src="story.image" alt="Post thumbnail" class="rounded" style="width: 80px; height: 80px; object-fit: cover;" />
-                </div>
-                
-                <!-- Story content -->
-                <div class="story-content">
-                  <a :href="story.url" target="_blank" class="story-title">
-                    {{ story.title }}
-                  </a>
-                  <p class="story-preview">{{ story.preview }}</p>
-                  <div class="story-meta">
-                    <small class="text-muted"><i class="bi bi-arrow-up-short"></i> {{ story.score || 0 }} upvotes</small>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Without thumbnail layout -->
-              <div v-else>
-                <a :href="story.url" target="_blank" class="story-title">
-                  {{ story.title }}
-                </a>
-                <p class="story-preview">{{ story.preview }}</p>
-                <div class="story-meta">
-                  <small class="text-muted"><i class="bi bi-arrow-up-short"></i> {{ story.score || 0 }} upvotes</small>
-                </div>
-              </div>
+              <a
+                :href="story.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="story-title-link"
+              >
+                {{ story.title }}
+              </a>
             </div>
+
           </div>
         </div>
       </div>
     </div>
+
     <div v-else class="container pb-5 text-center">
       <p class="text-muted">No stories found. Please select a different category or city.</p>
     </div>
@@ -114,7 +95,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import storyData from '@/assets/data/career_stories.json';
+import storyData from '@/assets/data/career_stories.json'; 
 
 const categories = [
   'Agriculture', 'Business', 'Creative Arts', 'Education',
@@ -185,51 +166,41 @@ body {
   color: white;
 }
 
-/* Story card container */
-.story-feed {
+/* Main container for stories */
+.story-feed-no-card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-/* Each story Reddit style card */
-.story-card {
-  padding: 20px 0;
-  border-bottom: 1px solid #eee;
+/* Divider under 'Stories from Reddit' */
+.story-feed-divider {
+  border-bottom: 1px solid #e6e6e6;
+  margin: 12px 0;
 }
-.story-card:last-child {
+
+/* Each story row */
+.story-feed-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #e6e6e6;
+}
+.story-feed-item:last-child {
   border-bottom: none;
 }
 
-.story-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+/* Link styling */
+.story-title-link {
+  font-size: 1.05rem;
   color: #0d6efd;
+  font-weight: 600;
   text-decoration: none;
-  display: block;
 }
-.story-title:hover {
+.story-title-link:hover {
   text-decoration: underline;
 }
 
-.story-preview {
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-.story-meta {
-  font-size: 0.8rem;
-}
-
-/* Thumbnail styles */
-.story-thumbnail img {
-  border: 1px solid #eee;
-}
-
-/* Overall background */
+/* Background */
 .bg-light {
   background-color: #f8f9fa;
 }
