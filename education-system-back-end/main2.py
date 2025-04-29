@@ -15,7 +15,7 @@ app = Flask(__name__)
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/db_education'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8uTrTaSJ%26y4gu96cj9LY7%5E@52.63.208.7:3306/mysql_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
 
 
 # Configure the SQLAlchemy database URI for connecting to the MySQL database
