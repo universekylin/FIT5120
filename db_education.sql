@@ -102,7 +102,7 @@ CREATE TABLE `db_secondary_college` (
   `id` int NOT NULL AUTO_INCREMENT,
   `secondary_college_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ CREATE TABLE `db_secondary_college` (
 
 LOCK TABLES `db_secondary_college` WRITE;
 /*!40000 ALTER TABLE `db_secondary_college` DISABLE KEYS */;
-INSERT INTO `db_secondary_college` VALUES (1,'Bendigo Senior Secondary College'),(2,'Secondary College');
+INSERT INTO `db_secondary_college` VALUES (1,'Wallan Secondary College'),(2,'Seymour College');
 /*!40000 ALTER TABLE `db_secondary_college` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `db_subject_secondary_college_relation` (
   KEY `subject_id` (`subject_id`),
   CONSTRAINT `db_subject_secondary_college_relation_ibfk_1` FOREIGN KEY (`secondary_college_id`) REFERENCES `db_secondary_college` (`id`),
   CONSTRAINT `db_subject_secondary_college_relation_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `db_subject` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `db_subject_secondary_college_relation` (
 
 LOCK TABLES `db_subject_secondary_college_relation` WRITE;
 /*!40000 ALTER TABLE `db_subject_secondary_college_relation` DISABLE KEYS */;
-INSERT INTO `db_subject_secondary_college_relation` VALUES (1,22,1),(2,23,1),(3,24,1),(4,26,1);
+INSERT INTO `db_subject_secondary_college_relation` VALUES (9,11,1),(10,18,1),(11,27,1),(12,31,1),(13,38,1),(14,41,1),(15,12,1),(16,13,1),(17,14,1),(18,20,1),(19,21,1),(20,43,1),(21,49,1),(22,51,1),(23,42,1),(24,54,1),(25,53,1),(26,51,2),(27,12,2),(28,27,2),(29,13,2),(30,14,2),(31,43,2),(32,38,2),(33,8,2),(34,18,2),(35,49,2),(36,20,2),(37,21,2),(38,54,2);
 /*!40000 ALTER TABLE `db_subject_secondary_college_relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-29 20:42:20
+-- Dump completed on 2025-04-30 18:21:39
