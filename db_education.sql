@@ -102,7 +102,7 @@ CREATE TABLE `db_secondary_college` (
   `id` int NOT NULL AUTO_INCREMENT,
   `secondary_college_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +126,7 @@ CREATE TABLE `db_subject` (
   `id` int NOT NULL AUTO_INCREMENT,
   `subject_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +135,7 @@ CREATE TABLE `db_subject` (
 
 LOCK TABLES `db_subject` WRITE;
 /*!40000 ALTER TABLE `db_subject` DISABLE KEYS */;
-INSERT INTO `db_subject` VALUES (3,'English Standard'),(4,'English Essentials'),(5,'English Advanced'),(6,'English Language'),(7,'English as an Additional Language'),(8,'Literature'),(9,'French'),(10,'German'),(11,'Indonesian'),(12,'Biology'),(13,'Chemistry'),(14,'Environmental Science'),(15,'Mathematics Pathways'),(16,'Mathematics: Foundation'),(17,'Mathematics: General'),(18,'Mathematical Methods'),(19,'Mathematics: Specialist'),(20,'Physics'),(21,'Psychology'),(22,'Accounting'),(23,'Algorithmics'),(24,'Applied Computing'),(25,'Applied Computing Data Analytics'),(26,'Applied Computing Software Development'),(27,'Business Management'),(28,'Classical Studies'),(29,'Economics'),(30,'Extended Investigation'),(31,'Geography'),(32,'History: Modern'),(33,'History: Ancient'),(34,'History: Australian'),(35,'History: Empires'),(36,'History: Revolutions'),(37,'Industry and Enterprise'),(38,'Legal Studies'),(39,'Philosophy'),(40,'Politics'),(41,'Sociology'),(42,'Drama'),(43,'Health and Human Development'),(44,'Music'),(45,'Music Composition'),(46,'Music Inquiry'),(47,'Music Performance'),(48,'Outdoor and Environmental Studies'),(49,'Physical Education'),(50,'Theatre Studies'),(51,'Art Creative Practice'),(52,'Art Making and Exhibiting (Drawing, Painting & Print making, Photography or Sculpture)'),(53,'Food Studies'),(54,'Media'),(55,'Product Design and Technology'),(56,'Systems Engineering'),(57,'Visual Communication Design'),(58,'Visual Communication Design Technical');
+INSERT INTO `db_subject` VALUES (59,'English'),(60,'English Literature'),(61,'Indonesian'),(62,'Foundation Mathematics'),(63,'General Mathematics'),(64,'Mathematical Methods'),(65,'Specialist Mathematics'),(66,'Business Management'),(67,'Geography'),(68,'History'),(69,'Legal Studies'),(70,'Sociology'),(71,'Biology'),(72,'Chemistry'),(73,'Environmental Science'),(74,'Physics'),(75,'Psychology'),(76,'Health and Human Development'),(77,'Outdoor Education'),(78,'Physical Education'),(79,'Art Creative Practice'),(80,'Drama'),(81,'Media'),(82,'Visual Communication'),(83,'Food Studies'),(84,'Product Design - Materials'),(85,'Agricultural and Horticultural Studies'),(86,'Food and Technology'),(87,'Literature'),(88,'Production Design and Technology'),(89,'Visual Communication and Design');
 /*!40000 ALTER TABLE `db_subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `db_subject_secondary_college_relation` (
   KEY `subject_id` (`subject_id`),
   CONSTRAINT `db_subject_secondary_college_relation_ibfk_1` FOREIGN KEY (`secondary_college_id`) REFERENCES `db_secondary_college` (`id`),
   CONSTRAINT `db_subject_secondary_college_relation_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `db_subject` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `db_subject_secondary_college_relation` (
 
 LOCK TABLES `db_subject_secondary_college_relation` WRITE;
 /*!40000 ALTER TABLE `db_subject_secondary_college_relation` DISABLE KEYS */;
-INSERT INTO `db_subject_secondary_college_relation` VALUES (9,11,1),(10,18,1),(11,27,1),(12,31,1),(13,38,1),(14,41,1),(15,12,1),(16,13,1),(17,14,1),(18,20,1),(19,21,1),(20,43,1),(21,49,1),(22,51,1),(23,42,1),(24,54,1),(25,53,1),(26,51,2),(27,12,2),(28,27,2),(29,13,2),(30,14,2),(31,43,2),(32,38,2),(33,8,2),(34,18,2),(35,49,2),(36,20,2),(37,21,2),(38,54,2);
+INSERT INTO `db_subject_secondary_college_relation` VALUES (9,59,1),(10,60,1),(11,61,1),(12,62,1),(13,63,1),(14,64,1),(15,65,1),(16,66,1),(17,67,1),(18,68,1),(19,69,1),(20,70,1),(21,71,1),(22,72,1),(23,73,1),(24,74,1),(25,75,1),(26,76,1),(27,77,1),(28,78,1),(29,79,1),(30,80,1),(31,81,1),(32,82,1),(33,83,1),(34,84,1),(56,85,2),(57,79,2),(58,71,2),(59,66,2),(60,72,2),(61,59,2),(62,73,2),(63,86,2),(64,63,2),(65,76,2),(66,68,2),(67,69,2),(68,87,2),(69,64,2),(70,65,2),(71,78,2),(72,74,2),(73,75,2),(74,88,2),(75,81,2),(76,89,2);
 /*!40000 ALTER TABLE `db_subject_secondary_college_relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-30 18:21:39
+-- Dump completed on 2025-04-30 22:10:48
