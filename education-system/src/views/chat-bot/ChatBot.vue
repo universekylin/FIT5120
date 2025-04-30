@@ -39,8 +39,8 @@
     </div>
   </nav>
 
-  <!-- New content for the chatbot page -->
-  <div class="container my-5 chatbot-page-content" v-if="$route.path === '/chatbot' && !isOpen">
+  <!-- New content for the chatbot page - MODIFIED: removed the !isOpen condition -->
+  <div class="container my-5 chatbot-page-content" v-if="$route.path === '/chatbot'">
     <div class="row justify-content-center">
       <div class="col-md-10">
         <div class="card shadow-lg border-0">
@@ -66,23 +66,24 @@
                 <div class="feature-card h-100 p-4 rounded shadow-sm border">
                   <h4 class="fw-bold mb-3">How Can I Help You?</h4>
                   <ul class="list-unstyled mb-0">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Get subject selection advice</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Explore career pathways</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Find university course information</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Understand job market trends</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Receive personalized guidance</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Find university courses by career path</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Search for secondary colleges by name</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Discover subjects offered at colleges</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Find colleges offering specific subjects</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Explore career pathways from job interests</li>
                   </ul>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="feature-card h-100 p-4 rounded shadow-sm border">
                   <h4 class="fw-bold mb-3">Getting Started</h4>
-                  <p>Click the chat button in the bottom right corner to start a conversation. I'll ask you questions to understand your situation and provide tailored advice.</p>
-                  <p class="mb-0">For the best experience, share your:</p>
+                  <p>Click the chat button in the bottom right corner to start a conversation. Ask questions related to education pathways and careers.</p>
+                  <p class="mb-0">For the best experience, try asking about:</p>
                   <ul class="mb-0">
-                    <li>Current year level</li>
-                    <li>Interests and strengths</li>
-                    <li>Career aspirations</li>
+                    <li>University courses for specific careers</li>
+                    <li>Subjects offered by a college</li>
+                    <li>Colleges that teach your subject of interest</li>
+                    <li>Career options related to job types</li>
                   </ul>
                 </div>
               </div>
@@ -92,11 +93,11 @@
               <div class="card-body p-4">
                 <h4 class="fw-bold mb-3">Sample Questions</h4>
                 <div class="sample-questions">
-                  <span class="sample-question">What subjects should I choose for Year 11?</span>
-                  <span class="sample-question">How do I become a software engineer?</span>
-                  <span class="sample-question">What careers match my interest in science?</span>
-                  <span class="sample-question">Which universities offer nursing programs?</span>
-                  <span class="sample-question">What are the growth areas in the job market?</span>
+                  <span class="sample-question" @click="handleSampleQuestion('What university courses are available for Nursing?')">What university courses are available for Nursing?</span>
+                  <span class="sample-question" @click="handleSampleQuestion('Which subjects are offered at Melbourne Secondary College?')">Which subjects are offered at Melbourne Secondary College?</span>
+                  <span class="sample-question" @click="handleSampleQuestion('Which colleges offer Chemistry?')">Which colleges offer Chemistry?</span>
+                  <span class="sample-question" @click="handleSampleQuestion('Show me careers related to Software Developer')">Show me careers related to Software Developer</span>
+                  <span class="sample-question" @click="handleSampleQuestion('What university degrees match with Mental Health Counselor?')">What university degrees match with Mental Health Counselor?</span>
                 </div>
               </div>
             </div>
@@ -207,12 +208,13 @@ export default {
       messages: [
         {
           sender: 'bot',
-          text: "Hi there! I'm your Career Guide Bot. How can I help with your career or study questions today?"
+          text: "Hi there! I'm your Career Guidance Assistant. I can help you explore university courses, careers, subjects, and colleges. You can ask me about specific careers, search for subjects offered by colleges, or find colleges that offer certain subjects."
         }
       ],
       suggestedResponses: [
-        { text: "Yes, I'm in Year 11" },
-        { text: "Yes, I'm in Year 12" }
+        { text: "Show me careers in healthcare" },
+        { text: "What university courses are available for Nursing?" },
+        { text: "Show me careers related to Software Developer?" }
       ],
       userContext: {
         yearLevel: null,
@@ -231,6 +233,14 @@ export default {
           this.scrollToBottom();
         });
       }
+    },
+    handleSampleQuestion(question) {
+      // Open chatbot if not already open
+      if (!this.isOpen) {
+        this.isOpen = true;
+      }
+      // Send the sample question
+      this.sendMessage(question);
     },
     async sendMessage(text) {
       if (!text.trim() || this.isLoading) return;
@@ -260,25 +270,30 @@ export default {
       // Update user context based on message content
       const lowerMessage = message.toLowerCase();
       
-      // Detect year level
-      if (lowerMessage.includes('year 11') || lowerMessage.includes('i\'m in year 11')) {
-        this.userContext.yearLevel = 11;
-      } else if (lowerMessage.includes('year 12') || lowerMessage.includes('i\'m in year 12')) {
-        this.userContext.yearLevel = 12;
+      // Detect data types being searched
+      if (lowerMessage.includes('university') || lowerMessage.includes('course') || 
+          lowerMessage.includes('major') || lowerMessage.includes('degree')) {
+        this.userContext.searchType = 'university';
+      } else if (lowerMessage.includes('college') || lowerMessage.includes('secondary')) {
+        this.userContext.searchType = 'college';
+      } else if (lowerMessage.includes('subject') || lowerMessage.includes('class')) {
+        this.userContext.searchType = 'subject';
+      } else if (lowerMessage.includes('career') || lowerMessage.includes('job')) {
+        this.userContext.searchType = 'career';
       }
       
-      // Detect interests (simplified example)
-      const interestKeywords = {
-        'healthcare': ['doctor', 'nurse', 'medical', 'health', 'medicine'],
-        'technology': ['software', 'it', 'computer', 'programming', 'tech'],
+      // Detect specific careers or job interests
+      const careerKeywords = {
+        'healthcare': ['doctor', 'nurse', 'medical', 'health', 'medicine', 'counselor', 'nutritionist'],
+        'technology': ['software', 'it', 'computer', 'programming', 'developer', 'engineering'],
         'business': ['business', 'management', 'marketing', 'finance', 'economics'],
-        'creative': ['art', 'design', 'music', 'writing', 'creative']
+        'education': ['teacher', 'education', 'teaching', 'professor', 'instructor']
       };
       
-      Object.entries(interestKeywords).forEach(([interest, keywords]) => {
+      Object.entries(careerKeywords).forEach(([career, keywords]) => {
         if (keywords.some(keyword => lowerMessage.includes(keyword)) && 
-            !this.userContext.interests.includes(interest)) {
-          this.userContext.interests.push(interest);
+            !this.userContext.interests.includes(career)) {
+          this.userContext.interests.push(career);
         }
       });
     },
