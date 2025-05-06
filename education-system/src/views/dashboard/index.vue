@@ -37,6 +37,9 @@
             <li class="nav-item">
                 <router-link class="nav-link" to="/secondary-college">College</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/chatbot">Chat Bot</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -84,7 +87,7 @@
           <img src="@/assets/subject-availability.png" alt="Subject checker" />
           <h3>Subject Availability Checker</h3>
           <p>See if your school offers the VCE subjects you need, and get suggestions.</p>
-          <router-link to="/subject-checker" class="link-btn">Check Now</router-link>
+          <router-link to="/subject" class="link-btn">Check Now</router-link>
         </div>
 
         <div class="feature-card">
