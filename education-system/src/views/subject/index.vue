@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="major">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
       <div class="container">
@@ -19,102 +18,6 @@
             <li class="nav-item"><router-link class="nav-link active" to="/secondary-college">College</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
           </ul>
-=======
-    <div class="major">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
-            <div class="container">
-                <router-link class="navbar-brand d-flex align-items-center" to="/">
-                    <span class="fw-bold">Education System</span>
-                </router-link>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/">Home</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/test">Test</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/career">Career</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link active" to="/subject">Subject</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/secondary-college">College</router-link>
-                        </li>
-                        <li class="nav-item">
-                        <router-link class="nav-link" to="/chatbot">Chat Bot</router-link>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div class="school-search-container">
-            <!-- Search box -->
-            <div class="search-box card shadow-sm mb-4">
-                <div class="card-body">
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-lg"
-                            placeholder="Enter Secondary School name" v-model="searchQuery"
-                            @keyup.enter="searchSchools">
-                        <button class="btn btn-primary btn-lg" @click="searchSchools" :disabled="isLoading">
-                            <span v-if="!isLoading">Search</span>
-                            <span v-else>
-                                <span class="spinner-border spinner-border-sm me-1"></span>
-                                Searching...
-                            </span>
-                        </button>
-                    </div>
-                    <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
-                        {{ errorMessage }}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Search results -->
-            <div v-if="searchResults.length > 0" class="search-results">
-                <div class="result-count mb-3">
-                    Found <span class="badge bg-primary">{{ searchResults.length }}</span> matching schools
-                </div>
-
-                <!-- School list -->
-                <div class="school-list">
-                    <div v-for="school in searchResults" :key="school.id" class="school-card card mb-4">
-                        <div class="card-header bg-light">
-                            <h4 class="mb-0">
-                                {{ school.name }}
-                                <a :href="getLocationLink(school.name)" target="_blank" class="float-end text-muted ms-2">Location</a>
-                            </h4>
-                        </div>
-                        <div class="card-body">
-                            <!-- Major list -->
-                            <h5 class="mb-3">Offered Subject ({{ school.subjects.length }})</h5>
-                            <div class="subjects-container">
-                                <div v-for="(major, index) in school.subjects" :key="index"
-                                    class="major-item card mb-2">
-                                    <div class="card-body py-2">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="mb-1">{{ major.name }}</h6>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
->>>>>>> 5f1fac9a833b8d60c4919f3a4842d99a23e573ce
         </div>
       </div>
     </nav>

@@ -11,7 +11,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
-<<<<<<< HEAD
             <li class="nav-item"><router-link class="nav-link" to="/">Main</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
             <li class="nav-item"><router-link class="nav-link active" to="/career">Career</router-link></li>
@@ -19,29 +18,6 @@
             <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
-=======
-            <li class="nav-item">
-              <router-link class="nav-link" to="/">Main</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/test">Test</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link active" to="/career">Career</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/subject">Subject</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/secondary-college">College</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/chatbot">Chat Bot</router-link>
-            </li>
->>>>>>> 5f1fac9a833b8d60c4919f3a4842d99a23e573ce
           </ul>
         </div>
       </div>
@@ -145,20 +121,11 @@
         you can choose whatever you want
       </div>
 
-<<<<<<< HEAD
       <div class="text-center mt-4">
         <router-link to="/" class="btn btn-info btn-lg">
           <i class="bi bi-house-door-fill me-2"></i>Return to Home
         </router-link>
       </div>
-=======
-      <!-- Return button -->
-      <div class="text-center mt-4">
-         <router-link to="/" class="btn btn-info btn-lg">
-           <i class="bi bi-house-door-fill me-2"></i>Return to Home
-         </router-link>
-       </div>
->>>>>>> 5f1fac9a833b8d60c4919f3a4842d99a23e573ce
     </div>
   </div>
 </template>
