@@ -16,6 +16,9 @@
             <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
+           <li class="nav-item">
+              <router-link class="nav-link" to="/three">Our University</router-link>
+            </li>
           </ul>
         </div>
       </div>

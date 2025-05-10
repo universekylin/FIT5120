@@ -6,7 +6,7 @@ import subject from '@/views/subject/index.vue'
 import secondaryCollege from '@/views/secondaryCollege/index.vue'
 import CareerStories from '@/views/career-stories/index.vue';
 import ChatBot from '@/views/chat-bot/ChatBot.vue'
-
+import ThreeView from '@/views/three/index.vue' // 如果在 three/index.vue 中
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,7 +45,12 @@ const router = createRouter({
       path:'/chat-bot',
       name:'ChatBot',
       component:ChatBot,
-    }
+    },
+    {
+      path: '/three',
+      name: 'three',
+      component: ThreeView
+    },
   ],
 })
 
