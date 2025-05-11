@@ -16,9 +16,7 @@
             <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
-           <li class="nav-item">
-              <router-link class="nav-link" to="/three">Our University</router-link>
-            </li>
+            <li class="nav-item"><router-link class="nav-link" to="/three">Our University</router-link></li>
           </ul>
         </div>
       </div>
@@ -31,20 +29,12 @@
       <p class="text-muted">📍 Your current location: {{ userLocation }}</p>
     </div>
 
-    <!-- Filter Section -->
+    <!-- Category Buttons -->
     <div class="container mb-5">
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
           <div class="card shadow border-0 rounded-4">
             <div class="card-body p-4">
-              <!-- City Dropdown -->
-              <label class="form-label fw-semibold">Select City</label>
-              <select class="form-select mb-3" v-model="selectedCity">
-                <option value="">All Cities</option>
-                <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
-              </select>
-
-              <!-- Category Buttons -->
               <h5 class="text-center fw-semibold mb-3">Browse Career Categories</h5>
               <div class="d-flex flex-wrap gap-2 justify-content-center">
                 <button
@@ -62,68 +52,46 @@
       </div>
     </div>
 
-    <!-- Story List (Reddit Feed Style) -->
+    <!-- Story List -->
     <div v-if="stories.length > 0" class="container pb-5">
       <div class="row justify-content-center">
         <div class="col-lg-10">
           <div class="story-feed-no-card">
             <h4 class="mb-0">Stories from Reddit</h4>
             <div class="story-feed-divider"></div>
-
-            <div
-              v-for="(story, index) in stories"
-              :key="index"
-              class="story-feed-item"
-            >
-              <a
-                :href="story.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="story-title-link"
-              >
+            <div v-for="(story, index) in stories" :key="index" class="story-feed-item">
+              <a :href="story.url" target="_blank" rel="noopener noreferrer" class="story-title-link">
                 {{ story.title }}
               </a>
             </div>
-
           </div>
         </div>
       </div>
     </div>
 
     <div v-else class="container pb-5 text-center">
-      <p class="text-muted">No stories found. Please select a different category or city.</p>
+      <p class="text-muted">No stories found. Please select a different category.</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import storyData from '@/assets/data/career_stories.json'; 
+import storyData from '@/assets/data/career_stories.json';
 
 const categories = [
   'Agriculture', 'Business', 'Creative Arts', 'Education',
   'Engineering', 'Health', 'IT & Data', 'Law', 'Math'
 ];
 
-const cities = [
-  'Melbourne', 'Sydney', 'Brisbane', 'Perth',
-  'Adelaide', 'Canberra', 'Hobart', 'Darwin'
-];
-
-const selectedCity = ref('');
 const userLocation = ref('Locating...');
 const stories = ref([]);
 const careerStories = ref(storyData);
-
 const filteredCategories = computed(() => categories);
 
 const filterByCategory = (category) => {
-  const city = selectedCity.value;
-  if (city && careerStories.value[city] && careerStories.value[city][category]) {
-    stories.value = careerStories.value[city][category];
-  } else {
-    stories.value = [];
-  }
+  // 直接从分类中获取故事
+  stories.value = careerStories.value[category] || [];
 };
 
 const getCityFromCoords = async (lat, lon) => {
@@ -140,12 +108,8 @@ const getCityFromCoords = async (lat, lon) => {
 onMounted(() => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      position => {
-        getCityFromCoords(position.coords.latitude, position.coords.longitude);
-      },
-      () => {
-        userLocation.value = 'Unable to retrieve location';
-      }
+      position => getCityFromCoords(position.coords.latitude, position.coords.longitude),
+      () => userLocation.value = 'Unable to retrieve location'
     );
   }
 });

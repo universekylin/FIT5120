@@ -210,26 +210,35 @@ function handleClick(item) {
   padding: 4rem 2rem;
   background-color: white;
   border-radius: 20px;
-  margin: 2rem auto;
+  margin: 2rem 0;
+  width: 100%; /* 改为全宽 */
+  max-width: 100%; /* 移除限制 */
 }
 
 .cluster-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1.5rem;
-  justify-content: center;
-  margin-top: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem 0.8rem; /* 适当保留间距 */
+  padding: 1.5rem;
+  max-width: 1000px; /* 放大整体布局区域 */
+  margin: 0 auto;
+  justify-items: center;
 }
 
+
 .cluster-box {
+  width: 100%;
+  max-width: 280px;  /* 放大每个卡片的宽度 */
+  height: 200px;     /* 可选：显式设置高度更统一 */
   background-color: #ffffff;
   border-radius: 12px;
-  padding: 1.2rem;
+  padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease;
   text-align: center;
 }
+
 
 .cluster-box:hover {
   transform: translateY(-5px);
@@ -237,8 +246,12 @@ function handleClick(item) {
 }
 
 .icon {
-  font-size: 2.8rem;
-  margin-bottom: 0.5rem;
+  font-size: 3.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cluster-label {
+  font-size: 1.05rem;
 }
 
 .features {
