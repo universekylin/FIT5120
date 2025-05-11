@@ -9,12 +9,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><router-link class="nav-link" to="/">Main</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/">Home</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/career">Career</router-link></li>
+            <!-- <li class="nav-item"><router-link class="nav-link" to="/career">Career</router-link></li> -->
             <li class="nav-item"><router-link class="nav-link active" to="/career-stories">Career Stories</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/subject">High School</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/three">Our University</router-link></li>
           </ul>
@@ -26,7 +26,6 @@
     <div class="container py-5 text-center">
       <h1 class="fw-bold mb-3">Career Stories</h1>
       <p class="text-muted fs-5">Explore experiences and real stories shared by professionals</p>
-      <p class="text-muted">📍 Your current location: {{ userLocation }}</p>
     </div>
 
     <!-- Category Buttons -->
@@ -76,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import storyData from '@/assets/data/career_stories.json';
 
 const categories = [
@@ -84,7 +83,7 @@ const categories = [
   'Engineering', 'Health', 'IT & Data', 'Law', 'Math'
 ];
 
-const userLocation = ref('Locating...');
+
 const stories = ref([]);
 const careerStories = ref(storyData);
 const filteredCategories = computed(() => categories);
@@ -94,25 +93,6 @@ const filterByCategory = (category) => {
   stories.value = careerStories.value[category] || [];
 };
 
-const getCityFromCoords = async (lat, lon) => {
-  try {
-    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
-    const data = await response.json();
-    const city = data.address.city || data.address.town || data.address.village || data.address.state || 'Unknown';
-    userLocation.value = city;
-  } catch (error) {
-    userLocation.value = 'Location fetch failed';
-  }
-};
-
-onMounted(() => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      position => getCityFromCoords(position.coords.latitude, position.coords.longitude),
-      () => userLocation.value = 'Unable to retrieve location'
-    );
-  }
-});
 </script>
 
 <style scoped>
