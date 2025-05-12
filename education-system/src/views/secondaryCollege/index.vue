@@ -1,78 +1,90 @@
 <template>
-    <div class="major">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
-        <div class="container">
-          <router-link class="navbar-brand d-flex align-items-center" to="/">
-            <span class="fw-bold">Education System</span>
-          </router-link>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+  <div class="major">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+      <div class="container">
+        <router-link class="navbar-brand d-flex align-items-center" to="/">
+          <span class="fw-bold">Education System</span>
+        </router-link>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><router-link class="nav-link" to="/">Home</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/career-stories">Career Stories</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/subject">High School</router-link></li>
+            <li class="nav-item"><router-link class="nav-link active" to="/secondary-college">Subject</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/three">Our University</router-link></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="school-search-container">
+      <!-- Subject Suggestions -->
+      <div v-if="subjectSuggestions.length > 0" class="subject-suggestions mb-4 w-100">
+        <div class="d-flex align-items-start flex-wrap" style="max-width: 900px; margin: 0 auto; padding: 0 16px;">
+          <strong class="me-2 mt-1">Try:</strong>
+          <button
+            v-for="(subject, index) in subjectSuggestions"
+            :key="index"
+            class="btn btn-outline-secondary btn-sm me-2 mb-2"
+            @click="selectSuggestion(subject)"
+          >
+            {{ subject }}
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-              <li class="nav-item"><router-link class="nav-link" to="/">Home</router-link></li>
-              <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
-              <li class="nav-item"><router-link class="nav-link" to="/career">Career</router-link></li>
-              <li class="nav-item"><router-link class="nav-link" to="/career-stories">Career Stories</router-link></li>
-              <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
-              <li class="nav-item"><router-link class="nav-link active" to="/secondary-college">College</router-link></li>
-              <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
-            </ul>
+        </div>
+      </div>
+
+      <!-- Search box -->
+      <div class="search-box card shadow-sm mb-4">
+        <div class="card-body">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-lg"
+                   placeholder="Enter Subject name"
+                   v-model="searchQuery"
+                   @keyup.enter="searchSubjects">
+            <button class="btn btn-primary btn-lg" @click="searchSubjects" :disabled="isLoading">
+              <span v-if="!isLoading">Search</span>
+              <span v-else>
+                <span class="spinner-border spinner-border-sm me-1"></span>
+                Searching...
+              </span>
+            </button>
+          </div>
+          <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
+            {{ errorMessage }}
           </div>
         </div>
-      </nav>
-  
-      <div class="school-search-container">
-        <!-- Search box -->
-        <div class="search-box card shadow-sm mb-4">
-          <div class="card-body">
-            <div class="input-group">
-              <input type="text" class="form-control form-control-lg"
-                     placeholder="Enter Subject name"
-                     v-model="searchQuery"
-                     @keyup.enter="searchSubjects">
-              <button class="btn btn-primary btn-lg" @click="searchSubjects" :disabled="isLoading">
-                <span v-if="!isLoading">Search</span>
-                <span v-else>
-                  <span class="spinner-border spinner-border-sm me-1"></span>
-                  Searching...
-                </span>
+      </div>
+
+      <!-- Search results -->
+      <div v-if="searchResults.length > 0" class="search-results">
+        <div class="result-count mb-3">
+          Found <span class="badge bg-primary">{{ searchResults.length }}</span> matching subjects with colleges
+        </div>
+
+        <!-- Subject list -->
+        <div class="school-list">
+          <div v-for="subject in searchResults" :key="subject.subject_id" class="school-card card mb-4">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+              <h4 class="mb-0" style="cursor: pointer;" @click="toggleSubject(subject.subject_id)">
+                {{ subject.subject_name }}
+                 <span class="map-link" @click="showMapModal(subject)">View Map</span>
+              </h4>
+              <button class="btn btn-outline-primary btn-sm" @click="toggleSubject(subject.subject_id)">
+                {{ expandedSubjects[subject.subject_id] ? 'Hide Colleges' : 'Show Colleges' }}
               </button>
             </div>
-            <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
-              {{ errorMessage }}
-            </div>
-          </div>
-        </div>
-  
-        <!-- Search results -->
-        <div v-if="searchResults.length > 0" class="search-results">
-          <div class="result-count mb-3">
-            Found <span class="badge bg-primary">{{ searchResults.length }}</span> matching subjects with colleges
-          </div>
-  
-          <!-- Subject list -->
-          <div class="school-list">
-            <div v-for="subject in searchResults" :key="subject.subject_id" class="school-card card mb-4">
-              <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <h4 class="mb-0" style="cursor: pointer;" @click="toggleSubject(subject.subject_id)">
-                  {{ subject.subject_name }}
-                  <!-- <a :href="'/detail?collegeIds='+subject.secondaryColleges.map(item=>item.college_id).join(',')" style="font-size:12px;">View Map</a> -->
-                  <span class="map-link" @click="showMapModal(subject)">View Map</span>
-                </h4>
-                
-                <button class="btn btn-outline-primary btn-sm" @click="toggleSubject(subject.subject_id)">
-                  {{ expandedSubjects[subject.subject_id] ? 'Hide Colleges' : 'Show Colleges' }}
-                </button>
-              </div>
-              <div class="card-body" v-if="expandedSubjects[subject.subject_id]">
-                <h5 class="mb-3">Offered By Colleges ({{ subject.secondaryColleges.length }})</h5>
-                <div class="subjects-container">
-                  <div v-for="college in subject.secondaryColleges" :key="college.college_id" class="major-item card mb-2">
-                    <div class="card-body py-2 d-flex justify-content-between align-items-center">
-                      <h6 class="mb-0">{{ college.college_name }}</h6>
-                      <a :href="getLocationLink(college.college_name)" target="_blank" class="text-muted ms-2">Location</a>
-                    </div>
+            <div class="card-body" v-if="expandedSubjects[subject.subject_id]">
+              <h5 class="mb-3">Offered By Colleges ({{ subject.secondaryColleges.length }})</h5>
+              <div class="subjects-container">
+                <div v-for="college in subject.secondaryColleges" :key="college.college_id" class="major-item card mb-2">
+                  <div class="card-body py-2 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">{{ college.college_name }}</h6>
+                    <a :href="getLocationLink(college.college_name)" target="_blank" class="text-muted ms-2">Location</a>
                   </div>
                 </div>
               </div>
@@ -81,80 +93,95 @@
         </div>
       </div>
     </div>
-    <MapModal 
+  </div>
+  <MapModal 
       v-model:visible="showModal" 
       :college-ids="selectIds" 
       @close="onMapModalClose"
     />
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue'
-  import MapModal from './modal/index.vue';
-  
-  const searchQuery = ref('')
-  const searchResults = ref([])
-  const isLoading = ref(false)
-  const errorMessage = ref('')
-  const expandedSubjects = ref({})
-  const selectIds = ref();
+</template>
 
+<script setup>
+import { ref, onMounted } from 'vue'
+import MapModal from './modal/index.vue';
+const searchQuery = ref('')
+const searchResults = ref([])
+const subjectSuggestions = ref([])
+const isLoading = ref(false)
+const errorMessage = ref('')
+const expandedSubjects = ref({})
+const selectIds = ref();
+const showModal = ref(false);
+// Search function
+const searchSubjects = async () => {
+  if (!searchQuery.value.trim()) {
+    errorMessage.value = 'Please enter a subject name'
+    searchResults.value = []
+    return
+  }
 
-  const showModal = ref(false);
-  
-  // Search function
-  const searchSubjects = async () => {
-    if (!searchQuery.value.trim()) {
-      errorMessage.value = 'Please enter a subject name'
-      searchResults.value = []
-      return
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    const response = await fetch(`/api/subject?subject_name=${encodeURIComponent(searchQuery.value.trim())}`)
+    if (!response.ok) throw new Error('Search failed, please try again later')
+
+    const data = await response.json()
+    if (data.error) throw new Error(data.error)
+
+    searchResults.value = data.results || []
+    if (searchResults.value.length === 0) {
+      errorMessage.value = data.message || `No subjects with colleges found matching "${searchQuery.value}"`
     }
-  
-    isLoading.value = true
-    errorMessage.value = ''
-  
-    try {
-      const response = await fetch(`/api/subject?subject_name=${encodeURIComponent(searchQuery.value.trim())}`)
-      if (!response.ok) throw new Error('Search failed, please try again later')
-  
-      const data = await response.json()
-      if (data.error) throw new Error(data.error)
-  
-      searchResults.value = data.results || []
-      if (searchResults.value.length === 0) {
-        errorMessage.value = data.message || `No subjects with colleges found matching "${searchQuery.value}"`
-      }
-  
-      expandedSubjects.value = {}
-      searchResults.value.forEach(subject => {
-        expandedSubjects.value[subject.subject_id] = false
-      })
-  
-    } catch (err) {
-      errorMessage.value = err.message
-      searchResults.value = []
-      expandedSubjects.value = {}
-    } finally {
-      isLoading.value = false
-    }
-  }
-  
-  const toggleSubject = (subjectId) => {
-    expandedSubjects.value[subjectId] = !expandedSubjects.value[subjectId]
-  }
-  
-  const getLocationLink = (location) => {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
-  }
 
-  const showMapModal = (subject) => {
+    expandedSubjects.value = {}
+    searchResults.value.forEach(subject => {
+      expandedSubjects.value[subject.subject_id] = false
+    })
+
+  } catch (err) {
+    errorMessage.value = err.message
+    searchResults.value = []
+    expandedSubjects.value = {}
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const toggleSubject = (subjectId) => {
+  expandedSubjects.value[subjectId] = !expandedSubjects.value[subjectId]
+}
+
+const getLocationLink = (location) => {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
+}
+
+const selectSuggestion = (subject) => {
+  searchQuery.value = subject
+  searchSubjects()
+}
+
+const loadSubjectSuggestions = async () => {
+  try {
+    const response = await fetch('/api/all_subjects')
+    const data = await response.json()
+    subjectSuggestions.value = data.subjects || []
+  } catch (err) {
+    console.error('Failed to load subject suggestions', err)
+  }
+}
+const showMapModal = (subject) => {
     selectIds.value = subject.secondaryColleges.map(item=>item.college_id).join(',')
     showModal.value = true;
   };
   const onMapModalClose = () => {
     selectIds.value = "";
   };
-  </script>
+onMounted(() => {
+  loadSubjectSuggestions()
+})
+</script>
 
 <style scoped>
 .school-search-container {
@@ -162,6 +189,17 @@
   flex-direction: column;
   align-items: center;
   padding: 40px 16px;
+}
+
+.subject-suggestions button {
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+.subject-suggestions button:hover {
+  background-color: #e9ecef;
 }
 
 .search-box {
@@ -270,5 +308,3 @@
   color: #40a9ff;
 }
 </style>
-
-  

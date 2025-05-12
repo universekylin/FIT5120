@@ -13,11 +13,13 @@
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><router-link class="nav-link" to="/">Main</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
-            <li class="nav-item"><router-link class="nav-link active" to="/career">Career</router-link></li>
+            <!-- <li class="nav-item"><router-link class="nav-link active" to="/career">Career</router-link></li> -->
             <li class="nav-item"><router-link class="nav-link" to="/career-stories">Career Stories</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">College</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/subject">High School</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/three">Our University</router-link></li>
+            
           </ul>
         </div>
       </div>
@@ -55,8 +57,14 @@
           <div class="d-flex flex-wrap gap-2">
             <a v-for="(item, index) in uniqueCareers"
                :key="'nav-' + index"
-               :href="'#career-' + item.career.career_name.replace(/\s+/g, '-')"
-               class="btn btn-outline-primary btn-sm">
+               class="btn btn-outline-primary btn-sm"
+               @click.prevent="() => {
+                 toggleCareer(item.career.career_name)
+                 if (expandedCareer === item.career.career_name) {
+                   document.getElementById('career-' + item.career.career_name.replace(/\s+/g, '-'))?.scrollIntoView({ behavior: 'smooth' })
+                 }
+               }"
+            >
               {{ item.career.career_name }}
             </a>
           </div>
@@ -67,7 +75,9 @@
             v-for="(item, index) in careerData"
             :key="index"
             :id="'career-' + item.career.career_name.replace(/\s+/g, '-')"
-            class="col">
+            class="col"
+            v-show="expandedCareer === item.career.career_name"
+          >
             <div class="card h-100 shadow-sm">
               <div class="card-header bg-primary text-white">
                 <h5 class="card-title mb-0">{{ item.career.career_name }}</h5>
@@ -131,6 +141,12 @@ const route = useRoute()
 const careerData = ref([])
 const loading = ref(false)
 const error = ref(null)
+
+const expandedCareer = ref(null)
+
+const toggleCareer = (careerName) => {
+  expandedCareer.value = expandedCareer.value === careerName ? null : careerName
+}
 
 const hasCareersParam = computed(() => {
   return route.query.careers && route.query.careers.trim() !== ''

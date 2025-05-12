@@ -13,10 +13,9 @@ from sqlalchemy import or_, func
 
 app = Flask(__name__)
 CORS(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/db_education'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:wdy531520@localhost:3306/db_education'
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
-
 
 # Configure the SQLAlchemy database URI for connecting to the MySQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
@@ -130,6 +129,21 @@ class Subject(db.Model):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     subject_name = Column(String(255), nullable=False, unique=True)
+
+
+@app.route('/api/all_subjects', methods=['GET'])
+def get_all_subjects():
+    """
+    API to return all available subject names sorted alphabetically.
+    Used by frontend to display subject suggestion buttons.
+    """
+    try:
+        # 查询所有科目并按名称排序
+        subjects = Subject.query.order_by(Subject.subject_name.asc()).all()
+        subject_names = [subject.subject_name for subject in subjects]
+        return jsonify({'subjects': subject_names}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 # Define the 'SecondaryCollege' model representing secondary colleges

@@ -6,8 +6,10 @@ import subject from '@/views/subject/index.vue'
 import secondaryCollege from '@/views/secondaryCollege/index.vue'
 import CareerStories from '@/views/career-stories/index.vue';
 import ChatBot from '@/views/chat-bot/ChatBot.vue'
-import detail from '@/views/detail/index.vue'
+import ThreeView from '@/views/three/index.vue' // 如果在 three/index.vue 中
 import secondaryDetail from '@/views/secondary-detail/index.vue'
+import detail from '@/views/detail/index.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -55,6 +57,11 @@ const router = createRouter({
       path: '/secondary-detail',
       name: 'secondaryDetail',
       component: secondaryDetail,
+    },
+    {
+      path: '/three',
+      name: 'three',
+      component: ThreeView
     },
   ],
 })

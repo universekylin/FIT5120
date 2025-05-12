@@ -12,11 +12,11 @@
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><router-link class="nav-link" to="/">Home</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/career">Career</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/career-stories">Career Stories</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/subject">Subject</router-link></li>
-            <li class="nav-item"><router-link class="nav-link active" to="/secondary-college">College</router-link></li>
+            <li class="nav-item"><router-link class="nav-link active" to="/subject">High School</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">Subject</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/three">Our University</router-link></li>
           </ul>
         </div>
       </div>
@@ -38,6 +38,22 @@
               </span>
             </button>
           </div>
+
+          <!-- 提示按钮 -->
+          <div class="mt-3">
+            <span class="me-2 text-muted">Try:</span>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Wallan Secondary College')">Wallan</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Seymour College')">Seymour</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Rushworth P-12 College')">Rushworth</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Yea High School')">Yea</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Wangaratta High School')">Wangaratta</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Euroa Secondary College')">Euroa</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Yarrawonga College P-12')">Yarrawonga</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Mansfield Secondary College')">Mansfield</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Beechworth Secondary College')">Beechworth</button>
+            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Greater Shepparton Secondary College')">Shepparton</button>
+          </div>
+
           <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
             {{ errorMessage }}
           </div>
@@ -79,7 +95,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue'
 
@@ -90,7 +105,13 @@ const isLoading = ref(false)
 const errorMessage = ref('')
 const expandedSchools = ref({})
 
-// Search function
+// Set query suggestion and trigger search
+const setSuggestion = (term) => {
+  searchQuery.value = term
+  searchSchools()
+}
+
+// Search schools
 const searchSchools = async () => {
   if (!searchQuery.value.trim()) {
     errorMessage.value = 'Please enter a school name'
@@ -132,7 +153,7 @@ const toggleSubjects = (schoolId) => {
   expandedSchools.value[schoolId] = !expandedSchools.value[schoolId]
 }
 
-// Get Google Maps location link
+// Google Maps link
 const getLocationLink = (location) => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
 }
@@ -152,7 +173,7 @@ const getLocationLink = (location) => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid #e0e0e0;
   padding: 12px 20px;
-  max-width: 900px; 
+  max-width: 900px;
   width: 100%;
 }
 
@@ -162,8 +183,6 @@ const getLocationLink = (location) => {
   margin-top: 24px;
   padding: 0 16px;
 }
-
-
 
 .input-group {
   display: flex;
@@ -244,4 +263,3 @@ const getLocationLink = (location) => {
   }
 }
 </style>
-
