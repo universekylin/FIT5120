@@ -39,19 +39,23 @@
             </button>
           </div>
 
-          <!-- 提示按钮 -->
-          <div class="mt-3">
+          <!-- Hint buttons -->
+          <div class="mt-3 school-hint-buttons">
             <span class="me-2 text-muted">Try:</span>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Wallan Secondary College')">Wallan</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Seymour College')">Seymour</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Rushworth P-12 College')">Rushworth</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Yea High School')">Yea</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Wangaratta High School')">Wangaratta</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Euroa Secondary College')">Euroa</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Yarrawonga College P-12')">Yarrawonga</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Mansfield Secondary College')">Mansfield</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Beechworth Secondary College')">Beechworth</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Greater Shepparton Secondary College')">Shepparton</button>
+            <div class="btn-container">
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Wallan Secondary College')">Wallan</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Seymour College')">Seymour</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Rushworth P-12 College')">Rushworth</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Yea High School')">Yea</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Wangaratta High School')">Wangaratta</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Euroa Secondary College')">Euroa</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Yarrawonga College P-12')">Yarrawonga</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Mansfield Secondary College')">Mansfield</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Beechworth Secondary College')">Beechworth</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Greater Shepparton Secondary College')">Greater Shepparton</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Wodonga Senior Secondary College')">Wodonga Senior</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Myrtleford P-12 College')">Myrtleford</button>
+            </div>
           </div>
 
           <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
@@ -98,20 +102,17 @@
 <script setup>
 import { ref } from 'vue'
 
-// State
 const searchQuery = ref('')
 const searchResults = ref([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 const expandedSchools = ref({})
 
-// Set query suggestion and trigger search
 const setSuggestion = (term) => {
   searchQuery.value = term
   searchSchools()
 }
 
-// Search schools
 const searchSchools = async () => {
   if (!searchQuery.value.trim()) {
     errorMessage.value = 'Please enter a school name'
@@ -148,12 +149,10 @@ const searchSchools = async () => {
   }
 }
 
-// Toggle subject visibility
 const toggleSubjects = (schoolId) => {
   expandedSchools.value[schoolId] = !expandedSchools.value[schoolId]
 }
 
-// Google Maps link
 const getLocationLink = (location) => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
 }
@@ -242,6 +241,13 @@ const getLocationLink = (location) => {
 
 .major-item:hover {
   background-color: #f8f9fa;
+}
+
+.school-hint-buttons .btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 6px;
 }
 
 @media (max-width: 768px) {
