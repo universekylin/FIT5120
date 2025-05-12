@@ -44,9 +44,13 @@ const router = createRouter({
       component: secondaryCollege,
     },
     {
-      path:'/chat-bot',
-      name:'ChatBot',
-      component:ChatBot,
+      path: '/chatbot',
+      name: 'ChatBot',
+      component: ChatBot,
+      // Make sure query parameters are passed to the component
+      props: (route) => ({
+        ...route.query
+      })
     },
     {
       path: '/detail',
