@@ -129,10 +129,12 @@ def get_all_subjects():
     Used by frontend to display subject suggestion buttons.
     """
     try:
-        # 查询所有科目并按名称排序
         subjects = Subject.query.order_by(Subject.subject_name.asc()).all()
-        subject_names = [subject.subject_name for subject in subjects]
-        return jsonify({'subjects': subject_names}), 200
+        grouped = {}
+        for subject in subjects:
+            first_letter = subject.subject_name[0].upper()
+            grouped.setdefault(first_letter, []).append(subject.subject_name)
+        return jsonify(grouped), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
