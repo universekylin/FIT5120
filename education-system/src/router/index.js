@@ -6,8 +6,8 @@ import subject from '@/views/subject/index.vue'
 import secondaryCollege from '@/views/secondaryCollege/index.vue'
 import CareerStories from '@/views/career-stories/index.vue';
 import ChatBot from '@/views/chat-bot/ChatBot.vue'
-
-
+import detail from '@/views/detail/index.vue'
+import secondaryDetail from '@/views/secondary-detail/index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -45,7 +45,17 @@ const router = createRouter({
       path:'/chat-bot',
       name:'ChatBot',
       component:ChatBot,
-    }
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: detail,
+    },
+    {
+      path: '/secondary-detail',
+      name: 'secondaryDetail',
+      component: secondaryDetail,
+    },
   ],
 })
 

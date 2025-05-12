@@ -30,11 +30,13 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize the SQLAlchemy object with the Flask app
 db = SQLAlchemy(app)
 
+
 # Define the 'Uni' model representing universities
 class Uni(db.Model):
     __tablename__ = 'db_uni'
     id = Column(Integer, primary_key=True)
     uni_name = Column(String(255), unique=True, nullable=False)
+
 
 # Define the 'Major' model representing academic majors
 class Major(db.Model):
@@ -42,6 +44,7 @@ class Major(db.Model):
     id = Column(Integer, primary_key=True)
     major_name = Column(String(200), nullable=False)
     course_code = Column(String(200), unique=True, nullable=False)
+
 
 # Define the 'UniMajor' model representing the relationship between universities and majors
 class UniMajor(db.Model):
@@ -57,11 +60,13 @@ class UniMajor(db.Model):
     uni = relationship("Uni", backref="uni_majors")
     major = relationship("Major", backref="uni_majors")
 
+
 # Define the 'Career' model representing career paths
 class Career(db.Model):
     __tablename__ = 'db_career'
     id = Column(Integer, primary_key=True)
     career_name = Column(String(255), unique=True, nullable=False)
+
 
 # Define the 'MajorCareersRelation' model representing the relationship between university majors and careers
 class MajorCareersRelation(db.Model):
@@ -72,6 +77,7 @@ class MajorCareersRelation(db.Model):
     # Establish relationships to 'Career' and 'UniMajor' models
     career = relationship("Career", backref="major_relations")
     uni_major = relationship("UniMajor", backref="career_relations")
+
 
 # Define the 'JobCareerRelation' model representing the relationship between jobs and careers
 class JobCareerRelation(db.Model):
@@ -87,6 +93,7 @@ class JobCareerRelation(db.Model):
         backref="job_relations"
     )
 
+
 # Define the 'JobType' model representing different job types
 class JobType(db.Model):
     __tablename__ = 'db_job_type'
@@ -100,6 +107,7 @@ class JobType(db.Model):
         backref="job_type"
     )
 
+
 # Define the 'SubjectSecondaryCollegeRelation' model representing the relationship between subjects and secondary colleges
 class SubjectSecondaryCollegeRelation(db.Model):
     __tablename__ = 'db_subject_secondary_college_relation'
@@ -112,6 +120,7 @@ class SubjectSecondaryCollegeRelation(db.Model):
     subject = relationship("Subject", backref="secondary_college_relations")
     secondary_college = relationship("SecondaryCollege", backref="subject_relations")
 
+
 # Define the 'Subject' model representing academic subjects
 class Subject(db.Model):
     """
@@ -122,6 +131,7 @@ class Subject(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     subject_name = Column(String(255), nullable=False, unique=True)
 
+
 # Define the 'SecondaryCollege' model representing secondary colleges
 class SecondaryCollege(db.Model):
     """
@@ -131,6 +141,7 @@ class SecondaryCollege(db.Model):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     secondary_college_name = Column(String(255), nullable=False, unique=True)
+
 
 # Define the API endpoint '/api/getUniInfo' to retrieve university and major information based on career names
 @app.route('/api/getUniInfo', methods=['GET'])
@@ -261,7 +272,6 @@ def get_uni_info():
         except Exception as e:
             # If an error occurs, return the error message
             return jsonify({'error': str(e)}), 500
-
 
 
 # Mental Health Counselor, Nurse, Nutritionist,
@@ -415,6 +425,62 @@ def get_colleges_by_subject():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/getSecondaryCollegesByids', methods=['GET'])
+def get_secondary_colleges_by_ids():
+    """
+    Retrieve secondary school information based on a list of ID.
+    GET /api/secondary-colleges?ids=1,2,3
+    """
+    try:
+        id_str = request.args.get('ids', '').strip()
+        if not id_str:
+            return jsonify({
+                "status": "error",
+                "message": "Required parameter 'ids' is missing.",
+                "data": None
+            }), 400
+
+        try:
+            college_ids = [int(id) for id in id_str.split(',')]
+        except ValueError:
+            return jsonify({
+                "status": "error",
+                "message": "Invalid ID format detected.",
+                "data": None
+            }), 400
+
+        # 3. 数据库查询
+        colleges = db.session.query(SecondaryCollege).filter(
+            SecondaryCollege.id.in_(college_ids)
+        ).all()
+
+        if not colleges:
+            return jsonify({
+                "status": "success",
+                "message": "Not Found",
+                "data": []
+            }), 200
+
+        result = [{
+            "id": college.id,
+            "name": college.secondary_college_name
+        } for college in colleges]
+
+        return jsonify({
+            "status": "success",
+            "message": "success",
+            "data": result
+        }), 200
+
+    except Exception as e:
+        app.logger.error(f"Failed to query secondary school information.: {str(e)}")
+        return jsonify({
+            "status": "error",
+            "message": "Internal server error.",
+            "data": None
+        }), 500
 
 
 if __name__ == '__main__':

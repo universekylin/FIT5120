@@ -2,12 +2,15 @@
 import { RouterLink, RouterView } from 'vue-router'
 import ChatBot from './views/chat-bot/ChatBot.vue';
 import FullProtect from './components/FullProtect.vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+console.log(route);
 </script>
 
 <template>
   <RouterView />
   <ChatBot/>
-  <FullProtect />
+  <FullProtect v-if="!['secondaryDetail', 'detail'].includes(route.name)" />
 
 </template>
 
