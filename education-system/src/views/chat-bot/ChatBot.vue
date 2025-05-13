@@ -1,6 +1,5 @@
 <template>
-  <!--header-->
-  <!-- Only render the navbar on the chatbot page -->
+  <!-- 不使用navbarRendered变量，因为可能会导致导航栏完全不显示 -->
   <nav v-if="$route.path === '/chatbot'" class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
     <div class="container">
       <router-link class="navbar-brand d-flex align-items-center" to="/">
@@ -42,7 +41,7 @@
     </div>
   </nav>
 
-  <!-- New content for the chatbot page - MODIFIED: removed the !isOpen condition -->
+  <!-- New content for the chatbot page -->
   <div class="container my-5 chatbot-page-content" v-if="$route.path === '/chatbot'">
     <div class="row justify-content-center">
       <div class="col-md-10">
@@ -117,12 +116,12 @@
     </div>
   </div>
 
-  <!-- Existing chatbot functionality (unchanged) -->
+  <!-- Chatbot functionality -->
   <div class="chatbot-container" :class="{ 'chatbot-open': isOpen }">
-    <!-- Chatbot Button - Larger with Robot Icon -->
-    <div class="chatbot-button" @click="toggleChatbot">
+    <!-- Chatbot Button - 只在适当的情况下显示 -->
+    <div class="chatbot-button" @click="toggleChatbot" v-if="!isOpen">
       <div class="chatbot-icon">
-        <!-- New Robot Icon -->
+        <!-- Robot Icon -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="11" width="18" height="10" rx="2" />
           <rect x="8" y="24" width="8" height="3" rx="1" ry="1" />
@@ -135,7 +134,7 @@
       </div>
     </div>
 
-    <!-- Chatbot Dialog - Larger size -->
+    <!-- Chatbot Dialog -->
     <div class="chatbot-dialog" v-if="isOpen">
       <div class="chatbot-header">
         <div class="header-content">
@@ -225,24 +224,24 @@ export default {
         location: null
       },
       isLoading: false,
-     
     };
   },
   created() {
-    // Automatically open the chatbot if we're navigating to this page
+    // 放弃使用 navbarRendered 标志，直接处理
+    // 导航到 chatbot 页面时，打开聊天框
     if (this.$route.path === '/chatbot') {
-      // Use nextTick to ensure DOM is ready
+      // 使用 nextTick 确保 DOM 已准备好
       this.$nextTick(() => {
         this.isOpen = true;
 
-        // Check for query parameters to autostart conversation
+        // 检查查询参数以自动开始对话
         if (this.$route.query.university) {
           const universityName = this.$route.query.university;
           
-          // Create a custom message based on the university parameter
+          // 根据大学参数创建自定义消息
           const message = `Tell me about programs at ${universityName} University`;
           
-          // Wait a moment before sending the message for better UX
+          // 等待一会儿再发送消息，以获得更好的用户体验
           setTimeout(() => {
             this.sendMessage(message);
           }, 1000);
@@ -260,42 +259,42 @@ export default {
       }
     },
     handleSampleQuestion(question) {
-      // Open chatbot if not already open
+      // 如果聊天框未打开，则打开
       if (!this.isOpen) {
         this.isOpen = true;
       }
-      // Send the sample question
+      // 发送示例问题
       this.sendMessage(question);
     },
     async sendMessage(text) {
       if (!text.trim() || this.isLoading) return;
       
-      // Add user message
+      // 添加用户消息
       this.messages.push({
         sender: 'user',
         text: text
       });
       
-      // Clear input after sending
+      // 发送后清除输入
       this.userInput = '';
       this.isLoading = true;
       
-      // Update context based on message
+      // 根据消息更新上下文
       this.updateContext(text);
       
-      // Wait for DOM update
+      // 等待 DOM 更新
       this.$nextTick(() => {
         this.scrollToBottom();
         
-        // Call the workflow API
+        // 调用工作流 API
         this.callWorkflowApi(text);
       });
     },
     updateContext(message) {
-      // Update user context based on message content
+      // 根据消息内容更新用户上下文
       const lowerMessage = message.toLowerCase();
       
-      // Detect data types being searched
+      // 检测正在搜索的数据类型
       if (lowerMessage.includes('university') || lowerMessage.includes('course') || 
           lowerMessage.includes('major') || lowerMessage.includes('degree')) {
         this.userContext.searchType = 'university';
@@ -307,7 +306,7 @@ export default {
         this.userContext.searchType = 'career';
       }
       
-      // Detect specific careers or job interests
+      // 检测特定职业或工作兴趣
       const careerKeywords = {
         'healthcare': ['doctor', 'nurse', 'medical', 'health', 'medicine', 'counselor', 'nutritionist'],
         'technology': ['software', 'it', 'computer', 'programming', 'developer', 'engineering'],
@@ -324,42 +323,40 @@ export default {
     },
     async callWorkflowApi(userMessage) {
       try {
-       
-        
-        // Call the workflow API
+        // 调用工作流 API
         const response = await WorkflowApiService.runWorkflow(
           userMessage
         );
         
-        // Process the response
+        // 处理响应
         console.log('Workflow API response:', response);
         
-        // Extract the bot message and suggestions from the response
-        // This will depend on your specific workflow API response structure
-        // The following is an example assuming a certain response format
+        // 从响应中提取机器人消息和建议
+        // 这将取决于您的特定工作流 API 响应结构
+        // 以下是假设特定响应格式的示例
         let botMessage = "I received your message.";
         let suggestions = [];
         
         if (response && response.data) {
-          // Assuming the response has an outputs object with a bot_response field
+          // 假设响应有一个包含 bot_response 字段的 outputs 对象
           botMessage = response.data.outputs.text || botMessage;
           
-          // Assuming the response includes suggested responses
+          // 假设响应包含建议的回复
           suggestions = response.data.outputs.suggestions || [];
         }
         
-        // Add bot response
+        // 添加机器人响应
         this.messages.push({
           sender: 'bot',
           text: botMessage
         });
         
-        // Update suggested responses
+        // 更新建议的回复
         this.suggestedResponses = suggestions.map(text => ({ text }));
       } catch (error) {
         console.error('Error calling workflow API:', error);
         
-        // Add an error message
+        // 添加错误消息
         this.messages.push({
           sender: 'bot',
           text: "Sorry, I'm having trouble processing your request right now. Please try again later."
@@ -372,7 +369,7 @@ export default {
       } finally {
         this.isLoading = false;
         
-        // Scroll to bottom after bot responds
+        // 机器人响应后滚动到底部
         this.$nextTick(() => {
           this.scrollToBottom();
         });
@@ -384,7 +381,7 @@ export default {
       }
     }
   },
-  // Watch for route changes to handle direct navigation to chatbot with parameters
+  // 监视路由变化以处理直接导航到带参数的聊天机器人
   watch: {
     '$route.query': {
       immediate: true,
@@ -392,10 +389,10 @@ export default {
         if (this.$route.path === '/chatbot' && newQuery.university && !this.isOpen) {
           this.isOpen = true;
           
-          // Create a university-specific message
+          // 创建特定于大学的消息
           const message = `Tell me about programs at ${newQuery.university} University`;
           
-          // Add slight delay for better user experience
+          // 添加轻微延迟以获得更好的用户体验
           setTimeout(() => {
             this.sendMessage(message);
           }, 1000);
@@ -407,7 +404,7 @@ export default {
 </script>
 
 <style scoped>
-/* Existing chatbot styles */
+/* 现有聊天机器人样式 */
 .chatbot-container {
   position: fixed;
   bottom: 20px;
@@ -417,15 +414,15 @@ export default {
 }
 
 .chatbot-button {
-  width: 70px; /* Increased size */
-  height: 70px; /* Increased size */
+  width: 70px; /* 增加大小 */
+  height: 70px; /* 增加大小 */
   border-radius: 50%;
   background-color: #396aae;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); /* 增强阴影 */
   position: absolute;
   bottom: 0;
   right: 0;
@@ -442,15 +439,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px; /* Increased icon size */
+  font-size: 24px; /* 增加图标大小 */
 }
 
 .chatbot-dialog {
   position: absolute;
   bottom: 80px;
   right: 0;
-  width: 380px; /* Increased width */
-  height: 500px; /* Increased height */
+  width: 380px; /* 增加宽度 */
+  height: 500px; /* 增加高度 */
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
@@ -607,7 +604,7 @@ export default {
   height: 20px;
 }
 
-/* Loading indicator styling */
+/* 加载指示器样式 */
 .loading-message {
   padding: 12px;
 }
@@ -648,15 +645,17 @@ export default {
   }
 }
 
-/* Add a more prominent appearance when the chatbot is open */
+/* 聊天机器人打开时添加更突出的外观 */
 .chatbot-open .chatbot-button {
   transform: scale(0.85);
   opacity: 0.8;
 }
 
-/* New styles for the chatbot page content */
+/* 聊天机器人页面内容的新样式 */
 .chatbot-page-content {
-  margin-bottom: 100px; /* Space for the chatbot button */
+  margin-bottom: 100px; /* 为聊天机器人按钮留出空间 */
+  position: relative;
+  z-index: 1;
 }
 
 .robot-icon-large {
@@ -696,7 +695,7 @@ export default {
   transform: translateY(-2px);
 }
 
-/* Bootstrap Icons placeholder */
+/* Bootstrap Icons 占位符 */
 .bi {
   display: inline-block;
   vertical-align: -0.125em;
