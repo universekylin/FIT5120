@@ -228,6 +228,28 @@ export default {
      
     };
   },
+  created() {
+    // Automatically open the chatbot if we're navigating to this page
+    if (this.$route.path === '/chatbot') {
+      // Use nextTick to ensure DOM is ready
+      this.$nextTick(() => {
+        this.isOpen = true;
+
+        // Check for query parameters to autostart conversation
+        if (this.$route.query.university) {
+          const universityName = this.$route.query.university;
+          
+          // Create a custom message based on the university parameter
+          const message = `Tell me about programs at ${universityName} University`;
+          
+          // Wait a moment before sending the message for better UX
+          setTimeout(() => {
+            this.sendMessage(message);
+          }, 1000);
+        }
+      });
+    }
+  },
   methods: {
     toggleChatbot() {
       this.isOpen = !this.isOpen;
@@ -359,6 +381,25 @@ export default {
     scrollToBottom() {
       if (this.$refs.messagesContainer) {
         this.$refs.messagesContainer.scrollTop = this.$refs.messagesContainer.scrollHeight;
+      }
+    }
+  },
+  // Watch for route changes to handle direct navigation to chatbot with parameters
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler(newQuery) {
+        if (this.$route.path === '/chatbot' && newQuery.university && !this.isOpen) {
+          this.isOpen = true;
+          
+          // Create a university-specific message
+          const message = `Tell me about programs at ${newQuery.university} University`;
+          
+          // Add slight delay for better user experience
+          setTimeout(() => {
+            this.sendMessage(message);
+          }, 1000);
+        }
       }
     }
   }

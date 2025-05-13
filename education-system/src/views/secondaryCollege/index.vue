@@ -75,6 +75,7 @@
             <div class="card-header bg-light d-flex justify-content-between align-items-center">
               <h4 class="mb-0" style="cursor: pointer;" @click="toggleSubject(subject.subject_id)">
                 {{ subject.subject_name }}
+                 <span class="map-link" @click="showMapModal(subject)">View Map</span>
               </h4>
               <button class="btn btn-outline-primary btn-sm" @click="toggleSubject(subject.subject_id)">
                 {{ expandedSubjects[subject.subject_id] ? 'Hide Colleges' : 'Show Colleges' }}
@@ -96,18 +97,25 @@
       </div>
     </div>
   </div>
+  <MapModal 
+      v-model:visible="showModal" 
+      :college-ids="selectIds" 
+      @close="onMapModalClose"
+    />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-
+import MapModal from './modal/index.vue';
 const searchQuery = ref('')
 const searchResults = ref([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 const expandedSubjects = ref({})
 const groupedSubjects = ref({})
-
+const selectIds = ref();
+const showModal = ref(false);
+// Search function
 const searchSubjects = async () => {
   if (!searchQuery.value.trim()) {
     errorMessage.value = 'Please enter a subject name'
@@ -167,7 +175,13 @@ const loadSubjectSuggestions = async () => {
     groupedSubjects.value = {}
   }
 }
-
+const showMapModal = (subject) => {
+    selectIds.value = subject.secondaryColleges.map(item=>item.college_id).join(',')
+    showModal.value = true;
+  };
+  const onMapModalClose = () => {
+    selectIds.value = "";
+  };
 onMounted(() => {
   loadSubjectSuggestions()
 })
@@ -274,5 +288,15 @@ onMounted(() => {
     align-items: flex-start;
     gap: 0.5rem;
   }
+}
+.map-link {
+  color: #1890ff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.map-link:hover {
+  color: #40a9ff;
 }
 </style>

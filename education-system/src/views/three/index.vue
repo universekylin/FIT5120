@@ -47,18 +47,20 @@
       <div class="row">
         <div class="col-12">
           <h1 class="display-4 mb-4">Our University in 3D</h1>
-          <p class="lead mb-4">Explore our university campus in an interactive 3D environment. Rotate and zoom to see different angles.</p>
+          <p class="lead mb-4">Explore our university campus in an interactive 3D environment. Move around to discover different buildings.</p>
           
           <div class="three-container">
-            <ThreeScene />
+            <!-- 替换 ThreeScene 为 UniversityExplorer -->
+            <UniversityExplorer />
           </div>
           
           <div class="mt-4">
             <h2>How to interact</h2>
             <ul>
-              <li>The 3D model rotates automatically</li>
-              <li>Explore different buildings and facilities on our campus</li>
-              <li>This is just a demonstration of what's possible with 3D visualization</li>
+              <li>Use <strong>W/A/S/D</strong> keys or <strong>↑/←/↓/→</strong> arrow keys to move your character around</li>
+              <li>Click on university buildings to view information about them</li>
+              <li>Mouse drag to rotate the camera view</li>
+              <li>Explore different buildings and learn about their programs</li>
             </ul>
           </div>
         </div>
@@ -68,7 +70,7 @@
 </template>
 
 <script setup>
-import ThreeScene from '@/components/ThreeScene.vue'
+import UniversityExplorer from '@/components/UniversityExplorer.vue';
 </script>
 
 <style scoped>
@@ -83,6 +85,7 @@ import ThreeScene from '@/components/ThreeScene.vue'
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   height: 600px;
+  position: relative;
 }
 
 h1, h2 {
