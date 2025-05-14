@@ -1,0 +1,159 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # 1. 检出代码
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. 设置 Node.js 环境（使用 Node.js 18）
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # 3. 设置 Python 环境
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12.6'
+
+    # 4. 检查目录结构
+    - name: Check directory structure
+      run: ls -la
+
+    # 5. 安装前端依赖并构建
+    - name: Install frontend dependencies and build
+      run: |
+        cd education-system
+        npm install
+        npm run build
+
+    # 6. 确保 backend 目录有 requirements.txt 文件
+    - name: Ensure requirements.txt exists
+      run: |
+        cd ourflask-project
+        if [ ! -f requirements.txt ]; then
+          echo -e "Flask==2.0.1\nWerkzeug==2.0.1\nJinja2==3.0.1\nMarkupSafe==2.0.1\nitsdangerous==2.0.1\nclick==8.0.1" > requirements.txt
+        fi
+
+    # 7. 安装 backend 依赖
+    - name: Install backend dependencies
+      run: |
+        cd ourflask-project
+        pip install -r requirements.txt
+
+    # 8. 部署到 EC2
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          echo "Starting deployment..."
+
+          # 确保 Git 和 Node.js 已安装
+          sudo yum install -y git
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install 18
+          nvm use 18
+
+          # 创建项目目录并拉取代码
+          mkdir -p ~/FIT5120
+          cd ~/FIT5120
+
+          if [ -d ".git" ]; then
+            echo "Git repository exists, pulling latest changes..."
+            git pull
+          else
+            echo "Cloning repository..."
+            git clone https://github.com/universekylin/FIT5120.git .
+          fi
+
+          # 设置 Flask 环境
+          cd ourflask-project
+          echo "Setting up Python environment..."
+          if [ ! -d "venv" ]; then
+            python3 -m venv venv
+          fi
+          source venv/bin/activate
+
+          echo "Installing Python dependencies..."
+          if [ ! -f requirements.txt ]; then
+            echo -e "Flask==2.0.1\nWerkzeug==2.0.1\nJinja2==3.0.1\nMarkupSafe==2.0.1\nitsdangerous==2.0.1\nclick==8.0.1" > requirements.txt
+          fi
+          pip install -r requirements.txt
+
+          echo "Starting Flask application..."
+          # 停止任何正在运行的 Flask 进程（基于端口 5000）
+          if lsof -i :5000; then
+            kill -9 $(lsof -t -i :5000)
+          fi
+          # 使用 nohup 在后台运行 Flask 应用
+          nohup /home/ec2-user/FIT5120/ourflask-project/venv/bin/python app.py > flask.log 2>&1 &
+
+    # 9. 将构建好的 dist 目录上传到 EC2
+    - name: Deploy dist folder to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        source: "education-system/dist/*"
+        target: "/home/ec2-user/FIT5120/education-system/dist"
+
+    # 10. 配置 Nginx 和权限
+    - name: Configure Nginx and permissions
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          echo "Setting up Nginx configuration..."
+          sudo bash -c 'cat > /etc/nginx/conf.d/flask_app.conf << EOL
+server {
+    listen 80;
+    server_name 3.106.235.128;
+
+    location / {
+        root /home/ec2-user/FIT5120/education-system/dist;
+        try_files \$uri \$uri/ /index.html;
+    }
+
+    location /api {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+    }
+}
+EOL'
+
+          # 确保 dist 目录权限正确
+          sudo chmod -R 755 ~/FIT5120/education-system/dist
+
+          # 安装 Nginx（如果未安装）
+          if ! command -v nginx &> /dev/null; then
+            echo "Installing Nginx..."
+            sudo amazon-linux-extras install nginx1 -y
+          fi
+
+          # 重启 Nginx
+          echo "Reloading Nginx configuration..."
+          sudo systemctl enable nginx
+          sudo systemctl restart nginx
+
+          echo "Deployment completed successfully!"
