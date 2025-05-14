@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
       <div class="container">
         <router-link class="navbar-brand d-flex align-items-center" to="/">
-          <span class="fw-bold">Education System</span>
+          <span class="fw-bold">CoursePathFinder</span>
         </router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
@@ -11,12 +11,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><router-link class="nav-link" to="/">Home</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/test">Test</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/test">Career Quiz</router-link></li>
             <li class="nav-item"><router-link class="nav-link" to="/career-stories">Career Stories</router-link></li>
-            <li class="nav-item"><router-link class="nav-link active" to="/subject">High School</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">Subject</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/chatbot">Chat Bot</router-link></li>
-            <li class="nav-item"><router-link class="nav-link" to="/three">Our University</router-link></li>
+            <li class="nav-item"><router-link class="nav-link active" to="/subject">VCE Subject Check</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/secondary-college">Alternative Schools</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/chatbot">AI ChatBot</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" to="/three">Uni Virtual Explore</router-link></li>
           </ul>
         </div>
       </div>
@@ -28,7 +28,7 @@
         <div class="card-body">
           <div class="input-group">
             <input type="text" class="form-control form-control-lg"
-                   placeholder="Enter Secondary School name"
+                   placeholder="Enter a high School name to check VCE subject availability"
                    v-model="searchQuery" @keyup.enter="searchSchools">
             <button class="btn btn-primary btn-lg" @click="searchSchools" :disabled="isLoading">
               <span v-if="!isLoading">Search</span>
@@ -39,19 +39,23 @@
             </button>
           </div>
 
-          <!-- 提示按钮 -->
-          <div class="mt-3">
+          <!-- Hint buttons -->
+          <div class="mt-3 school-hint-buttons">
             <span class="me-2 text-muted">Try:</span>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Wallan Secondary College')">Wallan</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Seymour College')">Seymour</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Rushworth P-12 College')">Rushworth</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Yea High School')">Yea</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Wangaratta High School')">Wangaratta</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Euroa Secondary College')">Euroa</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Yarrawonga College P-12')">Yarrawonga</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Mansfield Secondary College')">Mansfield</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Beechworth Secondary College')">Beechworth</button>
-            <button class="btn btn-outline-secondary btn-sm me-2" @click="setSuggestion('Greater Shepparton Secondary College')">Shepparton</button>
+            <div class="btn-container">
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Wallan Secondary College')">Wallan</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Seymour College')">Seymour</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Rushworth P-12 College')">Rushworth</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Yea High School')">Yea</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Wangaratta High School')">Wangaratta</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Euroa Secondary College')">Euroa</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Yarrawonga College P-12')">Yarrawonga</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Mansfield Secondary College')">Mansfield</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Beechworth Secondary College')">Beechworth</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Greater Shepparton Secondary College')">Greater Shepparton</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Wodonga Senior Secondary College')">Wodonga Senior</button>
+              <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Myrtleford P-12 College')">Myrtleford</button>
+            </div>
           </div>
 
           <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
@@ -98,20 +102,17 @@
 <script setup>
 import { ref } from 'vue'
 
-// State
 const searchQuery = ref('')
 const searchResults = ref([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 const expandedSchools = ref({})
 
-// Set query suggestion and trigger search
 const setSuggestion = (term) => {
   searchQuery.value = term
   searchSchools()
 }
 
-// Search schools
 const searchSchools = async () => {
   if (!searchQuery.value.trim()) {
     errorMessage.value = 'Please enter a school name'
@@ -148,12 +149,10 @@ const searchSchools = async () => {
   }
 }
 
-// Toggle subject visibility
 const toggleSubjects = (schoolId) => {
   expandedSchools.value[schoolId] = !expandedSchools.value[schoolId]
 }
 
-// Google Maps link
 const getLocationLink = (location) => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
 }
@@ -242,6 +241,13 @@ const getLocationLink = (location) => {
 
 .major-item:hover {
   background-color: #f8f9fa;
+}
+
+.school-hint-buttons .btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 6px;
 }
 
 @media (max-width: 768px) {

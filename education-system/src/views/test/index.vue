@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
       <div class="container">
         <router-link class="navbar-brand d-flex align-items-center" to="/">
-          <span class="fw-bold">Education System</span>
+          <span class="fw-bold">CoursePathFinder</span>
         </router-link>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -17,7 +17,7 @@
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link active" to="/test">Test</router-link>
+              <router-link class="nav-link active" to="/test">Career Quiz</router-link>
             </li>
             <!-- <li class="nav-item">
               <router-link class="nav-link" to="/career">Career</router-link>
@@ -26,16 +26,16 @@
               <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/subject">High School</router-link>
+              <router-link class="nav-link" to="/subject">VCE Subject Check</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/secondary-college">Subject</router-link>
+              <router-link class="nav-link" to="/secondary-college">Alternative Schools</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/chatbot">Chat Bot</router-link>
+              <router-link class="nav-link" to="/chatbot">AI ChatBot</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/three">Our University</router-link>
+              <router-link class="nav-link" to="/three">Uni Virtual Explore</router-link>
             </li>
           </ul>
         </div>

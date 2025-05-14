@@ -30,6 +30,15 @@
               >
                 <l-popup :options="{ autoOpen: true }"> {{ college.name }}</l-popup>
               </l-marker>
+              <l-marker
+                :key="colleges.length"
+                title="You Location"
+                :lat-lng="currentPosition"
+                :icon="getYouMarkerIcon()"
+                :options="getYouMarkerOptions('You Location', colleges.length)"
+              >
+                <l-popup :options="{ autoOpen: true }"> {{ "You Location" }}</l-popup>
+              </l-marker>
             </l-map>
           </div>
   
@@ -72,6 +81,7 @@
   const emit = defineEmits(['update:visible', 'close']);
   
   const zoom = ref(5);
+  const currentPosition = ref([])
   const center = ref([-25.2744, 133.7751]);
   const colleges = ref([]);
   const loading = ref(false);
@@ -89,23 +99,21 @@
     if (!data.length) throw new Error(`Address not found: ${address}`);
     return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
   };
-  
   const adjustMapView = () => {
     if (addressMap && colleges.value.length > 0) {
       const bounds = colleges.value.map((c) => c.coordinates);
+      bounds.push(currentPosition.value);
       addressMap.flyToBounds(bounds, {
         padding: [50, 50]
       });
     }
   };
-  
   const handleMarkerClick = (college) => {
     router.push({
       name: "secondaryDetail",
       query: { id: college.id },
     });
   };
-  
   const getMarkerIcon = (index) => {
     return L.icon({
       iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
@@ -116,10 +124,27 @@
       shadowSize: [41, 41],
     });
   };
+
+  const getYouMarkerIcon = () => {
+    return L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+      shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41],
+    });
+  }
   
   const getMarkerOptions = (college, index) => ({
     title: college.name,
     alt: `${index + 1}: ${college.name}`,
+    riseOnHover: true,
+    keyboard: true
+  });
+  const getYouMarkerOptions = (name, index) => ({
+    title: name,
+    alt: `${index + 1}: ${name}`,
     riseOnHover: true,
     keyboard: true
   });
@@ -164,13 +189,24 @@
   
   watch(() => props.collegeIds, (newIds) => {
     if (props.visible && newIds && newIds.length > 0) {
-      fetchColleges(newIds);
+       navigator.geolocation.getCurrentPosition((position)=>{
+        currentPosition.value = []
+        currentPosition.value.push(position.coords.latitude);
+        currentPosition.value.push(position.coords.longitude);
+        fetchColleges(newIds);
+      })
+      
     }
   }, { immediate: true });
   
   watch(() => props.visible, (newVal) => {
     if (newVal && props.collegeIds && props.collegeIds.length > 0) {
-      fetchColleges(props.collegeIds);
+      navigator.geolocation.getCurrentPosition((position)=>{
+        currentPosition.value = []
+        currentPosition.value.push(position.coords.latitude);
+        currentPosition.value.push(position.coords.longitude);
+        fetchColleges(props.collegeIds);
+      })
     }
   });
   </script>

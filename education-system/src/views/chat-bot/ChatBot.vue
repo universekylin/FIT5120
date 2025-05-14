@@ -14,28 +14,28 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <router-link class="nav-link" to="/">Home</router-link>
+            <router-link class="nav-link" to="/">Main</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link " to="/test">Test</router-link>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <router-link class="nav-link" to="/career">Career</router-link>
-          </li> -->
+          </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/career-stories">Career Stories</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/subject">High School</router-link>
+            <router-link class="nav-link" to="/subject">Subject</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/secondary-college">Subject</router-link>
+            <router-link class="nav-link" to="/secondary-college">College</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link active" to="/chatbot">Chat Bot</router-link>
           </li>
           <li class="nav-item">
-              <router-link class="nav-link" to="/three">Our University</router-link>
+              <router-link class="nav-link" to="/three">Uni Virtual Explore</router-link>
           </li>
         </ul>
       </div>
