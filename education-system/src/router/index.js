@@ -44,6 +44,11 @@ const router = createRouter({
       component: secondaryCollege,
     },
     {
+      path: '/chatbot',
+      name: 'ChatBot',
+      component: ChatBot,
+    },
+    {
       path: '/detail',
       name: 'detail',
       component: detail,
