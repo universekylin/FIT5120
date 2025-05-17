@@ -15,12 +15,15 @@ app = Flask(__name__)
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:wdy531520@localhost:3306/db_education'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
+# # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8uTrTaSJ&y4gu96cj9LY7^@52.63.208.7:3306/mysql_test'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://eduapp:password123@localhost:3306/db_education'
+
 
 # Configure the SQLAlchemy database URI for connecting to the MySQL database
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
 # Alternative database configurations (commented out)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:123456@localhost:3306/db_education2'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://eduapp:password123@localhost:3306/db_education'
 # mysql+pymysql://root:wdy531520@localhost:3306/db_education
 
 # Disable the modification tracking feature of SQLAlchemy to save resources
