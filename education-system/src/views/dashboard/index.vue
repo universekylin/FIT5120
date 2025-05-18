@@ -55,13 +55,12 @@
       </video>
       <div class="overlay">
         <h1 class="main-title">
-          Not Sure About Your Future? <br />Let’s Explore It Together!
+          🌱 Explore your future, one step at a time.
         </h1>
         <p class="subtitle">
-          Interactive quizzes, real stories, and smart career advice — made just
-          for you.
+          Made for high school students — choose the right subjects, explore real jobs, and get instant support.
         </p>
-        <router-link to="/test" class="btn">Start Quiz</router-link>
+        <router-link to="/test" class="btn">Let’s Try It Out</router-link>
       </div>
     </section>
 

@@ -88,12 +88,13 @@
                   <div class="card-body py-2 d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">{{ college.college_name }}</h6>
                     <div>
-                      <router-link 
+                      <span class="map-link" style="margin-right: 12px;" @click="handleMarkerClick(college)">Learn More</span>
+                      <!-- <router-link 
                         :to="`/college-detail/${college.college_id}`" 
                         class="me-3 text-decoration-none text-primary"
                       >
                         Learn More
-                      </router-link>
+                      </router-link> -->
                       <a 
                         :href="getLocationLink(college.college_name)" 
                         target="_blank" 
@@ -120,7 +121,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from "vue-router";
 import MapModal from './modal/index.vue';
+const router = useRouter();
 const searchQuery = ref('')
 const searchResults = ref([])
 const isLoading = ref(false)
@@ -165,7 +168,13 @@ const searchSubjects = async () => {
     isLoading.value = false
   }
 }
-
+const handleMarkerClick = (college) => {
+  console.log(college)
+    router.push({
+      name: "secondaryDetail",
+      query: { name: college.college_name },
+    });
+  };
 const toggleSubject = (subjectId) => {
   expandedSubjects.value[subjectId] = !expandedSubjects.value[subjectId]
 }
