@@ -87,7 +87,21 @@
                 <div v-for="college in subject.secondaryColleges" :key="college.college_id" class="major-item card mb-2">
                   <div class="card-body py-2 d-flex justify-content-between align-items-center">
                     <h6 class="mb-0">{{ college.college_name }}</h6>
-                    <a :href="getLocationLink(college.college_name)" target="_blank" class="text-muted ms-2">Location</a>
+                    <div>
+                      <router-link 
+                        :to="`/college-detail/${college.college_id}`" 
+                        class="me-3 text-decoration-none text-primary"
+                      >
+                        Learn More
+                      </router-link>
+                      <a 
+                        :href="getLocationLink(college.college_name)" 
+                        target="_blank" 
+                        class="text-muted"
+                      >
+                        Location
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

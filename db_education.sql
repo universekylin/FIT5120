@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.40, for Win64 (x86_64)
 --
--- Host: localhost    Database: education
+-- Host: localhost    Database: db_education
 -- ------------------------------------------------------
--- Server version	8.0.41
+-- Server version	8.0.40
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -102,7 +102,7 @@ CREATE TABLE `db_secondary_college` (
   `id` int NOT NULL AUTO_INCREMENT,
   `secondary_college_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ CREATE TABLE `db_secondary_college` (
 
 LOCK TABLES `db_secondary_college` WRITE;
 /*!40000 ALTER TABLE `db_secondary_college` DISABLE KEYS */;
-INSERT INTO `db_secondary_college` VALUES (1,'Wallan Secondary College'),(2,'Seymour College');
+INSERT INTO `db_secondary_college` VALUES (1,'Wallan Secondary College'),(2,'Seymour College'),(3,'Rushworth P-12 College'),(4,'Yea High School'),(5,'Wangaratta High School'),(6,'Euroa Secondary College'),(7,'Yarrawonga College P-12'),(8,'Mansfield Secondary College'),(9,'Beechworth Secondary College'),(10,'Greater Shepparton Secondary College'),(11,'Wodonga Senior Secondary College'),(12,'Myrtleford P-12 College');
 /*!40000 ALTER TABLE `db_secondary_college` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +126,7 @@ CREATE TABLE `db_subject` (
   `id` int NOT NULL AUTO_INCREMENT,
   `subject_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +135,7 @@ CREATE TABLE `db_subject` (
 
 LOCK TABLES `db_subject` WRITE;
 /*!40000 ALTER TABLE `db_subject` DISABLE KEYS */;
-INSERT INTO `db_subject` VALUES (59,'English'),(60,'English Literature'),(61,'Indonesian'),(62,'Foundation Mathematics'),(63,'General Mathematics'),(64,'Mathematical Methods'),(65,'Specialist Mathematics'),(66,'Business Management'),(67,'Geography'),(68,'History'),(69,'Legal Studies'),(70,'Sociology'),(71,'Biology'),(72,'Chemistry'),(73,'Environmental Science'),(74,'Physics'),(75,'Psychology'),(76,'Health and Human Development'),(77,'Outdoor Education'),(78,'Physical Education'),(79,'Art Creative Practice'),(80,'Drama'),(81,'Media'),(82,'Visual Communication'),(83,'Food Studies'),(84,'Product Design - Materials'),(85,'Agricultural and Horticultural Studies'),(86,'Food and Technology'),(87,'Literature'),(88,'Production Design and Technology'),(89,'Visual Communication and Design');
+INSERT INTO `db_subject` VALUES (59,'English'),(60,'English Literature'),(61,'Indonesian'),(62,'Foundation Mathematics'),(63,'General Mathematics'),(64,'Mathematical Methods'),(65,'Specialist Mathematics'),(66,'Business Management'),(67,'Geography'),(68,'History'),(69,'Legal Studies'),(70,'Sociology'),(71,'Biology'),(72,'Chemistry'),(73,'Environmental Science'),(74,'Physics'),(75,'Psychology'),(76,'Health and Human Development'),(77,'Outdoor Education'),(78,'Physical Education'),(79,'Art Creative Practice'),(80,'Drama'),(81,'Media'),(82,'Visual Communication'),(83,'Food Studies'),(84,'Product Design - Materials'),(85,'Agricultural and Horticultural Studies'),(86,'Food and Technology'),(87,'Literature'),(88,'Production Design and Technology'),(89,'Visual Communication and Design'),(90,'Product Design & Technology'),(91,'Agriculture & Horticulture'),(92,'Extended Investigation'),(93,'Further Mathematics'),(94,'Outdoor and Environmental Studies'),(95,'Studio Arts'),(96,'Ancient History'),(97,'Visual Arts'),(98,'Media Studies'),(99,'Visual Communication Design'),(100,'Product Design & Technology (Wood or Textiles)'),(101,'Art Making and Exhibiting'),(102,'English Language'),(103,'Human Health & Development'),(104,'Japanese Second Language'),(105,'Product Design & Technology - Wood'),(106,'Systems Engineering'),(107,'Accounting'),(108,'Applied Computing'),(109,'Product Design and Technology (Textiles)'),(110,'History (20th Century)'),(111,'History (Revolutions)'),(112,'Music Performance'),(113,'Music Investigation'),(114,'Agriculture and Horticulture'),(115,'Art: Creative Practice'),(116,'Languages: French'),(117,'English as an Additional Language'),(118,'Foundation English'),(119,'Australian and Global Politics'),(120,'Australian History'),(121,'Computing'),(122,'Economics'),(123,'Industry and Enterprise'),(124,'Philosophy'),(125,'Art'),(126,'Dance'),(127,'Theatre Studies'),(128,'Agriculture and Horticultural Studies'),(129,'Algorithmics'),(130,'Product Design & Technology: Wood'),(131,'Product Design & Technology: Plastics'),(132,'Product Design & Technology: Textiles'),(133,'Product Design & Technology: Metals'),(134,'Music Composition'),(135,'Music Contemporary Performance'),(136,'Music Inquiry'),(137,'Music Repertoire Performance'),(138,'Auslan'),(139,'Italian'),(140,'Japanese'),(141,'Outdoor and Educational Studies'),(142,'Chinese: Mandarin'),(143,'Computing – Applied Computing'),(144,'Computing – Software Development'),(145,'English as an Additional Language (Bridging)'),(146,'English as an Additional Language (EAL)'),(147,'General Maths'),(148,'Health & Human Development'),(149,'History: Ancient'),(150,'History: Modern'),(151,'History: Revolutions'),(152,'Music'),(153,'Outdoor & Environmental Studies'),(154,'Specialist Maths'),(155,'Modern History'),(156,'Revolutions'),(157,'Product Design and Technology'),(158,'Sport & Recreation');
 /*!40000 ALTER TABLE `db_subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +155,7 @@ CREATE TABLE `db_subject_secondary_college_relation` (
   KEY `subject_id` (`subject_id`),
   CONSTRAINT `db_subject_secondary_college_relation_ibfk_1` FOREIGN KEY (`secondary_college_id`) REFERENCES `db_secondary_college` (`id`),
   CONSTRAINT `db_subject_secondary_college_relation_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `db_subject` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +164,7 @@ CREATE TABLE `db_subject_secondary_college_relation` (
 
 LOCK TABLES `db_subject_secondary_college_relation` WRITE;
 /*!40000 ALTER TABLE `db_subject_secondary_college_relation` DISABLE KEYS */;
-INSERT INTO `db_subject_secondary_college_relation` VALUES (9,59,1),(10,60,1),(11,61,1),(12,62,1),(13,63,1),(14,64,1),(15,65,1),(16,66,1),(17,67,1),(18,68,1),(19,69,1),(20,70,1),(21,71,1),(22,72,1),(23,73,1),(24,74,1),(25,75,1),(26,76,1),(27,77,1),(28,78,1),(29,79,1),(30,80,1),(31,81,1),(32,82,1),(33,83,1),(34,84,1),(56,85,2),(57,79,2),(58,71,2),(59,66,2),(60,72,2),(61,59,2),(62,73,2),(63,86,2),(64,63,2),(65,76,2),(66,68,2),(67,69,2),(68,87,2),(69,64,2),(70,65,2),(71,78,2),(72,74,2),(73,75,2),(74,88,2),(75,81,2),(76,89,2);
+INSERT INTO `db_subject_secondary_college_relation` VALUES (9,59,1),(10,60,1),(11,61,1),(12,62,1),(13,63,1),(14,64,1),(15,65,1),(16,66,1),(17,67,1),(18,68,1),(19,69,1),(20,70,1),(21,71,1),(22,72,1),(23,73,1),(24,74,1),(25,75,1),(26,76,1),(27,77,1),(28,78,1),(29,79,1),(30,80,1),(31,81,1),(32,82,1),(33,83,1),(34,84,1),(56,85,2),(57,79,2),(58,71,2),(59,66,2),(60,72,2),(61,59,2),(62,73,2),(63,86,2),(64,63,2),(65,76,2),(66,68,2),(67,69,2),(68,87,2),(69,64,2),(70,65,2),(71,78,2),(72,74,2),(73,75,2),(74,88,2),(75,81,2),(76,89,2),(77,59,3),(78,63,3),(79,75,3),(80,69,3),(81,76,3),(82,78,3),(83,90,3),(84,83,3),(85,91,3),(86,71,4),(87,66,4),(88,72,4),(89,59,4),(90,92,4),(91,67,4),(92,76,4),(93,68,4),(94,69,4),(95,87,4),(96,63,4),(97,93,4),(98,64,4),(99,65,4),(100,94,4),(101,78,4),(102,74,4),(103,75,4),(104,70,4),(105,95,4),(106,82,4),(107,59,5),(108,62,5),(109,63,5),(110,64,5),(111,65,5),(112,96,5),(113,66,5),(114,69,5),(115,71,5),(116,75,5),(117,72,5),(118,74,5),(119,97,5),(120,98,5),(121,99,5),(122,79,5),(123,80,5),(124,100,5),(125,83,5),(126,78,5),(127,76,5),(128,77,5),(129,85,5),(130,101,6),(131,71,6),(132,66,6),(133,72,6),(134,59,6),(135,102,6),(136,83,6),(137,63,6),(138,68,6),(139,103,6),(140,104,6),(141,69,6),(142,87,6),(143,64,6),(144,65,6),(145,78,6),(146,74,6),(147,105,6),(148,75,6),(149,106,6),(150,99,6),(151,107,7),(152,79,7),(153,71,7),(154,66,7),(155,72,7),(156,108,7),(157,80,7),(158,59,7),(159,83,7),(160,67,7),(161,76,7),(162,68,7),(163,69,7),(164,87,7),(165,63,7),(166,64,7),(167,65,7),(168,81,7),(169,94,7),(170,78,7),(171,74,7),(172,109,7),(173,75,7),(174,89,7),(175,71,8),(176,72,8),(177,59,8),(178,83,8),(179,76,8),(180,110,8),(181,111,8),(182,69,8),(183,87,8),(184,62,8),(185,63,8),(186,93,8),(187,64,8),(188,65,8),(189,112,8),(190,113,8),(191,94,8),(192,78,8),(193,74,8),(194,75,8),(195,95,8),(196,82,8),(197,114,9),(198,115,9),(199,71,9),(200,66,9),(201,72,9),(202,59,9),(203,73,9),(204,76,9),(205,68,9),(206,116,9),(207,69,9),(208,63,9),(209,64,9),(210,65,9),(211,62,9),(212,94,9),(213,78,9),(214,74,9),(215,75,9),(216,70,9),(217,106,9),(218,99,9),(219,59,10),(220,117,10),(221,102,10),(222,118,10),(223,87,10),(224,107,10),(225,119,10),(226,120,10),(227,66,10),(228,121,10),(229,122,10),(230,67,10),(231,68,10),(232,123,10),(233,69,10),(234,124,10),(235,70,10),(236,71,10),(237,72,10),(238,73,10),(239,74,10),(240,75,10),(241,125,10),(242,126,10),(243,80,10),(244,81,10),(245,95,10),(246,127,10),(247,99,10),(248,128,10),(249,129,10),(250,83,10),(251,130,10),(252,131,10),(253,132,10),(254,133,10),(255,134,10),(256,135,10),(257,136,10),(258,137,10),(259,112,10),(260,113,10),(261,138,10),(262,139,10),(263,140,10),(264,63,10),(265,64,10),(266,65,10),(267,62,10),(268,76,10),(269,141,10),(270,78,10),(271,107,11),(272,91,11),(273,79,11),(274,119,11),(275,71,11),(276,66,11),(277,72,11),(278,142,11),(279,143,11),(280,144,11),(281,80,11),(282,122,11),(283,59,11),(284,145,11),(285,146,11),(286,102,11),(287,73,11),(288,83,11),(289,147,11),(290,67,11),(291,148,11),(292,149,11),(293,150,11),(294,151,11),(295,123,11),(296,140,11),(297,69,11),(298,87,11),(299,64,11),(300,81,11),(301,152,11),(302,135,11),(303,136,11),(304,153,11),(305,124,11),(306,78,11),(307,74,11),(308,75,11),(309,70,11),(310,154,11),(311,106,11),(312,127,11),(313,59,12),(314,107,12),(315,66,12),(316,155,12),(317,156,12),(318,69,12),(319,139,12),(320,62,12),(321,63,12),(322,64,12),(323,65,12),(324,76,12),(325,94,12),(326,78,12),(327,71,12),(328,72,12),(329,74,12),(330,75,12),(331,80,12),(332,79,12),(333,99,12),(334,157,12),(335,158,12);
 /*!40000 ALTER TABLE `db_subject_secondary_college_relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-30 22:10:48
+-- Dump completed on 2025-05-17 21:14:33

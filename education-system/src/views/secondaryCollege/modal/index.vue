@@ -111,7 +111,7 @@
   const handleMarkerClick = (college) => {
     router.push({
       name: "secondaryDetail",
-      query: { id: college.id },
+      query: { name: college.name },
     });
   };
   const getMarkerIcon = (index) => {
