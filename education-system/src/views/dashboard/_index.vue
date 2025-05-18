@@ -40,11 +40,11 @@
         <div class="image">
           <img src="@/assets/student4.png" alt="Student" />
         </div>
-        <div class="info">
+        <!-- <div class="info">
           <h3>Found A Career You’re Interested In?</h3>
           <p>There’s More Than One Path to Get There.</p>
           <button class="btn">Learn More</button>
-        </div>
+        </div> -->
       </section>
     </div>
 
