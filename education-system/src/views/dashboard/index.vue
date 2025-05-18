@@ -55,10 +55,10 @@
       </video>
       <div class="overlay">
         <h1 class="main-title">
-          Still Figuring Out Your Future? <br />Let’s Make It Clear — Together.
+          🌱 Explore your future, one step at a time.
         </h1>
         <p class="subtitle">
-          Not sure what VCE subjects to take or what jobs match your vibe? Explore real stories, check what your school offers, and get instant answers — all in one place, made for students like you.
+          Made for high school students — choose the right subjects, explore real jobs, and get instant support.
         </p>
         <router-link to="/test" class="btn">Let’s Try It Out</router-link>
       </div>
