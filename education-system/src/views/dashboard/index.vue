@@ -55,13 +55,12 @@
       </video>
       <div class="overlay">
         <h1 class="main-title">
-          Not Sure About Your Future? <br />Let’s Explore It Together!
+          Still Figuring Out Your Future? <br />Let’s Make It Clear — Together.
         </h1>
         <p class="subtitle">
-          Interactive quizzes, real stories, and smart career advice — made just
-          for you.
+          Not sure what VCE subjects to take or what jobs match your vibe? Explore real stories, check what your school offers, and get instant answers — all in one place, made for students like you.
         </p>
-        <router-link to="/test" class="btn">Start Quiz</router-link>
+        <router-link to="/test" class="btn">Let’s Try It Out</router-link>
       </div>
     </section>
 
