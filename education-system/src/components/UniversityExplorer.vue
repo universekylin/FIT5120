@@ -1,3 +1,4 @@
+<!-- components/UniversityExplorer.vue -->
 <template>
   <div class="university-explorer">
     <div
@@ -7,15 +8,7 @@
       @click="onClick"
     ></div>
     
-    <!-- Score Card -->
-    <ScoreCard
-      :visitedUniversities="visitedUniversities"
-      :totalUniversities="universities.length"
-      :discoveredCourses="discoveredCourses"
-      :totalCourses="totalCourses"
-      :watchedVideos="watchedVideos"
-      :notifications="notifications"
-    />
+
     
     <!-- University Information Panel -->
     <UniversityInfo
@@ -57,14 +50,12 @@ import {
   createPlayer, 
   createInteractionPrompt 
 } from '../utils/three-utils';
-import ScoreCard from './ScoreCard.vue';
 import UniversityInfo from './UniversityInfo.vue';
 import VideoModal from './VideoModal.vue';
 
 export default {
   name: 'UniversityExplorer',
   components: {
-    ScoreCard,
     UniversityInfo,
     VideoModal
   },
@@ -198,7 +189,7 @@ export default {
               threeEnv.value.scene,
               new THREE.Vector3(
                 university.position.x,
-                university.position.y + university.size.height + 2,
+                university.position.y + university.size.height + 20,
                 university.position.z
               ),
               `Click to view ${university.name}`
@@ -490,46 +481,12 @@ export default {
   z-index: 1;
 }
 
-.score-card {
+.score-card-container {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  padding: 15px;
   width: 200px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 2;
-  border: 2px solid #ccc;
-}
-
-.score-card h3 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  text-align: center;
-  color: #333;
-}
-
-.score-item {
-  margin: 8px 0;
-  font-size: 16px;
-  color: #333;
-}
-
-.notification {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #ff5252;
-  color: white;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .university-info {
@@ -731,9 +688,8 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .score-card {
+  .score-card-container {
     width: 150px;
-    padding: 10px;
   }
   
   .university-info {

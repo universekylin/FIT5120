@@ -1,4 +1,5 @@
-// src/utils/three-utils.js - Three.js 工具函数
+// utils/three-utils.js - 完整版本
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
@@ -36,12 +37,13 @@ export function createScene(container) {
   controls.minDistance = 10;
   controls.maxDistance = 50;
   
-  // 添加灯光
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  // 添加增强版灯光
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // 稍微亮一点的环境光
   scene.add(ambientLight);
   
+  // 主方向光（太阳）
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(50, 50, 50);
+  directionalLight.position.set(30, 50, 30); // 更好的阴影位置
   directionalLight.castShadow = true;
   directionalLight.shadow.mapSize.width = 2048;
   directionalLight.shadow.mapSize.height = 2048;
@@ -52,6 +54,11 @@ export function createScene(container) {
   directionalLight.shadow.camera.top = 50;
   directionalLight.shadow.camera.bottom = -50;
   scene.add(directionalLight);
+  
+  // 添加辅助柔光，从相反方向填充阴影
+  const secondaryLight = new THREE.DirectionalLight(0xffffff, 0.3);
+  secondaryLight.position.set(-30, 40, -30);
+  scene.add(secondaryLight);
   
   // 创建地面
   let groundMaterial;
@@ -205,14 +212,146 @@ function addDecorations(scene) {
   });
 }
 
+// 处理颜色值的辅助函数
+function parseColor(color) {
+  // 如果颜色已经是数字，直接返回
+  if (typeof color === 'number') {
+    return color;
+  }
+  
+  // 如果是十六进制字符串如 "#FF5500"，转换为数字
+  if (typeof color === 'string' && color.startsWith('#')) {
+    return parseInt(color.substring(1), 16);
+  }
+  
+  // 默认回退颜色
+  return 0x0000FF; // 默认蓝色
+}
+
+// 在大学建筑周围添加景观
+function addLandscaping(scene, university, buildingGroup) {
+  const { width, depth } = university.size;
+  const position = university.position;
+  
+  // 在建筑周围添加草地
+  const grassGeometry = new THREE.CircleGeometry(width * 1.5, 32);
+  const grassMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x7ec850,
+    roughness: 0.8
+  });
+  const grass = new THREE.Mesh(grassGeometry, grassMaterial);
+  grass.rotation.x = -Math.PI / 2;
+  grass.position.set(position.x, position.y - university.size.height/2 + 0.01, position.z);
+  buildingGroup.add(grass);
+  
+  // 在建筑周围添加灌木丛
+  const bushGeometry = new THREE.SphereGeometry(0.6, 8, 8);
+  const bushMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0x33691e,
+    roughness: 0.9
+  });
+  
+  // 在建筑前方创建半圆形的灌木丛
+  const numBushes = 6;
+  for (let i = 0; i < numBushes; i++) {
+    const angle = Math.PI * (i / (numBushes - 1) - 0.5);
+    const bushDistance = width * 1.2;
+    
+    const bush = new THREE.Mesh(bushGeometry, bushMaterial);
+    bush.position.set(
+      position.x + Math.sin(angle) * bushDistance,
+      position.y - university.size.height/2 + 0.3,
+      position.z + Math.cos(angle) * bushDistance
+    );
+    bush.castShadow = true;
+    bush.receiveShadow = true;
+    
+    // 稍微随机化灌木大小
+    const scale = 0.8 + Math.random() * 0.4;
+    bush.scale.set(scale, scale, scale);
+    
+    buildingGroup.add(bush);
+  }
+  
+  // 添加通往门口的路径
+  const pathGeometry = new THREE.PlaneGeometry(width * 0.3, depth * 1.2);
+  const pathMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xd7ccc8,
+    roughness: 0.9
+  });
+  const path = new THREE.Mesh(pathGeometry, pathMaterial);
+  path.rotation.x = -Math.PI / 2;
+  path.position.set(
+    position.x,
+    position.y - university.size.height/2 + 0.02,
+    position.z + depth
+  );
+  buildingGroup.add(path);
+  
+  // 添加小路标
+  const postGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8);
+  const postMaterial = new THREE.MeshStandardMaterial({ color: 0x5d4037 });
+  const post = new THREE.Mesh(postGeometry, postMaterial);
+  post.position.set(
+    position.x + width * 0.6,
+    position.y - university.size.height/2 + 0.6,
+    position.z + depth * 0.8
+  );
+  buildingGroup.add(post);
+  
+  // 路标上的指示牌
+  const signGeometry = new THREE.BoxGeometry(0.8, 0.5, 0.05);
+  const signMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xffffff
+  });
+  const sign = new THREE.Mesh(signGeometry, signMaterial);
+  sign.position.set(
+    position.x + width * 0.6,
+    position.y - university.size.height/2 + 1.2,
+    position.z + depth * 0.8
+  );
+  buildingGroup.add(sign);
+  
+  // 为指示牌创建文本
+  const signCanvas = document.createElement('canvas');
+  const signContext = signCanvas.getContext('2d');
+  signCanvas.width = 128;
+  signCanvas.height = 64;
+  
+  signContext.fillStyle = '#FFFFFF';
+  signContext.fillRect(0, 0, signCanvas.width, signCanvas.height);
+  
+  signContext.font = 'bold 16px Arial';
+  signContext.fillStyle = '#000000';
+  signContext.textAlign = 'center';
+  signContext.textBaseline = 'middle';
+  signContext.fillText('WELCOME', signCanvas.width / 2, signCanvas.height / 3);
+  signContext.fillText(university.shortName, signCanvas.width / 2, 2 * signCanvas.height / 3);
+  
+  const signTexture = new THREE.CanvasTexture(signCanvas);
+  const signTextSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: signTexture }));
+  signTextSprite.scale.set(0.8, 0.5, 1);
+  signTextSprite.position.set(
+    position.x + width * 0.6,
+    position.y - university.size.height/2 + 1.2,
+    position.z + depth * 0.8 + 0.03
+  );
+  buildingGroup.add(signTextSprite);
+}
+
 // 创建大学建筑
 export function createUniversityBuilding(scene, university) {
   const { width, height, depth } = university.size;
+  const colorValue = parseColor(university.color);
   
-  // 主体建筑
+  // 为整个建筑创建一个组
+  const buildingGroup = new THREE.Group();
+  buildingGroup.userData = { id: university.id, type: 'university' };
+  
+  // 主体建筑结构，略微调整尺寸
   const buildingGeometry = new THREE.BoxGeometry(width, height, depth);
   const buildingMaterial = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(university.color),
+    color: new THREE.Color(colorValue),
     roughness: 0.7
   });
   const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
@@ -223,12 +362,54 @@ export function createUniversityBuilding(scene, university) {
   );
   building.castShadow = true;
   building.receiveShadow = true;
+  buildingGroup.add(building);
   
-  // 建筑屋顶 - 三角形状
-  const roofGeometry = new THREE.ConeGeometry(width/Math.sqrt(2), height/2, 4);
-  roofGeometry.rotateY(Math.PI/4); // 旋转使其与建筑对齐
+  // 添加基座/地基，尺寸略大
+  const baseGeometry = new THREE.BoxGeometry(width + 0.5, height/10, depth + 0.5);
+  const baseMaterial = new THREE.MeshStandardMaterial({ 
+    color: new THREE.Color(0x888888), // 混凝土般的颜色
+    roughness: 0.9
+  });
+  const base = new THREE.Mesh(baseGeometry, baseMaterial);
+  base.position.set(
+    university.position.x, 
+    university.position.y + height/20 - height/2, 
+    university.position.z
+  );
+  base.receiveShadow = true;
+  buildingGroup.add(base);
+  
+  // 在角落添加立柱
+  const pillarGeometry = new THREE.CylinderGeometry(0.3, 0.3, height, 8);
+  const pillarMaterial = new THREE.MeshStandardMaterial({ 
+    color: new THREE.Color(colorValue).multiplyScalar(0.8), // 比主建筑更暗
+    roughness: 0.5
+  });
+  
+  // 在四个角落添加立柱
+  const pillarPositions = [
+    [width/2 - 0.3, -height/2, depth/2 - 0.3],
+    [-width/2 + 0.3, -height/2, depth/2 - 0.3],
+    [width/2 - 0.3, -height/2, -depth/2 + 0.3],
+    [-width/2 + 0.3, -height/2, -depth/2 + 0.3]
+  ];
+  
+  pillarPositions.forEach(pos => {
+    const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
+    pillar.position.set(
+      university.position.x + pos[0],
+      university.position.y + height/2 + pos[1],
+      university.position.z + pos[2]
+    );
+    pillar.castShadow = true;
+    buildingGroup.add(pillar);
+  });
+  
+  // 改进屋顶 - 更有趣的形状
+  const roofGeometry = new THREE.ConeGeometry(width/Math.sqrt(2) + 0.5, height/2, 4);
+  roofGeometry.rotateY(Math.PI/4); // 与建筑对齐
   const roofMaterial = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(university.color).multiplyScalar(1.2), // 略微更亮
+    color: new THREE.Color(colorValue).multiplyScalar(1.2), // 稍亮一些
     roughness: 0.6
   });
   const roof = new THREE.Mesh(roofGeometry, roofMaterial);
@@ -238,90 +419,170 @@ export function createUniversityBuilding(scene, university) {
     university.position.z
   );
   roof.castShadow = true;
+  buildingGroup.add(roof);
   
-  // 窗户和门
+  // 添加带框架的窗户
   const windowMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xbbdefb,
     roughness: 0.2,
     metalness: 0.5
   });
   
-  // 左窗户
-  const leftWindowGeometry = new THREE.BoxGeometry(width*0.2, height*0.25, depth*0.1);
-  const leftWindow = new THREE.Mesh(leftWindowGeometry, windowMaterial);
-  leftWindow.position.set(
-    university.position.x - width*0.3, 
-    university.position.y + height*0.3, 
-    university.position.z + depth/2 + 0.01
-  );
+  const windowFrameMaterial = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    roughness: 0.5
+  });
   
-  // 右窗户
-  const rightWindowGeometry = new THREE.BoxGeometry(width*0.2, height*0.25, depth*0.1);
-  const rightWindow = new THREE.Mesh(rightWindowGeometry, windowMaterial);
-  rightWindow.position.set(
-    university.position.x + width*0.3, 
-    university.position.y + height*0.3, 
+  // 添加前面的多个窗户
+  const windowWidth = width * 0.15;
+  const windowHeight = height * 0.2;
+  const windowDepth = 0.1;
+  
+  // 前面的窗户 (3x2 网格)
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 3; col++) {
+      // 窗框
+      const frameGeometry = new THREE.BoxGeometry(windowWidth + 0.1, windowHeight + 0.1, windowDepth);
+      const frame = new THREE.Mesh(frameGeometry, windowFrameMaterial);
+      frame.position.set(
+        university.position.x + (col - 1) * windowWidth * 1.5,
+        university.position.y + height * 0.1 + row * windowHeight * 1.5,
+        university.position.z + depth/2 + 0.01
+      );
+      buildingGroup.add(frame);
+      
+      // 窗玻璃
+      const glassGeometry = new THREE.BoxGeometry(windowWidth, windowHeight, windowDepth);
+      const glass = new THREE.Mesh(glassGeometry, windowMaterial);
+      glass.position.set(
+        university.position.x + (col - 1) * windowWidth * 1.5,
+        university.position.y + height * 0.1 + row * windowHeight * 1.5,
+        university.position.z + depth/2 + 0.02
+      );
+      buildingGroup.add(glass);
+    }
+  }
+  
+  // 添加带框的门
+  const doorWidth = width * 0.25;
+  const doorHeight = height * 0.4;
+  
+  // 门框
+  const doorFrameGeometry = new THREE.BoxGeometry(doorWidth + 0.2, doorHeight + 0.2, depth * 0.1);
+  const doorFrame = new THREE.Mesh(doorFrameGeometry, windowFrameMaterial);
+  doorFrame.position.set(
+    university.position.x,
+    university.position.y - height * 0.05,
     university.position.z + depth/2 + 0.01
   );
+  buildingGroup.add(doorFrame);
   
   // 门
-  const doorGeometry = new THREE.BoxGeometry(width*0.25, height*0.4, depth*0.1);
-  const door = new THREE.Mesh(doorGeometry, windowMaterial);
+  const doorGeometry = new THREE.BoxGeometry(doorWidth, doorHeight, depth * 0.1);
+  const doorMaterial = new THREE.MeshStandardMaterial({ 
+    color: new THREE.Color(colorValue).multiplyScalar(0.9),
+    roughness: 0.4
+  });
+  const door = new THREE.Mesh(doorGeometry, doorMaterial);
   door.position.set(
-    university.position.x, 
-    university.position.y - height*0.05, 
-    university.position.z + depth/2 + 0.01
+    university.position.x,
+    university.position.y - height * 0.05,
+    university.position.z + depth/2 + 0.02
   );
+  buildingGroup.add(door);
+  
+  // 添加门把手
+  const knobGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+  const knobMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xd4af37, // 金色
+    metalness: 0.8,
+    roughness: 0.2
+  });
+  const knob = new THREE.Mesh(knobGeometry, knobMaterial);
+  knob.position.set(
+    university.position.x + doorWidth/4,
+    university.position.y - height * 0.05,
+    university.position.z + depth/2 + 0.08
+  );
+  buildingGroup.add(knob);
+  
+  // 添加通往门口的台阶
+  const stepsMaterial = new THREE.MeshStandardMaterial({ 
+    color: 0xcccccc,
+    roughness: 0.8
+  });
+  
+  // 三个宽度递增的台阶
+  for (let i = 0; i < 3; i++) {
+    const stepWidth = doorWidth + (3-i) * 0.2;
+    const stepGeometry = new THREE.BoxGeometry(stepWidth, 0.15, 0.6);
+    const step = new THREE.Mesh(stepGeometry, stepsMaterial);
+    step.position.set(
+      university.position.x,
+      university.position.y - height/2 - 0.075 - i * 0.15,
+      university.position.z + depth/2 + 0.3 + i * 0.3
+    );
+    step.castShadow = true;
+    step.receiveShadow = true;
+    buildingGroup.add(step);
+  }
   
   // 如果已访问，添加标记
-  let visitedMarker = null;
   if (university.visited) {
     const visitedGeometry = new THREE.SphereGeometry(0.5, 16, 16);
     const visitedMaterial = new THREE.MeshStandardMaterial({ color: 0x4caf50 });
-    visitedMarker = new THREE.Mesh(visitedGeometry, visitedMaterial);
+    const visitedMarker = new THREE.Mesh(visitedGeometry, visitedMaterial);
     visitedMarker.position.set(
-      university.position.x + width/2 - 0.5, 
-      university.position.y + height/2 + 0.5, 
+      university.position.x + width/2 - 0.5,
+      university.position.y + height/2 + 0.5,
       university.position.z + depth/2 + 0.5
     );
+    buildingGroup.add(visitedMarker);
   }
   
   // 创建大学名称标签
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
-  canvas.width = 256;
-  canvas.height = 64;
+  canvas.width = 512;
+  canvas.height = 128;
   
+  // 创建带有大学颜色的更好看的名称标签
   context.fillStyle = '#FFFFFF';
   context.fillRect(0, 0, canvas.width, canvas.height);
   
-  context.font = 'bold 24px Arial';
+  // 添加大学颜色的边框
+  const hexColor = '#' + new THREE.Color(colorValue).getHexString();
+  context.strokeStyle = hexColor;
+  context.lineWidth = 8;
+  context.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
+  
+  // 添加带有更好排版的大学名称
+  context.font = 'bold 40px Arial';
   context.fillStyle = '#000000';
   context.textAlign = 'center';
   context.textBaseline = 'middle';
-  context.fillText(university.shortName, canvas.width / 2, canvas.height / 2);
+  context.fillText(university.shortName || university.name, canvas.width / 2, canvas.height / 2);
   
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
   
-  const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+  const spriteMaterial = new THREE.SpriteMaterial({ 
+    map: texture,
+    transparent: true
+  });
   const nameSprite = new THREE.Sprite(spriteMaterial);
-  nameSprite.scale.set(10, 2.5, 1);
+  nameSprite.scale.set(12, 3, 1);
   nameSprite.position.set(
     university.position.x,
-    university.position.y + height + 2,
+    university.position.y + height + 3,
     university.position.z
   );
+  buildingGroup.add(nameSprite);
   
-  // 为建筑物创建一个组，方便整体操作
-  const buildingGroup = new THREE.Group();
-  buildingGroup.add(building, roof, leftWindow, rightWindow, door, nameSprite);
-  if (visitedMarker) buildingGroup.add(visitedMarker);
-  
-  buildingGroup.userData = { id: university.id, type: 'university' };
+  // 添加建筑周围的景观
+  addLandscaping(scene, university, buildingGroup);
   
   scene.add(buildingGroup);
-  
   return buildingGroup;
 }
 
@@ -398,45 +659,57 @@ export function createPlayer(scene) {
   return player;
 }
 
-// 交互提示
+// 交互提示 - 改进版本
 export function createInteractionPrompt(scene, position, text) {
+  // 为文本纹理创建画布
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
+  
+  // 设置画布尺寸
   canvas.width = 512;
   canvas.height = 128;
   
-  // 背景
-  context.fillStyle = '#ffffff';
-  context.strokeStyle = '#000000';
-  context.lineWidth = 4;
+  // 创建半透明的白色背景
+  context.fillStyle = 'rgba(255, 255, 255, 0.85)';
   context.fillRect(0, 0, canvas.width, canvas.height);
-  context.strokeRect(0, 0, canvas.width, canvas.height);
   
-  // 文本
-  context.font = 'bold 32px Arial';
-  context.fillStyle = '#000000';
+  // 添加蓝色边框以提高可见度
+  context.strokeStyle = '#2196f3';
+  context.lineWidth = 4;
+  context.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+  
+  // 设置带阴影的文本样式以提高可读性
+  context.font = 'bold 36px Arial';
   context.textAlign = 'center';
   context.textBaseline = 'middle';
+  context.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  context.shadowBlur = 4;
+  context.shadowOffsetX = 2;
+  context.shadowOffsetY = 2;
+  context.fillStyle = '#1a237e'; // 深蓝色文本
+  
+  // 绘制文本
   context.fillText(text, canvas.width / 2, canvas.height / 2);
   
-  // 指向箭头
-  context.beginPath();
-  context.moveTo(canvas.width / 2 - 20, canvas.height - 4);
-  context.lineTo(canvas.width / 2, canvas.height + 20);
-  context.lineTo(canvas.width / 2 + 20, canvas.height - 4);
-  context.closePath();
-  context.fillStyle = '#ffffff';
-  context.strokeStyle = '#000000';
-  context.fill();
-  context.stroke();
-  
+  // 使用画布纹理创建精灵
   const texture = new THREE.CanvasTexture(canvas);
-  const material = new THREE.SpriteMaterial({ map: texture });
-  const sprite = new THREE.Sprite(material);
-  sprite.scale.set(10, 2.5, 1);
-  sprite.position.copy(position);
-  sprite.position.y += 7; // 位于建筑上方
+  const material = new THREE.SpriteMaterial({ 
+    map: texture,
+    transparent: true,
+    // 关键设置，使标签始终可见
+    sizeAttenuation: false,
+    depthTest: false
+  });
   
+  const sprite = new THREE.Sprite(material);
+  
+  // 设置位置
+  sprite.position.copy(position);
+  
+  // 调整大小以提高可见度（根据需要调整）
+  sprite.scale.set(8, 2, 1);
+  
+  // 添加到场景
   scene.add(sprite);
   
   return sprite;

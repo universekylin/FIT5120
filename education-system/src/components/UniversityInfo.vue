@@ -1,9 +1,9 @@
-// src/components/UniversityInfo.vue - University Information Panel Component
+// components/UniversityInfo.vue 的修改版本
 
 <template>
   <div class="university-info" :class="{ 'is-open': true }">
     <h2>{{ university.name }}</h2>
-    <div class="uni-badge" :style="{ backgroundColor: university.color }">
+    <div class="uni-badge" :style="{ backgroundColor: getColorString(university.color) }">
       {{ university.shortName }}
     </div>
     
@@ -15,7 +15,7 @@
     
     <div class="courses-preview">
       <h3>Popular Courses</h3>
-      <div v-for="course in university.courses.slice(0, 3)" :key="course.id" class="course-item">
+      <div v-for="course in coursesToDisplay" :key="course.id" class="course-item">
         <div class="course-name">{{ course.name }}</div>
         <div class="course-desc">{{ course.description }}</div>
       </div>
@@ -28,9 +28,9 @@
       <button class="action-btn map-btn">
         <span class="icon">🗺️</span> Campus Map
       </button>
-      <button class="action-btn website-btn">
+      <a :href="university.website" target="_blank" class="action-btn website-btn">
         <span class="icon">🌐</span> Visit Website
-      </button>
+      </a>
     </div>
   </div>
 </template>
@@ -44,7 +44,22 @@ export default {
       required: true
     }
   },
-  emits: ['watch-video', 'view-all-courses']
+  computed: {
+    // 限制显示前3个课程
+    coursesToDisplay() {
+      return this.university.courses.slice(0, 3);
+    }
+  },
+  methods: {
+    getColorString(colorValue) {
+      // 检查颜色是否已经是字符串格式
+      if (typeof colorValue === 'string') {
+        return colorValue;
+      }
+      // 将数字格式的颜色值转换为十六进制字符串
+      return '#' + colorValue.toString(16).padStart(6, '0');
+    }
+  }
 };
 </script>
 
@@ -195,6 +210,7 @@ export default {
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s ease;
+  text-decoration: none;
 }
 
 .action-btn:hover {
