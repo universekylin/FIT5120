@@ -21,9 +21,9 @@ CORS(app)
 
 
 # Configure the SQLAlchemy database URI for connecting to the MySQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:wdy531520@localhost:3306/db_education'
 # Alternative database configurations (commented out)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://eduapp:password123@localhost:3306/db_education'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://eduapp:password123@localhost:3306/db_education'
 # mysql+pymysql://root:wdy531520@localhost:3306/db_education
 
 # Disable the modification tracking feature of SQLAlchemy to save resources
