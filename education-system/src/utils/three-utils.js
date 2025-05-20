@@ -1,18 +1,18 @@
-// utils/three-utils.js - 完整版本
+// utils/three-utils.js - Complete Version
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-// 创建 Three.js 场景
+// Create Three.js scene
 export function createScene(container) {
-  // 创建场景
+  // Create scene
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x87CEEB);
   
-  // 添加雾效果
+  // Add fog effect
   scene.fog = new THREE.Fog(0x87CEEB, 30, 100);
   
-  // 创建相机
+  // Create camera
   const camera = new THREE.PerspectiveCamera(
     75,
     container.clientWidth / container.clientHeight,
@@ -21,14 +21,14 @@ export function createScene(container) {
   );
   camera.position.set(0, 20, 30);
   
-  // 创建渲染器
+  // Create renderer
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   container.appendChild(renderer.domElement);
   
-  // 添加控制器
+  // Add controls
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
@@ -37,13 +37,13 @@ export function createScene(container) {
   controls.minDistance = 10;
   controls.maxDistance = 50;
   
-  // 添加增强版灯光
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // 稍微亮一点的环境光
+  // Add enhanced lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6); // Slightly brighter ambient light
   scene.add(ambientLight);
   
-  // 主方向光（太阳）
+  // Main directional light (sun)
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(30, 50, 30); // 更好的阴影位置
+  directionalLight.position.set(30, 50, 30); // Better position for shadows
   directionalLight.castShadow = true;
   directionalLight.shadow.mapSize.width = 2048;
   directionalLight.shadow.mapSize.height = 2048;
@@ -55,12 +55,12 @@ export function createScene(container) {
   directionalLight.shadow.camera.bottom = -50;
   scene.add(directionalLight);
   
-  // 添加辅助柔光，从相反方向填充阴影
+  // Add auxiliary soft light from opposite direction to fill shadows
   const secondaryLight = new THREE.DirectionalLight(0xffffff, 0.3);
   secondaryLight.position.set(-30, 40, -30);
   scene.add(secondaryLight);
   
-  // 创建地面
+  // Create ground
   let groundMaterial;
   try {
     const textureLoader = new THREE.TextureLoader();
@@ -75,7 +75,7 @@ export function createScene(container) {
     });
   } catch (e) {
     console.warn('Failed to load texture:', e);
-    // 回退到基本材质
+    // Fall back to basic material
     groundMaterial = new THREE.MeshStandardMaterial({ 
       color: 0x7ec850,
       roughness: 0.8
@@ -88,13 +88,13 @@ export function createScene(container) {
   ground.receiveShadow = true;
   scene.add(ground);
   
-  // 创建远处的山脉
+  // Create distant mountains
   createMountains(scene);
   
-  // 添加树木作为装饰
+  // Add trees as decoration
   addDecorations(scene);
   
-  // 窗口大小调整处理
+  // Window resize handler
   function handleResize() {
     camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
@@ -103,7 +103,7 @@ export function createScene(container) {
   
   window.addEventListener('resize', handleResize);
   
-  // 创建但不让它们成为响应式
+  // Create but don't make them reactive
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
   
@@ -122,7 +122,7 @@ export function createScene(container) {
   };
 }
 
-// 创建山脉背景
+// Create mountain background
 function createMountains(scene) {
   const mountainGeometry = new THREE.BufferGeometry();
   const mountainPositions = [];
@@ -136,7 +136,7 @@ function createMountains(scene) {
       const xPos = (x / segmentsX) * mountainWidth - mountainWidth / 2;
       const zPos = (z / segmentsZ) * mountainDepth - mountainDepth / 2;
       
-      // 生成山脉高度 - 越远高度越高，创造视觉深度
+      // Generate mountain height - higher further away to create visual depth
       let height = 0;
       const distanceFromCenter = Math.sqrt(xPos * xPos + zPos * zPos);
       
@@ -150,7 +150,7 @@ function createMountains(scene) {
     }
   }
   
-  // 创建索引以便正确渲染三角形
+  // Create indices for correctly rendering triangles
   const indices = [];
   for (let z = 0; z < segmentsZ; z++) {
     for (let x = 0; x < segmentsX; x++) {
@@ -175,25 +175,25 @@ function createMountains(scene) {
   });
   
   const mountains = new THREE.Mesh(mountainGeometry, mountainMaterial);
-  mountains.position.y = -1; // 稍微下沉一点，与地面融合
+  mountains.position.y = -1; // Sink slightly to blend with the ground
   mountains.receiveShadow = true;
   
   scene.add(mountains);
 }
 
-// 添加树木和其他装饰物
+// Add trees and other decorations
 function addDecorations(scene) {
-  // 添加树木
+  // Add trees
   const treePositions = [
     [-20, 0, -5], [-15, 0, 10], [-8, 0, -15], [8, 0, -15], 
     [15, 0, 10], [20, 0, -5], [-10, 0, 15], [10, 0, 15]
   ];
   
-  // 创建树干
+  // Create tree trunk
   const trunkGeometry = new THREE.CylinderGeometry(0.5, 0.7, 3, 8);
   const trunkMaterial = new THREE.MeshStandardMaterial({ color: 0x795548 });
   
-  // 创建树叶
+  // Create tree leaves
   const leavesGeometry = new THREE.SphereGeometry(2, 8, 8);
   const leavesMaterial = new THREE.MeshStandardMaterial({ color: 0x2e7d32 });
   
@@ -212,28 +212,28 @@ function addDecorations(scene) {
   });
 }
 
-// 处理颜色值的辅助函数
+// Helper function for handling color values
 function parseColor(color) {
-  // 如果颜色已经是数字，直接返回
+  // If color is already a number, return directly
   if (typeof color === 'number') {
     return color;
   }
   
-  // 如果是十六进制字符串如 "#FF5500"，转换为数字
+  // If it's a hex string like "#FF5500", convert to number
   if (typeof color === 'string' && color.startsWith('#')) {
     return parseInt(color.substring(1), 16);
   }
   
-  // 默认回退颜色
-  return 0x0000FF; // 默认蓝色
+  // Default fallback color
+  return 0x0000FF; // Default blue
 }
 
-// 在大学建筑周围添加景观
+// Add landscaping around university buildings
 function addLandscaping(scene, university, buildingGroup) {
   const { width, depth } = university.size;
   const position = university.position;
   
-  // 在建筑周围添加草地
+  // Add grass around the building
   const grassGeometry = new THREE.CircleGeometry(width * 1.5, 32);
   const grassMaterial = new THREE.MeshStandardMaterial({ 
     color: 0x7ec850,
@@ -244,14 +244,14 @@ function addLandscaping(scene, university, buildingGroup) {
   grass.position.set(position.x, position.y - university.size.height/2 + 0.01, position.z);
   buildingGroup.add(grass);
   
-  // 在建筑周围添加灌木丛
+  // Add shrubs around the building
   const bushGeometry = new THREE.SphereGeometry(0.6, 8, 8);
   const bushMaterial = new THREE.MeshStandardMaterial({ 
     color: 0x33691e,
     roughness: 0.9
   });
   
-  // 在建筑前方创建半圆形的灌木丛
+  // Create semi-circle of shrubs in front of the building
   const numBushes = 6;
   for (let i = 0; i < numBushes; i++) {
     const angle = Math.PI * (i / (numBushes - 1) - 0.5);
@@ -266,14 +266,14 @@ function addLandscaping(scene, university, buildingGroup) {
     bush.castShadow = true;
     bush.receiveShadow = true;
     
-    // 稍微随机化灌木大小
+    // Slightly randomize bush size
     const scale = 0.8 + Math.random() * 0.4;
     bush.scale.set(scale, scale, scale);
     
     buildingGroup.add(bush);
   }
   
-  // 添加通往门口的路径
+  // Add path to the entrance
   const pathGeometry = new THREE.PlaneGeometry(width * 0.3, depth * 1.2);
   const pathMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xd7ccc8,
@@ -288,7 +288,7 @@ function addLandscaping(scene, university, buildingGroup) {
   );
   buildingGroup.add(path);
   
-  // 添加小路标
+  // Add small signpost
   const postGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.2, 8);
   const postMaterial = new THREE.MeshStandardMaterial({ color: 0x5d4037 });
   const post = new THREE.Mesh(postGeometry, postMaterial);
@@ -299,7 +299,7 @@ function addLandscaping(scene, university, buildingGroup) {
   );
   buildingGroup.add(post);
   
-  // 路标上的指示牌
+  // Direction sign on the post
   const signGeometry = new THREE.BoxGeometry(0.8, 0.5, 0.05);
   const signMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xffffff
@@ -312,7 +312,7 @@ function addLandscaping(scene, university, buildingGroup) {
   );
   buildingGroup.add(sign);
   
-  // 为指示牌创建文本
+  // Create text for the sign
   const signCanvas = document.createElement('canvas');
   const signContext = signCanvas.getContext('2d');
   signCanvas.width = 128;
@@ -339,16 +339,16 @@ function addLandscaping(scene, university, buildingGroup) {
   buildingGroup.add(signTextSprite);
 }
 
-// 创建大学建筑
+// Create university building
 export function createUniversityBuilding(scene, university) {
   const { width, height, depth } = university.size;
   const colorValue = parseColor(university.color);
   
-  // 为整个建筑创建一个组
+  // Create a group for the entire building
   const buildingGroup = new THREE.Group();
   buildingGroup.userData = { id: university.id, type: 'university' };
   
-  // 主体建筑结构，略微调整尺寸
+  // Main building structure, slightly adjusted dimensions
   const buildingGeometry = new THREE.BoxGeometry(width, height, depth);
   const buildingMaterial = new THREE.MeshStandardMaterial({ 
     color: new THREE.Color(colorValue),
@@ -364,10 +364,10 @@ export function createUniversityBuilding(scene, university) {
   building.receiveShadow = true;
   buildingGroup.add(building);
   
-  // 添加基座/地基，尺寸略大
+  // Add base/foundation, slightly larger
   const baseGeometry = new THREE.BoxGeometry(width + 0.5, height/10, depth + 0.5);
   const baseMaterial = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(0x888888), // 混凝土般的颜色
+    color: new THREE.Color(0x888888), // Concrete-like color
     roughness: 0.9
   });
   const base = new THREE.Mesh(baseGeometry, baseMaterial);
@@ -379,14 +379,14 @@ export function createUniversityBuilding(scene, university) {
   base.receiveShadow = true;
   buildingGroup.add(base);
   
-  // 在角落添加立柱
+  // Add pillars at corners
   const pillarGeometry = new THREE.CylinderGeometry(0.3, 0.3, height, 8);
   const pillarMaterial = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(colorValue).multiplyScalar(0.8), // 比主建筑更暗
+    color: new THREE.Color(colorValue).multiplyScalar(0.8), // Darker than main building
     roughness: 0.5
   });
   
-  // 在四个角落添加立柱
+  // Add pillars at four corners
   const pillarPositions = [
     [width/2 - 0.3, -height/2, depth/2 - 0.3],
     [-width/2 + 0.3, -height/2, depth/2 - 0.3],
@@ -405,11 +405,11 @@ export function createUniversityBuilding(scene, university) {
     buildingGroup.add(pillar);
   });
   
-  // 改进屋顶 - 更有趣的形状
+  // Improved roof - more interesting shape
   const roofGeometry = new THREE.ConeGeometry(width/Math.sqrt(2) + 0.5, height/2, 4);
-  roofGeometry.rotateY(Math.PI/4); // 与建筑对齐
+  roofGeometry.rotateY(Math.PI/4); // Align with the building
   const roofMaterial = new THREE.MeshStandardMaterial({ 
-    color: new THREE.Color(colorValue).multiplyScalar(1.2), // 稍亮一些
+    color: new THREE.Color(colorValue).multiplyScalar(1.2), // Slightly brighter
     roughness: 0.6
   });
   const roof = new THREE.Mesh(roofGeometry, roofMaterial);
@@ -421,7 +421,7 @@ export function createUniversityBuilding(scene, university) {
   roof.castShadow = true;
   buildingGroup.add(roof);
   
-  // 添加带框架的窗户
+  // Add windows with frames
   const windowMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xbbdefb,
     roughness: 0.2,
@@ -433,15 +433,15 @@ export function createUniversityBuilding(scene, university) {
     roughness: 0.5
   });
   
-  // 添加前面的多个窗户
+  // Add multiple windows on the front
   const windowWidth = width * 0.15;
   const windowHeight = height * 0.2;
   const windowDepth = 0.1;
   
-  // 前面的窗户 (3x2 网格)
+  // Front windows (3x2 grid)
   for (let row = 0; row < 2; row++) {
     for (let col = 0; col < 3; col++) {
-      // 窗框
+      // Window frame
       const frameGeometry = new THREE.BoxGeometry(windowWidth + 0.1, windowHeight + 0.1, windowDepth);
       const frame = new THREE.Mesh(frameGeometry, windowFrameMaterial);
       frame.position.set(
@@ -451,7 +451,7 @@ export function createUniversityBuilding(scene, university) {
       );
       buildingGroup.add(frame);
       
-      // 窗玻璃
+      // Window glass
       const glassGeometry = new THREE.BoxGeometry(windowWidth, windowHeight, windowDepth);
       const glass = new THREE.Mesh(glassGeometry, windowMaterial);
       glass.position.set(
@@ -463,11 +463,11 @@ export function createUniversityBuilding(scene, university) {
     }
   }
   
-  // 添加带框的门
+  // Add framed door
   const doorWidth = width * 0.25;
   const doorHeight = height * 0.4;
   
-  // 门框
+  // Door frame
   const doorFrameGeometry = new THREE.BoxGeometry(doorWidth + 0.2, doorHeight + 0.2, depth * 0.1);
   const doorFrame = new THREE.Mesh(doorFrameGeometry, windowFrameMaterial);
   doorFrame.position.set(
@@ -477,7 +477,7 @@ export function createUniversityBuilding(scene, university) {
   );
   buildingGroup.add(doorFrame);
   
-  // 门
+  // Door
   const doorGeometry = new THREE.BoxGeometry(doorWidth, doorHeight, depth * 0.1);
   const doorMaterial = new THREE.MeshStandardMaterial({ 
     color: new THREE.Color(colorValue).multiplyScalar(0.9),
@@ -491,10 +491,10 @@ export function createUniversityBuilding(scene, university) {
   );
   buildingGroup.add(door);
   
-  // 添加门把手
+  // Add door handle
   const knobGeometry = new THREE.SphereGeometry(0.1, 8, 8);
   const knobMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0xd4af37, // 金色
+    color: 0xd4af37, // Gold
     metalness: 0.8,
     roughness: 0.2
   });
@@ -506,13 +506,13 @@ export function createUniversityBuilding(scene, university) {
   );
   buildingGroup.add(knob);
   
-  // 添加通往门口的台阶
+  // Add steps leading to the door
   const stepsMaterial = new THREE.MeshStandardMaterial({ 
     color: 0xcccccc,
     roughness: 0.8
   });
   
-  // 三个宽度递增的台阶
+  // Three steps with increasing width
   for (let i = 0; i < 3; i++) {
     const stepWidth = doorWidth + (3-i) * 0.2;
     const stepGeometry = new THREE.BoxGeometry(stepWidth, 0.15, 0.6);
@@ -527,7 +527,7 @@ export function createUniversityBuilding(scene, university) {
     buildingGroup.add(step);
   }
   
-  // 如果已访问，添加标记
+  // If visited, add marker
   if (university.visited) {
     const visitedGeometry = new THREE.SphereGeometry(0.5, 16, 16);
     const visitedMaterial = new THREE.MeshStandardMaterial({ color: 0x4caf50 });
@@ -540,23 +540,23 @@ export function createUniversityBuilding(scene, university) {
     buildingGroup.add(visitedMarker);
   }
   
-  // 创建大学名称标签
+  // Create university name label
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   canvas.width = 512;
   canvas.height = 128;
   
-  // 创建带有大学颜色的更好看的名称标签
+  // Create better-looking name label with university color
   context.fillStyle = '#FFFFFF';
   context.fillRect(0, 0, canvas.width, canvas.height);
   
-  // 添加大学颜色的边框
+  // Add border with university color
   const hexColor = '#' + new THREE.Color(colorValue).getHexString();
   context.strokeStyle = hexColor;
   context.lineWidth = 8;
   context.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
   
-  // 添加带有更好排版的大学名称
+  // Add university name with better typography
   context.font = 'bold 40px Arial';
   context.fillStyle = '#000000';
   context.textAlign = 'center';
@@ -579,7 +579,7 @@ export function createUniversityBuilding(scene, university) {
   );
   buildingGroup.add(nameSprite);
   
-  // 添加建筑周围的景观
+  // Add landscaping around the building
   addLandscaping(scene, university, buildingGroup);
   
   scene.add(buildingGroup);
@@ -589,7 +589,7 @@ export function createUniversityBuilding(scene, university) {
 export function createPlayer(scene) {
   const player = new THREE.Group();
   
-  // 头部
+  // Head
   const headGeometry = new THREE.BoxGeometry(1, 1, 1);
   const headMaterial = new THREE.MeshStandardMaterial({ color: 0xffe082 });
   const head = new THREE.Mesh(headGeometry, headMaterial);
@@ -597,7 +597,7 @@ export function createPlayer(scene) {
   head.castShadow = true;
   player.add(head);
   
-  // 身体
+  // Body
   const bodyGeometry = new THREE.BoxGeometry(0.8, 1, 0.5);
   const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0xffeb3b });
   const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
@@ -605,7 +605,7 @@ export function createPlayer(scene) {
   body.castShadow = true;
   player.add(body);
   
-  // 左腿
+  // Left leg
   const leftLegGeometry = new THREE.BoxGeometry(0.4, 0.8, 0.4);
   const legMaterial = new THREE.MeshStandardMaterial({ color: 0x2196f3 });
   const leftLeg = new THREE.Mesh(leftLegGeometry, legMaterial);
@@ -613,14 +613,14 @@ export function createPlayer(scene) {
   leftLeg.castShadow = true;
   player.add(leftLeg);
   
-  // 右腿
+  // Right leg
   const rightLegGeometry = new THREE.BoxGeometry(0.4, 0.8, 0.4);
   const rightLeg = new THREE.Mesh(rightLegGeometry, legMaterial);
   rightLeg.position.set(0.2, -0.4, 0);
   rightLeg.castShadow = true;
   player.add(rightLeg);
   
-  // 标签 - "YOU"
+  // Label - "YOU"
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   canvas.width = 128;
@@ -645,12 +645,12 @@ export function createPlayer(scene) {
   nameSprite.position.y = 3;
   player.add(nameSprite);
   
-  // 添加一个小光源跟随玩家，使玩家在黑暗环境中也可见
+  // Add a small light source following the player, to make player visible in dark environments
   const pointLight = new THREE.PointLight(0xffffff, 0.8, 10);
   pointLight.position.set(0, 2, 0);
   player.add(pointLight);
   
-  // 设置初始位置在屏幕中央附近
+  // Set initial position at screen center area
   player.position.set(0, 0, 0);
   player.name = 'player';
   
@@ -659,26 +659,26 @@ export function createPlayer(scene) {
   return player;
 }
 
-// 交互提示 - 改进版本
+// Interaction prompt - improved version
 export function createInteractionPrompt(scene, position, text) {
-  // 为文本纹理创建画布
+  // Create canvas for text texture
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   
-  // 设置画布尺寸
+  // Set canvas dimensions
   canvas.width = 512;
   canvas.height = 128;
   
-  // 创建半透明的白色背景
+  // Create semi-transparent white background
   context.fillStyle = 'rgba(255, 255, 255, 0.85)';
   context.fillRect(0, 0, canvas.width, canvas.height);
   
-  // 添加蓝色边框以提高可见度
+  // Add blue border to improve visibility
   context.strokeStyle = '#2196f3';
   context.lineWidth = 4;
   context.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
   
-  // 设置带阴影的文本样式以提高可读性
+  // Set text style with shadow to improve readability
   context.font = 'bold 36px Arial';
   context.textAlign = 'center';
   context.textBaseline = 'middle';
@@ -686,30 +686,30 @@ export function createInteractionPrompt(scene, position, text) {
   context.shadowBlur = 4;
   context.shadowOffsetX = 2;
   context.shadowOffsetY = 2;
-  context.fillStyle = '#1a237e'; // 深蓝色文本
+  context.fillStyle = '#1a237e'; // Deep blue text
   
-  // 绘制文本
+  // Draw text
   context.fillText(text, canvas.width / 2, canvas.height / 2);
   
-  // 使用画布纹理创建精灵
+  // Create sprite using canvas texture
   const texture = new THREE.CanvasTexture(canvas);
   const material = new THREE.SpriteMaterial({ 
     map: texture,
     transparent: true,
-    // 关键设置，使标签始终可见
+    // Key settings to make the label always visible
     sizeAttenuation: false,
     depthTest: false
   });
   
   const sprite = new THREE.Sprite(material);
   
-  // 设置位置
+  // Set position
   sprite.position.copy(position);
   
-  // 调整大小以提高可见度（根据需要调整）
+  // Adjust size for better visibility (adjust as needed)
   sprite.scale.set(8, 2, 1);
   
-  // 添加到场景
+  // Add to scene
   scene.add(sprite);
   
   return sprite;
