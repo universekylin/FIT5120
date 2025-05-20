@@ -14,7 +14,7 @@ export default {
      */
     async runWorkflow(inputs, userId = 'user-default') {
       try {
-        const response = await fetch(`http://52.64.72.78/v1/workflows/run`, {
+        const response = await fetch(`https://fit5120-chatbot.sunuvproc.com/v1/workflows/run`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer app-Tps5sfKfaKaDMgC7AOBoLJtu`,

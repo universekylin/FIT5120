@@ -6,23 +6,19 @@
     <div class="secondary-detail">
       <div class="detail-left">
         <div class="school-card-container">
-          <!-- 主卡片 -->
           <div class="card shadow-sm border-0">
             <div class="card-body">
-              <!-- 学校标题 -->
               <h2 class="card-title text-primary mb-4">
                 {{ schoolName }}
               </h2>
 
-              <!-- 排名信息 -->
               <div class="ranking-section mb-4 p-3 bg-light rounded">
                 <span class="fw-bold">Victoria State Ranking:</span>
                 <span class="badge bg-primary ms-2">#{{ getSchoolRanking() }} / 550</span>
               </div>
 
-              <!-- 分数表格 -->
               <div class="score-table">
-                <h5 class="mb-3 text-muted">Average ATAR Scores (Recent Years):</h5>
+                <h5 class="mb-3 text-muted">Median VCE Score:</h5>
                 <table class="table table-hover">
                   <tbody>
                     <tr v-for="item in schoolData" :key="item.Year">

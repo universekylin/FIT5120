@@ -26,6 +26,7 @@
       <div class="search-box card shadow-sm mb-4">
         <div class="card-body">
           <div class="d-flex flex-column align-items-center">
+            <!-- Search Input -->
             <div class="input-group w-100 search-bar-wrapper">
               <input type="text" class="form-control form-control-lg"
                      placeholder="Enter a VCE Subject to search for schools"
@@ -40,7 +41,13 @@
               </button>
             </div>
 
-            <div v-if="groupedSubjects && Object.keys(groupedSubjects || {}).length > 0" class="subject-suggestions mt-4 w-100 subject-box">
+            <!-- Informative Tip -->
+            <p class="text-muted mt-3 small search-bar-wrapper text-start">
+              <em>📘 Browse all VCE subjects by alphabetical order. Click a letter to expand the list of subjects starting with that letter.</em>
+            </p>
+
+            <!-- Subject Suggestions -->
+            <div v-if="groupedSubjects && Object.keys(groupedSubjects || {}).length > 0" class="subject-suggestions mt-2 w-100 subject-box">
               <div v-for="(group, letter) in groupedSubjects" :key="letter" class="mb-2">
                 <details>
                   <summary class="fw-bold">{{ letter }} ({{ group.length }})</summary>
@@ -58,6 +65,7 @@
               </div>
             </div>
 
+            <!-- Error Message -->
             <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0 w-100 search-bar-wrapper">
               {{ errorMessage }}
             </div>
@@ -65,17 +73,19 @@
         </div>
       </div>
 
+      <!-- Search Result Cards -->
       <div v-if="searchResults.length > 0" class="search-results">
         <div class="result-count mb-3">
           Found <span class="badge bg-primary">{{ searchResults.length }}</span> matching subjects with colleges
         </div>
 
+        <!-- Subject Result List -->
         <div class="school-list">
           <div v-for="subject in searchResults" :key="subject.subject_id" class="school-card card mb-4">
             <div class="card-header bg-light d-flex justify-content-between align-items-center">
               <h4 class="mb-0" style="cursor: pointer;" @click="toggleSubject(subject.subject_id)">
                 {{ subject.subject_name }}
-                 <span class="map-link" @click="showMapModal(subject)">View Map</span>
+                <span class="map-link" @click="showMapModal(subject)">View Map</span>
               </h4>
               <button class="btn btn-outline-primary btn-sm" @click="toggleSubject(subject.subject_id)">
                 {{ expandedSubjects[subject.subject_id] ? 'Hide Colleges' : 'Show Colleges' }}
@@ -89,12 +99,6 @@
                     <h6 class="mb-0">{{ college.college_name }}</h6>
                     <div>
                       <span class="map-link" style="margin-right: 12px;" @click="handleMarkerClick(college)">Learn More</span>
-                      <!-- <router-link 
-                        :to="`/college-detail/${college.college_id}`" 
-                        class="me-3 text-decoration-none text-primary"
-                      >
-                        Learn More
-                      </router-link> -->
                       <a 
                         :href="getLocationLink(college.college_name)" 
                         target="_blank" 
@@ -112,27 +116,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Map Modal Component -->
   <MapModal 
-      v-model:visible="showModal" 
-      :college-ids="selectIds" 
-      @close="onMapModalClose"
-    />
+    v-model:visible="showModal" 
+    :college-ids="selectIds" 
+    @close="onMapModalClose"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from "vue-router";
-import MapModal from './modal/index.vue';
-const router = useRouter();
+import { useRouter } from "vue-router"
+import MapModal from './modal/index.vue'
+
+const router = useRouter()
 const searchQuery = ref('')
 const searchResults = ref([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 const expandedSubjects = ref({})
 const groupedSubjects = ref({})
-const selectIds = ref();
-const showModal = ref(false);
-// Search function
+const selectIds = ref('')
+const showModal = ref(false)
+
+// Search subjects based on input
 const searchSubjects = async () => {
   if (!searchQuery.value.trim()) {
     errorMessage.value = 'Please enter a subject name'
@@ -168,26 +176,32 @@ const searchSubjects = async () => {
     isLoading.value = false
   }
 }
+
+// Navigate to school detail page
 const handleMarkerClick = (college) => {
-  console.log(college)
-    router.push({
-      name: "secondaryDetail",
-      query: { name: college.college_name },
-    });
-  };
+  router.push({
+    name: "secondaryDetail",
+    query: { name: college.college_name },
+  })
+}
+
+// Toggle college list for each subject
 const toggleSubject = (subjectId) => {
   expandedSubjects.value[subjectId] = !expandedSubjects.value[subjectId]
 }
 
+// Get Google Map search URL for a location
 const getLocationLink = (location) => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
 }
 
+// When clicking a suggestion
 const selectSuggestion = (subject) => {
   searchQuery.value = subject
   searchSubjects()
 }
 
+// Load all subjects grouped alphabetically
 const loadSubjectSuggestions = async () => {
   try {
     const response = await fetch('/api/all_subjects')
@@ -198,13 +212,18 @@ const loadSubjectSuggestions = async () => {
     groupedSubjects.value = {}
   }
 }
+
+// Show map modal for a subject
 const showMapModal = (subject) => {
-    selectIds.value = subject.secondaryColleges.map(item=>item.college_id).join(',')
-    showModal.value = true;
-  };
-  const onMapModalClose = () => {
-    selectIds.value = "";
-  };
+  selectIds.value = subject.secondaryColleges.map(item => item.college_id).join(',')
+  showModal.value = true
+}
+
+// Reset selected IDs on modal close
+const onMapModalClose = () => {
+  selectIds.value = ""
+}
+
 onMounted(() => {
   loadSubjectSuggestions()
 })
@@ -312,6 +331,7 @@ onMounted(() => {
     gap: 0.5rem;
   }
 }
+
 .map-link {
   color: #1890ff;
   cursor: pointer;

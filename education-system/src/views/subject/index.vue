@@ -28,7 +28,7 @@
         <div class="card-body">
           <div class="input-group">
             <input type="text" class="form-control form-control-lg"
-                   placeholder="Enter a high School name to check VCE subject availability"
+                   placeholder="Enter a high School name only in hume region to check VCE subject availability"
                    v-model="searchQuery" @keyup.enter="searchSchools">
             <button class="btn btn-primary btn-lg" @click="searchSchools" :disabled="isLoading">
               <span v-if="!isLoading">Search</span>
@@ -57,6 +57,11 @@
               <button class="btn btn-outline-secondary btn-sm" @click="setSuggestion('Myrtleford P-12 College')">Myrtleford</button>
             </div>
           </div>
+
+          <!-- TIPS -->
+          <p class="text-muted mt-3 small">
+            <em>!tips:  Those high schools are only from the Hume region. Other high schools are not available.</em>
+          </p>
 
           <div v-if="errorMessage" class="alert alert-warning mt-3 mb-0">
             {{ errorMessage }}
@@ -98,6 +103,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue'
