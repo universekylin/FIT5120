@@ -111,7 +111,8 @@
               </div>
               <div class="card-footer bg-light">
                 <small class="text-muted">
-                  Career ID: {{ item.career_id }} | Major ID: {{ item.uni_major_id }}
+                  Career ID: {{ item.career_id }} | Major ID: {{ item.uni_major_id }} 
+                  <p> Note: All data used in this project was collected from Australian university official websites in 2024.</p>
                 </small>
               </div>
             </div>
