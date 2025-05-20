@@ -96,8 +96,6 @@
                 <h4 class="fw-bold mb-3">Sample Questions</h4>
                 <div class="sample-questions">
                   <span class="sample-question" @click="handleSampleQuestion('What university courses are available for Nursing?')">What university courses are available for Nursing?</span>
-                  <span class="sample-question" @click="handleSampleQuestion('Which subjects are offered at Melbourne Secondary College?')">Which subjects are offered at Melbourne Secondary College?</span>
-                  <span class="sample-question" @click="handleSampleQuestion('Which colleges offer Chemistry?')">Which colleges offer Chemistry?</span>
                   <span class="sample-question" @click="handleSampleQuestion('Show me careers related to Software Developer')">Show me careers related to Software Developer</span>
                   <span class="sample-question" @click="handleSampleQuestion('What university degrees match with Mental Health Counselor?')">What university degrees match with Mental Health Counselor?</span>
                 </div>
