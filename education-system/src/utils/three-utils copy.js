@@ -377,12 +377,12 @@ function addUniversityLandscaping(scene, university, buildingGroup) {
       
       case '2': // Monash University
       {
-          const sculptureGeometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-          const sculptureMaterial = new THREE.MeshStandardMaterial({ 
-              color: 0xf44336,
-              metalness: 0.7,
-              roughness: 0.2
-          });
+        const sculptureGeometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+        const sculptureMaterial = new THREE.MeshStandardMaterial({ 
+            color: 0xf44336,
+            metalness: 0.7,
+            roughness: 0.2
+        });
       const sculpture = new THREE.Mesh(sculptureGeometry, sculptureMaterial);
       sculpture.position.set(
         position.x + width * 0.8,
@@ -440,147 +440,133 @@ function addUniversityLandscaping(scene, university, buildingGroup) {
           buildingGroup.add(leg);
         });
       });
-      break;
+    break;
+    
+  // Fix for case '3': Latrobe University Garden
+  case '3': // 拉筹伯大学 - 花园
+    // 添加围绕建筑的花坛
+    const numberOfFlowerBeds = 8;
+    const radius = width * 1.2;
+    
+    for (let i = 0; i < numberOfFlowerBeds; i++) {
+      const angle = (i / numberOfFlowerBeds) * Math.PI * 2;
+      const x = Math.cos(angle) * radius;
+      const z = Math.sin(angle) * radius;
       
-    case '3': // 拉筹伯大学 - 花园
-      // 添加围绕建筑的花坛
-      const numberOfFlowerBeds = 8;
-      const radius = width * 1.2;
-      
-      for (let i = 0; i < numberOfFlowerBeds; i++) {
-        const angle = (i / numberOfFlowerBeds) * Math.PI * 2;
-        const x = Math.cos(angle) * radius;
-        const z = Math.sin(angle) * radius;
-        
-        // 花坛
-        const flowerBedGeometry = new THREE.CylinderGeometry(0.5, 0.6, 0.3, 8);
-        const flowerBedMaterial = new THREE.MeshStandardMaterial({ color: 0x795548 });
-        const flowerBed = new THREE.Mesh(flowerBedGeometry, flowerBedMaterial);
-        flowerBed.position.set(
-          position.x + x,
-          position.y - university.size.height/2 + 0.15,
-          position.z + z
-        );
-        buildingGroup.add(flowerBed);
-        
-        // 花
-        const flowerColors = [0xe91e63, 0xffeb3b, 0x4caf50, 0x2196f3];
-        const flowerColor = flowerColors[i % flowerColors.length];
-        
-        const flowerGeometry = new THREE.SphereGeometry(0.3, 8, 8);
-        const flowerMaterial = new THREE.MeshStandardMaterial({ color: flowerColor });
-        const flower = new THREE.Mesh(flowerGeometry, flowerMaterial);
-        flower.position.set(
-          position.x + x,
-          position.y - university.size.height/2 + 0.5,
-          position.z + z
-        );
-        buildingGroup.add(flower);
-      }
-      
-      // 添加一个小凉亭
-      const gazeboRoofGeometry = new THREE.ConeGeometry(1.5, 0.8, 8);
-      const gazeboRoofMaterial = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
-      const gazeboRoof = new THREE.Mesh(gazeboRoofGeometry, gazeboRoofMaterial);
-      gazeboRoof.position.set(
-        position.x - width * 0.8,
-        position.y - university.size.height/2 + 2.4,
-        position.z - depth * 0.8
+      // 花坛
+      const flowerBedGeometry = new THREE.CylinderGeometry(0.5, 0.6, 0.3, 8);
+      const flowerBedMaterial = new THREE.MeshStandardMaterial({ color: 0x795548 });
+      const flowerBed = new THREE.Mesh(flowerBedGeometry, flowerBedMaterial);
+      flowerBed.position.set(
+        position.x + x,
+        position.y - university.size.height/2 + 0.15,
+        position.z + z
       );
-      buildingGroup.add(gazeboRoof);
+      buildingGroup.add(flowerBed);
       
-      // 凉亭柱子
-      const gazeboPillarGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2, 8);
-      const gazeboPillarMaterial = new THREE.MeshStandardMaterial({ color: 0xa1887f });
+      // 花
+      const flowerColors = [0xe91e63, 0xffeb3b, 0x4caf50, 0x2196f3];
+      const flowerColor = flowerColors[i % flowerColors.length];
       
-      // 添加8根柱子
-      for (let i = 0; i < 8; i++) {
-        const angle = (i / 8) * Math.PI * 2;
-        const x = Math.cos(angle) * 1.2;
-        const z = Math.sin(angle) * 1.2;
-        
-        const pillar = new THREE.Mesh(gazeboPillarGeometry, gazeboPillarMaterial);
-        pillar.position.set(
-          position.x - width * 0.8 + x,
-          position.y - university.size.height/2 + 1,
-          position.z - depth * 0.8 + z
-        );
-        buildingGroup.add(pillar);
-      }
-      
-      // 凉亭底座
-      const gazeboBaseGeometry = new THREE.CylinderGeometry(1.3, 1.3, 0.1, 8);
-      const gazeboBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xbcaaa4 });
-      const gazeboBase = new THREE.Mesh(gazeboBaseGeometry, gazeboBaseMaterial);
-      gazeboBase.position.set(
-        position.x - width * 0.8,
-        position.y - university.size.height/2 + 0.05,
-        position.z - depth * 0.8
+      const flowerGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+      const flowerMaterial = new THREE.MeshStandardMaterial({ color: flowerColor });
+      const flower = new THREE.Mesh(flowerGeometry, flowerMaterial);
+      flower.position.set(
+        position.x + x,
+        position.y - university.size.height/2 + 0.5,
+        position.z + z
       );
-      buildingGroup.add(gazeboBase);
-      break;
+      buildingGroup.add(flower);
+    }
+    
+    // 添加一个小凉亭
+    const gazeboRoofGeometry = new THREE.ConeGeometry(1.5, 0.8, 8);
+    const gazeboRoofMaterial = new THREE.MeshStandardMaterial({ color: 0x8d6e63 });
+    const gazeboRoof = new THREE.Mesh(gazeboRoofGeometry, gazeboRoofMaterial);
+    gazeboRoof.position.set(
+      position.x - width * 0.8,
+      position.y - university.size.height/2 + 2.4,
+      position.z - depth * 0.8
+    );
+    buildingGroup.add(gazeboRoof);
+    
+    // 凉亭柱子
+    const gazeboPillarGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2, 8);
+    const gazeboPillarMaterial = new THREE.MeshStandardMaterial({ color: 0xa1887f });
+    
+    // 添加8根柱子
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const x = Math.cos(angle) * 1.2;
+      const z = Math.sin(angle) * 1.2;
       
+      const pillar = new THREE.Mesh(gazeboPillarGeometry, gazeboPillarMaterial);
+      pillar.position.set(
+        position.x - width * 0.8 + x,
+        position.y - university.size.height/2 + 1,
+        position.z - depth * 0.8 + z
+      );
+      buildingGroup.add(pillar);
+    }
+    
+    // 凉亭底座
+    const gazeboBaseGeometry = new THREE.CylinderGeometry(1.3, 1.3, 0.1, 8);
+    const gazeboBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xbcaaa4 });
+    const gazeboBase = new THREE.Mesh(gazeboBaseGeometry, gazeboBaseMaterial);
+    gazeboBase.position.set(
+      position.x - width * 0.8,
+      position.y - university.size.height/2 + 0.05,
+      position.z - depth * 0.8
+    );
+    buildingGroup.add(gazeboBase);
+    break;
+  
+    // Fix for case '4': RMIT University Modern Art Installation
     case '4': // RMIT大学 - 现代艺术装置
-      {
-        // 创建绘画墙
-        const muralGeometry = new THREE.BoxGeometry(width * 1.2, height * 0.8, 0.2);
-        const muralMaterial = new THREE.MeshStandardMaterial({ color: 0xfafafa });
-        const mural = new THREE.Mesh(muralGeometry, muralMaterial);
-        mural.position.set(
-          position.x - width * 1.2,
-          position.y - university.size.height/2 + height * 0.4,
-          position.z
-        );
-        mural.rotation.y = Math.PI / 2;
-        buildingGroup.add(mural);
-        
-        // 在墙上添加抽象图案
-        const patternGeometry = new THREE.PlaneGeometry(width * 1.1, height * 0.7);
-        
-        // 创建一个花哨的材质
-        const patternCanvas = document.createElement('canvas');
-        const patternContext = patternCanvas.getContext('2d');
-        patternCanvas.width = 256;
-        patternCanvas.height = 256;
-        
-        // 创建彩色图案
-        patternContext.fillStyle = '#ff5252';
-        patternContext.fillRect(0, 0, 256, 256);
-        
-        // 添加几何图形
-        patternContext.fillStyle = '#ffff00';
-        patternContext.beginPath();
-        patternContext.moveTo(128, 20);
-        patternContext.lineTo(230, 230);
-        patternContext.lineTo(25, 230);
-        patternContext.closePath();
-        patternContext.fill();
-        
-        patternContext.fillStyle = '#2196f3';
-        patternContext.beginPath();
-        patternContext.arc(180, 80, 50, 0, Math.PI * 2);
-        patternContext.fill();
-        
-        patternContext.fillStyle = '#4caf50';
-        patternContext.fillRect(20, 20, 60, 60);
-        
-        // Fix: Create the patternTexture from the canvas
-        const patternTexture = new THREE.CanvasTexture(patternCanvas);
-        
-        const patternMaterial = new THREE.MeshBasicMaterial({
-          map: patternTexture,
-          side: THREE.DoubleSide
-        });
-        
-        // Create the pattern mesh and add it to the building group
-        const pattern = new THREE.Mesh(patternGeometry, patternMaterial);
-        pattern.position.set(
-          position.x - width * 1.2 - 0.11,
-          position.y - university.size.height/2 + height * 0.4,
-          position.z
-        );
-        pattern.rotation.y = Math.PI / 2;
-        buildingGroup.add(pattern);
+      // 创建绘画墙
+      const muralGeometry = new THREE.BoxGeometry(width * 1.2, height * 0.8, 0.2);
+      const muralMaterial = new THREE.MeshStandardMaterial({ color: 0xfafafa });
+      const mural = new THREE.Mesh(muralGeometry, muralMaterial);
+      mural.position.set(
+        position.x - width * 1.2,
+        position.y - university.size.height/2 + height * 0.4,
+        position.z
+      );
+      mural.rotation.y = Math.PI / 2;
+      buildingGroup.add(mural);
+      
+      // 在墙上添加抽象图案
+      const patternGeometry = new THREE.PlaneGeometry(width * 1.1, height * 0.7);
+      
+      // 创建一个花哨的材质
+      const patternCanvas = document.createElement('canvas');
+      const patternContext = patternCanvas.getContext('2d');
+      patternCanvas.width = 256;
+      patternCanvas.height = 256;
+      
+      // 创建彩色图案
+      patternContext.fillStyle = '#ff5252';
+      patternContext.fillRect(0, 0, 256, 256);
+      
+      // 添加几何图形
+      patternContext.fillStyle = '#ffff00';
+      patternContext.beginPath();
+      patternContext.moveTo(128, 20);
+      patternContext.lineTo(230, 230);
+      patternContext.lineTo(25, 230);
+      patternContext.fill();
+      
+      // Create texture from canvas
+      const patternTexture = new THREE.CanvasTexture(patternCanvas);
+      const patternMaterial = new THREE.MeshBasicMaterial({ map: patternTexture });
+      const pattern = new THREE.Mesh(patternGeometry, patternMaterial);
+      pattern.position.set(
+        position.x - width * 1.2 - 0.11, // Slightly in front of the wall
+        position.y - university.size.height/2 + height * 0.4,
+        position.z
+      );
+      pattern.rotation.y = Math.PI / 2;
+      buildingGroup.add(pattern);
       
       // 添加几个现代座椅
       const modernSeatGeometry = new THREE.BoxGeometry(0.8, 0.4, 0.8);
