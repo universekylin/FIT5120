@@ -123,8 +123,76 @@
           </div>
           
           <div class="cta-buttons">
-            <router-link to="/test" class="cta-btn primary">🎯 Take Career Quiz</router-link>
-            <router-link to="/subject" class="cta-btn secondary">📚 Check Subjects</router-link>
+            <router-link to="/test" class="cta-btn primary">Take Career Quiz</router-link>
+            <router-link to="/subject" class="cta-btn secondary">Check Subjects</router-link>
+            <router-link to="/it-journey" class="cta-btn tertiary"> IT Journey Map</router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IT Journey Map Preview Section -->
+    <section class="it-journey-preview">
+      <div class="container">
+        <div class="journey-preview-content">
+          <div class="journey-text">
+            <div class="section-badge">NEW FEATURE</div>
+            <h2 class="journey-title">IT Career Journey Map</h2>
+            <p class="journey-subtitle">Your Complete Roadmap to Tech Success</p>
+            <p class="journey-description">
+              Discover step-by-step career paths for 6 major IT fields. From beginner to expert, 
+              see exactly what skills to learn, projects to build, and certifications to earn.
+            </p>
+            
+            <div class="journey-stats">
+              <div class="stat">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Career Paths</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Learning Phases</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Skills Covered</div>
+              </div>
+              <div class="stat">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Career Growth</div>
+              </div>
+            </div>
+
+            <div class="journey-paths">
+              <div class="path-tag">Software Development</div>
+              <div class="path-tag">Data Science & AI</div>
+              <div class="path-tag"> Cybersecurity</div>
+              <div class="path-tag">☁️ Cloud Computing</div>
+              <div class="path-tag">Mobile Development</div>
+              <div class="path-tag">⚡ DevOps Engineering</div>
+            </div>
+            
+            <router-link to="/it-journey" class="journey-cta-btn">
+              Explore Your IT Journey
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </router-link>
+          </div>
+          
+          <div class="journey-visual">
+            <div class="journey-map-container">
+              <div class="journey-path">
+              </div>
+              
+              <!-- Floating skill bubbles -->
+              <div class="skill-bubble bubble-1">HTML/CSS</div>
+              <div class="skill-bubble bubble-2">Python</div>
+              <div class="skill-bubble bubble-3">React</div>
+              <div class="skill-bubble bubble-4">AWS</div>
+              <div class="skill-bubble bubble-5">DevOps</div>
+              <div class="skill-bubble bubble-6">AI/ML</div>
+            </div>
           </div>
         </div>
       </div>
@@ -132,7 +200,7 @@
 
     <!-- Career Cluster -->
     <section class="career-cluster">
-      <h2 class="section-title">🎯 Interactive Career Cluster</h2>
+      <h2 class="section-title">Interactive Career Cluster</h2>
       <p class="subtitle">Choose a path to explore. Hover for a surprise!</p>
       <div class="cluster-grid">
         <div 
@@ -209,7 +277,7 @@ const videos = ref([
     title: 'VCE Subject Selection',
     subtitle: 'Your Pathway to Success',
     description: 'Choose the right VCE subjects that align with your career goals. Our platform helps you understand prerequisite requirements and make informed decisions for your future university studies.',
-    features: ['📚 Subject Prerequisites', '🎯 Career Alignment', '📊 ATAR Calculations', '🏫 School Availability'],
+    features: ['Subject Prerequisites', 'Career Alignment', ' ATAR Calculations', 'School Availability'],
     fallback: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
   },
   { 
@@ -217,7 +285,7 @@ const videos = ref([
     title: 'Career Exploration',
     subtitle: 'Discover Your Dream Job',
     description: 'Explore diverse career paths across nine industry clusters. From healthcare to technology, find careers that match your interests and learn about the subjects you need to get there.',
-    features: ['💼 9 Career Clusters', '❤️ Interest Matching', '📈 Job Market Insights', '💰 Salary Information'],
+    features: ['9 Career Clusters', '❤️ Interest Matching', 'Job Market Insights', 'Salary Information'],
     fallback: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
   },
   { 
@@ -225,7 +293,7 @@ const videos = ref([
     title: 'University Pathways',
     subtitle: 'Plan Your Higher Education',
     description: 'Navigate university entrance requirements and explore study options. Connect your VCE subject choices to specific university courses and understand alternative pathways to your chosen career.',
-    features: ['🎓 University Requirements', '🔄 Alternative Pathways', '📍 Regional Opportunities', '💡 Course Recommendations'],
+    features: ['University Requirements', ' Alternative Pathways', 'Regional Opportunities', 'Course Recommendations'],
     fallback: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
   }
 ])
@@ -242,7 +310,7 @@ const clusters = [
   { 
     label: 'Agriculture, Environment & Natural Sciences', 
     value: "Agriculture Environment And Natural Sciences", 
-    icon: '/src/assets/icons/agriculture.png', // 或者使用 .png/.jpg
+    icon: '/src/assets/icons/agriculture.png',
     animationClass: 'hover-draw' 
   },
   { 
@@ -380,7 +448,6 @@ function onVideoError(index) {
 
 function handleIconError(event, index) {
   console.error(`Icon failed to load for ${clusters[index].label}`)
-  // 如果图片加载失败，可以设置一个默认图片或者隐藏
   event.target.style.display = 'none'
 }
 
@@ -688,6 +755,380 @@ onUnmounted(() => {
   transform: translateY(-2px);
 }
 
+.cta-btn.tertiary {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.cta-btn.tertiary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+/* IT Journey Preview Section */
+.it-journey-preview {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 6rem 0;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.it-journey-preview::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.journey-preview-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.section-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.journey-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.journey-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.journey-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.journey-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.stat:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.journey-paths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 3rem;
+}
+
+.path-tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.path-tag:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.journey-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1f2937;
+  padding: 1.2rem 2.5rem;
+  border-radius: 16px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.2rem;
+  box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
+  transition: all 0.3s ease;
+}
+
+.journey-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(251, 191, 36, 0.6);
+  color: #1f2937;
+}
+
+.btn-arrow {
+  width: 1.2rem;
+  height: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.journey-cta-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.journey-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.journey-map-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 400px;
+}
+
+.journey-path {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.path-node {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.path-node:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.path-node::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.path-node:hover::before {
+  opacity: 1;
+}
+
+.path-node.start {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #10b981;
+  animation: nodeGlow 2s ease-in-out infinite;
+}
+
+.path-node.foundation {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-color: #3b82f6;
+  animation: nodeGlow 2s ease-in-out infinite 0.4s;
+}
+
+.path-node.intermediate {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border-color: #8b5cf6;
+  animation: nodeGlow 2s ease-in-out infinite 0.8s;
+}
+
+.path-node.advanced {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  border-color: #f59e0b;
+  animation: nodeGlow 2s ease-in-out infinite 1.2s;
+}
+
+.path-node.expert {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-color: #ef4444;
+  animation: nodeGlow 2s ease-in-out infinite 1.6s;
+}
+
+@keyframes nodeGlow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.node-icon {
+  font-size: 1.8rem;
+}
+
+.path-connector {
+  width: 4px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+  border-radius: 2px;
+  position: relative;
+}
+
+.path-connector::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: dotMove 2s ease-in-out infinite;
+}
+
+@keyframes dotMove {
+  0% { top: 0; opacity: 1; }
+  100% { top: 32px; opacity: 0; }
+}
+
+.skill-bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: float 3s ease-in-out infinite;
+}
+
+.bubble-1 {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.bubble-2 {
+  top: 20%;
+  right: 15%;
+  animation-delay: 0.5s;
+}
+
+.bubble-3 {
+  top: 40%;
+  left: 5%;
+  animation-delay: 1s;
+}
+
+.bubble-4 {
+  top: 60%;
+  right: 10%;
+  animation-delay: 1.5s;
+}
+
+.bubble-5 {
+  bottom: 20%;
+  left: 15%;
+  animation-delay: 2s;
+}
+
+.bubble-6 {
+  bottom: 10%;
+  right: 20%;
+  animation-delay: 2.5s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
 .section-title {
   font-size: 2rem;
   font-weight: 700;
@@ -756,71 +1197,6 @@ onUnmounted(() => {
   background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
   margin: 0;
   border-radius: 0 0 20px 20px;
-}
-
-.quiz-cta-section {
-  width: 100%;
-  background: linear-gradient(135deg, #ede9fe, #eef2ff);
-  padding: 3rem 1rem;
-  border-top: 1px solid #e0e7ff;
-  border-bottom: 1px solid #e0e7ff;
-  margin-bottom: -1rem;
-  margin-top: -1rem;
-  transition: all 0.3s ease;
-}
-
-.quiz-cta-content {
-  max-width: 860px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(12px);
-  padding: 2.5rem 2rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-}
-
-.quiz-title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  margin-bottom: 1rem;
-}
-
-.quiz-title-accent {
-  font-size: 1.8rem;
-  color: #8b5cf6;
-}
-
-.quiz-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0;
-}
-
-.quiz-subtitle {
-  font-size: 1.2rem;
-  color: #4b5563;
-  margin-bottom: 2rem;
-}
-
-.quiz-btn {
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  color: #ffffff;
-  font-weight: bold;
-  border-radius: 12px;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.quiz-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.3);
 }
 
 .features {
@@ -999,51 +1375,6 @@ onUnmounted(() => {
   box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
 }
 
-.feature-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
-}
-
-.feature-card {
-  background: white;
-  border-radius: 14px;
-  padding: 2rem;
-  width: 440px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.3s ease;
-  text-align: center;
-}
-
-.feature-card:hover {
-  transform: translateY(-8px);
-}
-
-.feature-card img {
-  width: 100%;
-  max-height: 220px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
-
-.link-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 10px 20px;
-  background-color: #6366f1;
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.3s;
-}
-
-.link-btn:hover {
-  background-color: #4f46e5;
-}
-
 .footer {
   background-color: #0f172a;
   color: white;
@@ -1052,6 +1383,23 @@ onUnmounted(() => {
   font-size: 1rem;
   margin-top: 4rem;
   border-top: 3px solid #6366f1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .journey-preview-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .journey-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .journey-map-container {
+    height: 300px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1128,6 +1476,24 @@ onUnmounted(() => {
     font-size: 2.8rem;
   }
   
+  .journey-title {
+    font-size: 2.5rem;
+  }
+  
+  .journey-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .journey-paths {
+    justify-content: center;
+  }
+  
+  .skill-bubble {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
   .career-stories-image {
     max-width: 100%;
   }
@@ -1193,20 +1559,50 @@ onUnmounted(() => {
     margin-top: 1rem;
   }
   
+  .it-journey-preview {
+    padding: 3rem 0;
+  }
+  
+  .journey-title {
+    font-size: 2rem;
+  }
+  
+  .journey-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .journey-description {
+    font-size: 1rem;
+  }
+  
+  .journey-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .journey-map-container {
+    height: 250px;
+  }
+  
+  .path-node {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .node-icon {
+    font-size: 1.4rem;
+  }
+  
   .career-stories-section {
     padding: 1rem;
   }
   
-  .career-stories-image {
-    max-width: 100%;
-  }
-  
   .uni-explorer-section {
     padding: 1rem;
-  }
-  
-  .uni-explorer-image {
-    max-width: 100%;
   }
 }
 </style>
