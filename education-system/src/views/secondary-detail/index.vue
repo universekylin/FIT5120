@@ -1,5 +1,13 @@
 <template>
   <div class="index container">
+    <!-- 返回按钮 -->
+    <div class="back-button-container">
+      <button class="btn btn-outline-primary back-btn" @click="goBack">
+        <i class="fas fa-arrow-left me-2"></i>
+        return
+      </button>
+    </div>
+    
     <div class="secondary-title">
       <h2> {{ schoolName }}</h2>
     </div>
@@ -46,9 +54,10 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as echarts from 'echarts';
@@ -65,6 +74,18 @@ const chartData = {
   years: schoolData.value.map(item=>item.Year),
   MedianVCEScore: schoolData.value.map(item=>item.MedianVCEScore),
 };
+
+// 返回按钮功能
+const goBack = () => {
+  // 优先使用浏览器历史记录返回
+  if (window.history.length > 1) {
+    router.go(-1);
+  } else {
+    // 如果没有历史记录，返回到主页或学校列表页
+    router.push('/');
+  }
+};
+
 const getSchoolRanking = () => {
   const creentSchoolData = schoolData.value.find(item=>item.Year == "2024");
   if(creentSchoolData["SchoolRanking"]){
@@ -174,6 +195,26 @@ onBeforeUnmount(() => {
 });
 </script>
 <style scoped>
+/* 返回按钮样式 */
+.back-button-container {
+  padding: 20px 0 10px 0;
+}
+
+.back-btn {
+  border-radius: 25px;
+  padding: 8px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid #0d6efd;
+}
+
+.back-btn:hover {
+  background-color: #0d6efd;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
 .secondary-detail{
   display: flex;
   background: white;
