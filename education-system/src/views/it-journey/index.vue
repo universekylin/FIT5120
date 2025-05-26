@@ -3,7 +3,16 @@
     <!-- Header -->
     <div class="header-section">
       <div class="container">
-        <h1 class="page-title"> IT Career Journey Map</h1>
+        <div class="header-top">
+          <router-link to="/" class="back-home-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+          </router-link>
+        </div>
+        <h1 class="page-title">IT Career Journey Map</h1>
         <p class="page-subtitle">
           Explore different IT career paths and discover the step-by-step journey to your dream job. 
           Each path shows skills, projects, and certifications needed at every stage.
@@ -580,6 +589,37 @@ onMounted(() => {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+}
+
+.back-home-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.back-home-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-4px);
+}
+
+.back-home-btn svg {
+  width: 20px;
+  height: 20px;
 }
 
 .page-title {

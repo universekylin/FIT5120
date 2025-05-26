@@ -250,17 +250,31 @@
       
       <!-- Career Stories Section -->
       <div class="career-stories-section">
-        <img src="@/assets/career-stories-design.png" alt="Career Stories" class="career-stories-image">
-        <div class="stories-cta">
-          <router-link to="/career-stories" class="story-btn">Explore Stories</router-link>
+        <div class="stories-content">
+          <div class="image-container">
+            <img src="@/assets/career-stories-design.png" alt="Career Stories" class="career-stories-image">
+            <router-link to="/career-stories" class="story-btn">
+              Explore Stories
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </router-link>
+          </div>
         </div>
       </div>
       
       <!-- Uni Virtual Explorer Section -->
       <div class="uni-explorer-section">
-        <img src="@/assets/uni-virtual-explorer.png" alt="Uni Virtual Explorer" class="uni-explorer-image">
-        <div class="explorer-cta">
-          <router-link to="/three" class="explorer-btn">See how it Works</router-link>
+        <div class="explorer-content">
+          <div class="image-container">
+            <img src="@/assets/uni-virtual-explorer.png" alt="Uni Virtual Explorer" class="uni-explorer-image">
+            <router-link to="/three" class="explorer-btn">
+              See how it Works
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -1306,6 +1320,7 @@ onUnmounted(() => {
 
 .career-stories-section {
   margin-top: 4rem;
+  margin-bottom: 2rem;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
   backdrop-filter: blur(10px);
@@ -1313,6 +1328,16 @@ onUnmounted(() => {
   overflow: hidden;
   text-align: center;
   padding: 2rem;
+  position: relative;
+}
+
+.stories-content {
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
 }
 
 .career-stories-image {
@@ -1320,16 +1345,17 @@ onUnmounted(() => {
   max-width: 1200px;
   height: auto;
   border-radius: 16px;
-  margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.stories-cta {
-  margin-top: 2rem;
-}
-
 .story-btn {
-  display: inline-block;
+  position: absolute;
+  bottom: 40px;
+  left: 120px;
+  transform: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
   padding: 1rem 2.5rem;
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
@@ -1337,12 +1363,28 @@ onUnmounted(() => {
   border-radius: 12px;
   font-weight: 600;
   font-size: 1.2rem;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
   transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  z-index: 2;
+}
+
+.story-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+.btn-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.story-btn:hover .btn-arrow {
+  transform: translateX(4px);
 }
 
 .uni-explorer-section {
-  margin-top: 4rem;
+  margin-top: 2rem;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
   backdrop-filter: blur(10px);
@@ -1352,35 +1394,55 @@ onUnmounted(() => {
   padding: 2rem;
 }
 
+.explorer-content {
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
 .uni-explorer-image {
   width: 100%;
   max-width: 1200px;
   height: auto;
   border-radius: 16px;
-  margin-bottom: 2rem;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.explorer-cta {
-  margin-top: 2rem;
-}
-
 .explorer-btn {
-  display: inline-block;
+  position: absolute;
+  bottom: 40px;
+  left: 120px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   text-decoration: none;
   border-radius: 12px;
   font-weight: 600;
   font-size: 1.2rem;
-  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
   transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  z-index: 2;
 }
 
 .explorer-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+.explorer-btn .btn-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.explorer-btn:hover .btn-arrow {
+  transform: translateX(4px);
 }
 
 .footer {
@@ -1505,6 +1567,11 @@ onUnmounted(() => {
   .career-stories-image {
     max-width: 100%;
   }
+  
+  .story-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1606,7 +1673,16 @@ onUnmounted(() => {
   }
   
   .career-stories-section {
-    padding: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .career-stories-image {
+    margin-bottom: 1.5rem;
+  }
+  
+  .story-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
   }
   
   .uni-explorer-section {

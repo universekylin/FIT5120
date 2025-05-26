@@ -18,8 +18,8 @@ CORS(app)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8uTrTaSJ&y4gu96cj9LY7^@52.63.208.7:3306/mysql_test'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Bm%406-ai%2FB_%40M3cC@localhost:3306/education'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:8uTrTaSJ&y4gu96cj9LY7^@52.63.208.7:3306/mysql_test'
 
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://eduapp:password123@localhost:3306/db_education'
