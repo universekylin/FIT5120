@@ -1189,6 +1189,7 @@ onUnmounted(() => {
   text-align: center;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.04);
+  position: relative;
 }
 
 .cluster-box:hover {
@@ -1211,14 +1212,19 @@ onUnmounted(() => {
 }
 
 .cluster-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   font-size: 1.1rem;
   line-height: 1.4;
-  color: #1f2937;
+  color: #ffffff;
   font-weight: 600;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
   margin: 0;
   border-radius: 0 0 20px 20px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .features {
